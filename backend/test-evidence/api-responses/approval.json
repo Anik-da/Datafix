@@ -1,0 +1,15 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/decisions",
+  "status_code": 200,
+  "response": {
+    "decisions": [
+      {
+        "proposal_id": "prp_b8e72a5780c4",
+        "action": "approve",
+        "state": "approved",
+        "decided_at": "2026-11-19T13:14:54.842930Z"
+      }
+    ]
+  }
+}

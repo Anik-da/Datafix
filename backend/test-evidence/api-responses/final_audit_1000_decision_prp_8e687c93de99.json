@@ -1,0 +1,13 @@
+{
+  "status_code": 200,
+  "response": {
+    "decisions": [
+      {
+        "proposal_id": "prp_8e687c93de99",
+        "action": "approve",
+        "state": "approved",
+        "decided_at": "2026-11-19T21:17:27.304593Z"
+      }
+    ]
+  }
+}

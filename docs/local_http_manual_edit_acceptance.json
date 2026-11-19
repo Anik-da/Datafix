@@ -1,0 +1,89 @@
+{
+  "fixture": "datafix_dirty.csv",
+  "source_sha256": "4c54ce8451fea0518ced50caa138e5443684cd7465da381087ae38b94d924393",
+  "status_codes": {
+    "openapi": 200,
+    "upload": 201,
+    "analyze": 200,
+    "edit": 200,
+    "approve": 200,
+    "reject": 200,
+    "refused_override": 409,
+    "apply": 200,
+    "history": 200,
+    "verify": 200,
+    "export_cleaned": 200,
+    "export_report": 200,
+    "export_log": 200,
+    "export_recipe": 200,
+    "export_passport": 200,
+    "passport_route": 200,
+    "cors_preflight": 200
+  },
+  "edit_route_in_openapi": true,
+  "run_id": "8a5e6120-f590-4c97-8bfb-31b02afc87ee",
+  "issues_before": 12,
+  "issues_found": 12,
+  "edited_proposal": {
+    "id": "prp_877efd7d0e62",
+    "version": 2,
+    "status": "edited_pending_reapproval",
+    "gate": "needs_approval",
+    "prior_version_snapshot": 1
+  },
+  "applied_operation_count": 2,
+  "decisions": {
+    "auto": "prp_7fdb4017fc1b",
+    "approved": "prp_877efd7d0e62",
+    "rejected": "prp_1448e2a88616",
+    "refused": "prp_82052adeb843"
+  },
+  "history_count": 2,
+  "verification": {
+    "replay_match": true,
+    "replay_hash": "c20813b4df2dd6b9f08753e239e393fc534efb1003d2f6a9ce51aa39749e45a1",
+    "issues_after": 9
+  },
+  "passport_cleaned_hash_matches": true,
+  "cors_origin": "http://localhost:5173",
+  "exports": {
+    "cleaned": {
+      "bytes": 2519,
+      "content_type": "text/csv; charset=utf-8",
+      "rows": 31
+    },
+    "report": {
+      "bytes": 125589,
+      "content_type": "application/json",
+      "json_valid": true,
+      "passport_sha256": null
+    },
+    "log": {
+      "bytes": 628,
+      "content_type": "application/json",
+      "json_valid": true,
+      "passport_sha256": null
+    },
+    "recipe": {
+      "bytes": 837,
+      "content_type": "application/json",
+      "json_valid": true,
+      "passport_sha256": null
+    },
+    "passport": {
+      "bytes": 67176,
+      "content_type": "application/json",
+      "json_valid": true,
+      "passport_sha256": "5e0f05ecdaaa902dec1a57f43c95074ad8cf1fc4127585b9a0fad32dcfa64715"
+    }
+  },
+  "original_preserved": true,
+  "local_artifact_metadata_count": 5,
+  "local_artifact_names": [
+    "cleaned",
+    "log",
+    "passport",
+    "recipe",
+    "report"
+  ]
+}

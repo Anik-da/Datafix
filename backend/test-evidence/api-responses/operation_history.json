@@ -1,0 +1,35 @@
+{
+  "method": "GET",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/operations",
+  "status_code": 200,
+  "response": {
+    "operations": [
+      {
+        "seq": 1,
+        "op_id": "op_d5e2c196ba754adeb62656fea6bd2f0a",
+        "proposal_id": "prp_b8e72a5780c4",
+        "op": "manual_edit",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:14:56.290466Z",
+        "confidence_at_decision": null,
+        "active": true
+      },
+      {
+        "seq": 2,
+        "op_id": "op_3c3a15fcbae541ad915248160d4ee66c",
+        "proposal_id": "prp_a5f2293ac70c",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T13:14:56.290466Z",
+        "confidence_at_decision": null,
+        "active": true
+      }
+    ]
+  }
+}

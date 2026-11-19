@@ -1,0 +1,27 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/fb2213e4-e2e9-4d1e-a991-838ec0fae702/decisions",
+  "status_code": 200,
+  "response": {
+    "decisions": [
+      {
+        "proposal_id": "prp_a3633db052b4",
+        "action": "approve",
+        "state": "approved",
+        "decided_at": "2026-11-19T13:20:09.247421Z"
+      },
+      {
+        "proposal_id": "prp_b3ed057c8e08",
+        "action": "approve",
+        "state": "approved",
+        "decided_at": "2026-11-19T13:20:09.247489Z"
+      },
+      {
+        "proposal_id": "prp_ce64674398bf",
+        "action": "approve",
+        "state": "approved",
+        "decided_at": "2026-11-19T13:20:09.247510Z"
+      }
+    ]
+  }
+}

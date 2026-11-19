@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+datafix_storage/
+backend/datafix_storage/
+backend/acceptance_artifacts/
+.venv/
+.env
+.env.*
+!.env.example
+!.env.*.example
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.agents/
+frontend/.env

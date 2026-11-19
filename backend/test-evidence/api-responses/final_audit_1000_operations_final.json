@@ -1,0 +1,59 @@
+{
+  "status_code": 200,
+  "response": {
+    "operations": [
+      {
+        "seq": 1,
+        "op_id": "op_b83dbe55e11f4892a0f7f34eab7bc0d2",
+        "proposal_id": "prp_c675e5bd6b52",
+        "op": "map_values",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T21:17:27.349273Z",
+        "confidence_at_decision": null,
+        "active": true
+      },
+      {
+        "seq": 2,
+        "op_id": "op_02b16d5f03d4434e8229bf0099296920",
+        "proposal_id": "prp_48edb6359caf",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T21:17:27.349273Z",
+        "confidence_at_decision": null,
+        "active": true
+      },
+      {
+        "seq": 3,
+        "op_id": "op_51a3cf0beefd4edd894a84f78cd6ea48",
+        "proposal_id": "prp_1224985a2d16",
+        "op": "set_null",
+        "column": "note",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T21:17:27.349273Z",
+        "confidence_at_decision": null,
+        "active": true
+      },
+      {
+        "seq": 4,
+        "op_id": "op_7012e11f08c146cc93f54a31e48c10db",
+        "proposal_id": "prp_8e687c93de99",
+        "op": "drop_exact_dupes",
+        "column": null,
+        "cells_changed": 0,
+        "rows_removed": 1,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T21:17:27.349273Z",
+        "confidence_at_decision": null,
+        "active": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "api": "available",
+  "llm": {
+    "enabled": true,
+    "available": true,
+    "model": "qwen/qwen3.8-27b"
+  },
+  "limits": {
+    "max_upload_bytes": 5242880,
+    "max_rows": 50000,
+    "max_columns": 60,
+    "max_cell_chars": 100000
+  }
+}

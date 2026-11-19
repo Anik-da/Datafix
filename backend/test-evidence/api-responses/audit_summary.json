@@ -1,0 +1,407 @@
+{
+  "health_status": 200,
+  "health": {
+    "status": "ok",
+    "api": "available",
+    "llm": {
+      "enabled": false,
+      "available": false,
+      "model": "qwen/qwen3.8-27b"
+    },
+    "limits": {
+      "max_upload_bytes": 5242880,
+      "max_rows": 50000,
+      "max_columns": 60,
+      "max_cell_chars": 100000
+    }
+  },
+  "cors_preflight": {
+    "status_code": 200,
+    "allow_origin": "http://localhost:5173"
+  },
+  "clean_dataset": {
+    "run_id": "f7b7b3dd-a65d-4051-9249-cda1024a1bdc",
+    "upload_status": 201,
+    "analysis_status": 200,
+    "rows": 1000,
+    "columns": 10,
+    "issues": 0,
+    "proposals": 0
+  },
+  "edit": {
+    "status_code": 200,
+    "proposal_id": "prp_b8e72a5780c4",
+    "row_id": "row_90",
+    "column": "city",
+    "before": "BENGALURU ",
+    "edited_value": "Bengaluru",
+    "version": 2,
+    "gate": "needs_approval"
+  },
+  "refused_override": {
+    "status_code": 409,
+    "code": "invalid_decision_state",
+    "proposal_id": "prp_e4c9072e0e19"
+  },
+  "dirty_run": {
+    "run_id": "648fdf5c-7bcc-4597-b44b-6146b6f8fa57",
+    "upload_status": 201,
+    "filename": "datafix_1000_dirty.csv",
+    "rows": 1001,
+    "columns": 10,
+    "issue_count": 12,
+    "proposal_count": 6,
+    "issues_sample": [
+      {
+        "id": "iss_0b09bd4a45b1",
+        "category": "relationship",
+        "title": "End date precedes start date",
+        "column": null,
+        "row_ids": [
+          "row_70",
+          "row_80"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "ship_date >= order_date",
+            "detail": "Both dates parse unambiguously, and the end date precedes the start date.",
+            "metrics": {
+              "violations": 2
+            },
+            "examples": [
+              "Jan 14, 2026 < 2026-01-17",
+              "2026-01-01 < 2026-01-27"
+            ]
+          }
+        ],
+        "diagnosis": [
+          {
+            "id": "hyp_2439a1cd59",
+            "statement": "date entry error.",
+            "evidence_labels": [
+              "ship_date >= order_date"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "iss_2a473f44cd75",
+        "category": "inconsistent",
+        "title": "Leading or trailing whitespace",
+        "column": "city",
+        "row_ids": [
+          "row_90"
+        ],
+        "evidence": [
+          {
+            "kind": "example",
+            "label": "Whitespace examples",
+            "detail": "Trimmed text preserves the non-whitespace content.",
+            "metrics": {
+              "affected_count": 1
+            },
+            "examples": [
+              "BENGALURU "
+            ]
+          }
+        ],
+        "diagnosis": [
+          {
+            "id": "hyp_34afd9cdb9",
+            "statement": "inconsistent copy-and-paste or export formatting.",
+            "evidence_labels": [
+              "Whitespace examples"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "iss_61a8782db2db",
+        "category": "missing",
+        "title": "Missing or placeholder values",
+        "column": "note",
+        "row_ids": [
+          "row_10",
+          "row_20"
+        ],
+        "evidence": [
+          {
+            "kind": "count",
+            "label": "Missing or placeholder cells",
+            "detail": "Measured blank and configured placeholder values in this column.",
+            "metrics": {
+              "count": 2,
+              "percentage": 0.1998001998001998
+            },
+            "examples": [
+              "N/A",
+              "   "
+            ]
+          }
+        ],
+        "diagnosis": [
+          {
+            "id": "hyp_e692cf8f27",
+            "statement": "incomplete source records.",
+            "evidence_labels": [
+              "Missing or placeholder cells",
+              "Placeholder tokens"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "iss_7ff52c3ffa79",
+        "category": "inconsistent",
+        "title": "Similar but distinct category values",
+        "column": "city",
+        "row_ids": [
+          "row_90",
+          "row_100"
+        ],
+        "evidence": [
+          {
+            "kind": "statistic",
+            "label": "String similarity candidates",
+            "detail": "Sequence similarity is a candidate-generation heuristic, not a probability or identity proof.",
+            "metrics": {
+              "candidate_pairs": 2
+            },
+            "examples": [
+              "BENGALURU  ↔ Bangaluru (0.89)",
+              "Bangaluru ↔ Bengaluru (0.89)"
+            ]
+          }
+        ],
+        "diagnosis": [
+          {
+            "id": "hyp_cdb5cf17a8",
+            "statement": "spelling variation; semantic equivalence is unconfirmed.",
+            "evidence_labels": [
+              "String similarity candidates"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "iss_8ba23f6d6a5d",
+        "category": "invalid_format",
+        "title": "Invalid email format",
+        "column": "email",
+        "row_ids": [
+          "row_30"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "Email syntax",
+            "detail": "Value does not match the conservative email syntax rule.",
+            "metrics": {
+              "invalid_count": 1
+            },
+            "examples": [
+              "[redacted]"
+            ]
+          }
+        ],
+        "diagnosis": [
+          {
+            "id": "hyp_e9832b550c",
+            "statement": "typing error.",
+            "evidence_labels": [
+              "Email syntax"
+            ]
+          }
+        ]
+      }
+    ],
+    "proposals": [
+      {
+        "id": "prp_6488ac2ba53d",
+        "op": "trim_text",
+        "column": "city",
+        "gate": "auto_apply",
+        "rows": 1,
+        "cells": 1,
+        "reason": [
+          "Typed format-only change passed deterministic simulation."
+        ]
+      },
+      {
+        "id": "prp_7f4bbccf58d4",
+        "op": "drop_exact_dupes",
+        "column": null,
+        "gate": "needs_approval",
+        "rows": 1,
+        "cells": 0,
+        "reason": [
+          "Value substitutions and row removal require explicit approval."
+        ]
+      },
+      {
+        "id": "prp_a5f2293ac70c",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "gate": "auto_apply",
+        "rows": 1,
+        "cells": 1,
+        "reason": [
+          "Typed format-only change passed deterministic simulation."
+        ]
+      },
+      {
+        "id": "prp_b8e72a5780c4",
+        "op": "map_values",
+        "column": "city",
+        "gate": "needs_approval",
+        "rows": 1,
+        "cells": 1,
+        "reason": [
+          "Value substitutions and row removal require explicit approval."
+        ]
+      },
+      {
+        "id": "prp_d3a2c93081fa",
+        "op": "set_null",
+        "column": "note",
+        "gate": "needs_approval",
+        "rows": 1,
+        "cells": 1,
+        "reason": [
+          "Value substitutions and row removal require explicit approval."
+        ]
+      },
+      {
+        "id": "prp_e4c9072e0e19",
+        "op": "normalize_date",
+        "column": "order_date",
+        "gate": "refused",
+        "rows": 0,
+        "cells": 0,
+        "reason": [
+          "Simulation found no applicable changes."
+        ]
+      }
+    ]
+  },
+  "decision_statuses": {
+    "approve": 200,
+    "bulk_reject": 200
+  },
+  "apply": {
+    "status_code": 200,
+    "status": "applied",
+    "operation_count": 2,
+    "skipped_count": 4
+  },
+  "history": {
+    "status_code": 200,
+    "operations": [
+      {
+        "seq": 1,
+        "op_id": "op_d5e2c196ba754adeb62656fea6bd2f0a",
+        "proposal_id": "prp_b8e72a5780c4",
+        "op": "manual_edit",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:14:56.290466Z",
+        "confidence_at_decision": null,
+        "active": true
+      },
+      {
+        "seq": 2,
+        "op_id": "op_3c3a15fcbae541ad915248160d4ee66c",
+        "proposal_id": "prp_a5f2293ac70c",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T13:14:56.290466Z",
+        "confidence_at_decision": null,
+        "active": true
+      }
+    ]
+  },
+  "verification": {
+    "status_code": 200,
+    "replay_match": true,
+    "issues_before": 12,
+    "issues_after": 9,
+    "valid_cells_damaged": 0
+  },
+  "apply_repeat": {
+    "initial_observed_status": "aborted",
+    "bug_fixed": true,
+    "after_fix_status_code": 200,
+    "after_fix_status": "applied",
+    "after_fix_new_operations": 0,
+    "after_fix_evidence": "api-responses/apply_repeat_after_fix.json"
+  },
+  "exports": {
+    "cleaned": {
+      "status_code": 200,
+      "filename": "datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_cleaned.csv",
+      "bytes": 85548,
+      "path": "test-evidence\\exports\\datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_cleaned.csv"
+    },
+    "report": {
+      "status_code": 200,
+      "filename": "datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_report.json",
+      "bytes": 114943,
+      "path": "test-evidence\\exports\\datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_report.json"
+    },
+    "log": {
+      "status_code": 200,
+      "filename": "datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_log.json",
+      "bytes": 629,
+      "path": "test-evidence\\exports\\datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_log.json"
+    },
+    "recipe": {
+      "status_code": 200,
+      "filename": "datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_recipe.json",
+      "bytes": 839,
+      "path": "test-evidence\\exports\\datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_recipe.json"
+    },
+    "passport": {
+      "status_code": 200,
+      "filename": "datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_passport.json",
+      "bytes": 67341,
+      "path": "test-evidence\\exports\\datafix_648fdf5c-7bcc-4597-b44b-6146b6f8fa57_passport.json"
+    }
+  },
+  "cleaned_csv_rows": 1001,
+  "passport_digest_verified": true,
+  "original_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+  "cors": {
+    "status_code": 200,
+    "allow_origin": "http://localhost:5173"
+  },
+  "undo": null,
+  "student_sample_present": false,
+  "supabase": {
+    "configured": false,
+    "backend": "local"
+  },
+  "groq": {
+    "key_configured": true,
+    "model": "qwen/qwen3.8-27b",
+    "tested_this_run": false,
+    "reason": "Audit server forced LLM_ENABLED=false for deterministic results."
+  },
+  "undo_reapply_live_test": {
+    "run_id": "fb2213e4-e2e9-4d1e-a991-838ec0fae702",
+    "apply": "applied",
+    "undo": "undone",
+    "verify_after_undo": true,
+    "reapplied_proposal_id": "prp_a3633db052b4",
+    "verify_after_reapply": true
+  },
+  "automated_tests": {
+    "command": "python -m pytest -q",
+    "result": "42 passed in 14.01s; rerun after final fixes: 42 passed in 14.01s"
+  }
+}

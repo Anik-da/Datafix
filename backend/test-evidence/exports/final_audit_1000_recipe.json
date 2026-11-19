@@ -1,0 +1,64 @@
+{
+  "input_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+  "operations": [
+    {
+      "seq": 1,
+      "op_id": "op_b83dbe55e11f4892a0f7f34eab7bc0d2",
+      "proposal_id": "prp_c675e5bd6b52",
+      "op": "map_values",
+      "column": "city",
+      "params": {
+        "op": "map_values",
+        "mapping": {
+          "BENGALURU ": "Bengaluru"
+        }
+      }
+    },
+    {
+      "seq": 2,
+      "op_id": "op_02b16d5f03d4434e8229bf0099296920",
+      "proposal_id": "prp_48edb6359caf",
+      "op": "normalize_date",
+      "column": "ship_date",
+      "params": {
+        "op": "normalize_date",
+        "target_format": "YYYY-MM-DD",
+        "row_values": {
+          "row_70": "2026-01-14"
+        }
+      }
+    },
+    {
+      "seq": 3,
+      "op_id": "op_51a3cf0beefd4edd894a84f78cd6ea48",
+      "proposal_id": "prp_1224985a2d16",
+      "op": "set_null",
+      "column": "note",
+      "params": {
+        "op": "set_null",
+        "placeholder_values": [
+          "n/a"
+        ],
+        "row_ids": [
+          "row_10"
+        ]
+      }
+    },
+    {
+      "seq": 4,
+      "op_id": "op_7012e11f08c146cc93f54a31e48c10db",
+      "proposal_id": "prp_8e687c93de99",
+      "op": "drop_exact_dupes",
+      "column": null,
+      "params": {
+        "op": "drop_exact_dupes",
+        "duplicate_row_groups": [
+          [
+            "row_1",
+            "row_1001"
+          ]
+        ]
+      }
+    }
+  ]
+}

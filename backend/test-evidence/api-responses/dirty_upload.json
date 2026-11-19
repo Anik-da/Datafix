@@ -1,0 +1,18 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs",
+  "status_code": 201,
+  "response": {
+    "run": {
+      "id": "648fdf5c-7bcc-4597-b44b-6146b6f8fa57",
+      "filename": "datafix_1000_dirty.csv",
+      "file_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+      "file_size_bytes": 85553,
+      "row_count": 1001,
+      "column_count": 10,
+      "status": "uploaded",
+      "created_at": "2026-11-19T13:14:37.808503Z",
+      "engine_version": "0.1.0"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "info": {
+    "_postman_id": "cb682e19-2c1a-4a38-9a16-28bd60da9d74",
+    "name": "DataFix Local API Lifecycle",
+    "description": "Real DataFix API workflow. Select backend/tests/fixtures/datafix_1000_dirty.csv in Upload. Inspect Analyze; edit values are set for that canonical fixture. Refused approval is expected to return 409.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key":"baseUrl","value":"http://127.0.0.1:8010"},
+    {"key":"runId","value":""},
+    {"key":"editProposalId","value":""},
+    {"key":"approvalProposalId","value":""},
+    {"key":"rejectProposalIds","value":"[]"},
+    {"key":"refusedProposalId","value":""},
+    {"key":"editRowId","value":"row_90"},
+    {"key":"editColumn","value":"city"},
+    {"key":"editOriginalValue","value":"BENGALURU "},
+    {"key":"editValue","value":"Bengaluru"}
+  ],
+  "item": [
+    {"name":"Health","request":{"method":"GET","url":"{{baseUrl}}/health"}},
+    {"name":"Upload CSV","event":[{"listen":"test","script":{"type":"text/javascript","exec":["const r=pm.response.json(); if (r.run) pm.collectionVariables.set('runId', r.run.id); pm.test('upload created run',()=>pm.response.to.have.status(201));"]}}],"request":{"method":"POST","body":{"mode":"formdata","formdata":[{"key":"file","type":"file","src":""}]},"url":"{{baseUrl}}/api/v1/runs"}},
+    {"name":"Analyze and choose proposal IDs","event":[{"listen":"test","script":{"type":"text/javascript","exec":["const r=pm.response.json(); const ps=r.proposals||[]; const edit=ps.find(p=>p.op==='map_values'&&p.gate?.decision==='needs_approval'); const refused=ps.find(p=>p.gate?.decision==='refused'); const rejects=ps.filter(p=>p.gate?.decision==='needs_approval'&&p.id!==edit?.id).map(p=>p.id); if(edit)pm.collectionVariables.set('editProposalId',edit.id); if(refused)pm.collectionVariables.set('refusedProposalId',refused.id); pm.collectionVariables.set('rejectProposalIds',JSON.stringify(rejects)); pm.test('analysis returned',()=>pm.response.to.have.status(200));"]}}],"request":{"method":"POST","url":"{{baseUrl}}/api/v1/runs/{{runId}}/analyze"}},
+    {"name":"Edit proposal (canonical 1000 dirty fixture)","event":[{"listen":"test","script":{"type":"text/javascript","exec":["const r=pm.response.json(); if(r.proposal)pm.collectionVariables.set('approvalProposalId',r.proposal.id); pm.test('edit was re-simulated and gate retained',()=>pm.response.to.have.status(200));"]}}],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"row_id\": \"{{editRowId}}\",\n  \"column\": \"{{editColumn}}\",\n  \"original_value\": \"{{editOriginalValue}}\",\n  \"edited_value\": \"{{editValue}}\",\n  \"reason\": \"Use the reviewed canonical category\"\n}"},"url":"{{baseUrl}}/api/v1/runs/{{runId}}/proposals/{{editProposalId}}/edit"}},
+    {"name":"Approve edited proposal","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"decisions\":[{\"proposal_id\":\"{{approvalProposalId}}\",\"action\":\"approve\"}]}"},"url":"{{baseUrl}}/api/v1/runs/{{runId}}/decisions"}},
+    {"name":"Bulk reject remaining approval proposals","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"proposal_ids\":{{rejectProposalIds}},\"action\":\"reject\"}"},"url":"{{baseUrl}}/api/v1/runs/{{runId}}/bulk-decisions"}},
+    {"name":"Refused proposal override (expect 409)","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"decisions\":[{\"proposal_id\":\"{{refusedProposalId}}\",\"action\":\"approve\"}]}"},"url":"{{baseUrl}}/api/v1/runs/{{runId}}/decisions"}},
+    {"name":"Apply eligible repairs","request":{"method":"POST","url":"{{baseUrl}}/api/v1/runs/{{runId}}/apply"}},
+    {"name":"Operation history","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/operations"}},
+    {"name":"Verify replay","request":{"method":"POST","url":"{{baseUrl}}/api/v1/runs/{{runId}}/verify"}},
+    {"name":"Uncertainty page","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/uncertainty?offset=0&limit=100"}},
+    {"name":"Export cleaned CSV","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/export/cleaned"}},
+    {"name":"Export quality report","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/export/report"}},
+    {"name":"Export modification log","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/export/log"}},
+    {"name":"Export recipe","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/export/recipe"}},
+    {"name":"Export Trust Passport","request":{"method":"GET","url":"{{baseUrl}}/api/v1/runs/{{runId}}/export/passport"}}
+  ]
+}

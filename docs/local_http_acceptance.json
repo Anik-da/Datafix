@@ -1,0 +1,110 @@
+{
+  "fixture": "datafix_1000_dirty.csv",
+  "original_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+  "status_codes": {
+    "health": 200,
+    "upload": 201,
+    "analyze": 200,
+    "edit": 200,
+    "approve": 200,
+    "reject": 200,
+    "refused_override": 409,
+    "apply": 200,
+    "history": 200,
+    "verify": 200,
+    "export_cleaned": 200,
+    "export_report": 200,
+    "export_log": 200,
+    "export_recipe": 200,
+    "export_passport": 200,
+    "passport_route": 200,
+    "cors_preflight": 200
+  },
+  "llm_enabled": false,
+  "run_id": "3c1c584d-1593-4a89-9dcc-3c901571f290",
+  "upload_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+  "issues_before": 12,
+  "proposals": 6,
+  "edited_version": 2,
+  "applied_count": 2,
+  "skipped_count": 4,
+  "history_count": 2,
+  "verification": {
+    "replay_match": true,
+    "replay_hash": "ddc299a9ff4787e142f8756959cf121a678c3e2198e6d5031b8af6724fc3b182",
+    "issue_count_after": 9
+  },
+  "passport_cleaned_hash_match": true,
+  "cors_origin": "http://localhost:5173",
+  "exports": {
+    "cleaned": {
+      "bytes": 85548,
+      "content_type": "text/csv; charset=utf-8",
+      "data_rows": 1001
+    },
+    "report": {
+      "bytes": 125863,
+      "content_type": "application/json",
+      "json_valid": true
+    },
+    "log": {
+      "bytes": 629,
+      "content_type": "application/json",
+      "json_valid": true
+    },
+    "recipe": {
+      "bytes": 841,
+      "content_type": "application/json",
+      "json_valid": true
+    },
+    "passport": {
+      "bytes": 67341,
+      "content_type": "application/json",
+      "json_valid": true
+    }
+  },
+  "original_preserved": true,
+  "local_artifact_metadata": [
+    {
+      "name": "cleaned",
+      "sha256": "3f3733501ed133ca9dac1ffe3498e08d7bd5089f9c886bd7bd0def49d0fab6d2",
+      "size_bytes": 85548
+    },
+    {
+      "name": "log",
+      "sha256": "58ba5b4c1c6076fdf9bbe18da180df4c249bd8c61c99b557d68e235af444360d",
+      "size_bytes": 629
+    },
+    {
+      "name": "passport",
+      "sha256": "c7457df0decf6f78307b3d412d95c785fa386b08819bfb7d4147236479c8bfd1",
+      "size_bytes": 67341
+    },
+    {
+      "name": "recipe",
+      "sha256": "e07acddcc5597f86b77cb50127000251935b12feb5c4f570eef866fb4dcc5276",
+      "size_bytes": 841
+    },
+    {
+      "name": "report",
+      "sha256": "e8755949d790674c271b4091c8977d8cd042f8759ad7bae26c7d9a8c0d0d1aaf",
+      "size_bytes": 125863
+    }
+  ],
+  "restart_check": {
+    "health_status": 200,
+    "history_status": 200,
+    "history_count_after_restart": 2,
+    "passport_status": 200,
+    "passport_valid_after_restart": true,
+    "cleaned_status": 200,
+    "artifact_metadata_after_restart": 5,
+    "artifact_names_after_restart": [
+      "cleaned",
+      "log",
+      "passport",
+      "recipe",
+      "report"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/decisions",
+  "status_code": 409,
+  "response": {
+    "code": "invalid_decision_state",
+    "message": "Only proposals that need approval can be approved or rejected.",
+    "details": {},
+    "request_id": "24bcfe15-db14-4625-bb79-2be887796b62"
+  }
+}

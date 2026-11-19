@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: datafix-api
+    runtime: python
+    buildCommand: python -m pip install -e ./backend
+    startCommand: python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATAFIX_STORAGE_BACKEND
+        value: supabase
+      - key: LLM_ENABLED
+        value: "false"
+      - key: DATAFIX_CORS_ORIGINS
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: SUPABASE_STORAGE_BUCKET
+        value: datafix

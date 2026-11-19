@@ -1,0 +1,115 @@
+{
+  "run_id": "98b99b4c-63de-4ec2-aa1c-6be592fdeef9",
+  "manual_proposal": [
+    {
+      "id": "prp_23fef9778305",
+      "op": "manual_edit",
+      "title": "Human-edited: Convert configured placeholders to null",
+      "column": "note",
+      "version": 2,
+      "status": "applied",
+      "gate": "needs_approval",
+      "decision_history": [
+        {
+          "action": "edit",
+          "proposal_version": 2,
+          "original_value": "N/A",
+          "edited_value": "standard"
+        },
+        {
+          "action": "approve",
+          "proposal_version": 2,
+          "original_value": null,
+          "edited_value": null
+        },
+        {
+          "action": "apply",
+          "proposal_version": 2,
+          "original_value": null,
+          "edited_value": "standard"
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "op": "manual_edit",
+      "proposal_id": "prp_23fef9778305",
+      "decided_by": "user",
+      "cells_changed": 1,
+      "active": true
+    },
+    {
+      "op": "normalize_date",
+      "proposal_id": "prp_1fbef6ad4195",
+      "decided_by": "auto",
+      "cells_changed": 1,
+      "active": true
+    },
+    {
+      "op": "trim_text",
+      "proposal_id": "prp_6a9177e95433",
+      "decided_by": "auto",
+      "cells_changed": 1,
+      "active": true
+    }
+  ],
+  "verification": {
+    "replay_matches": true,
+    "issues_before": 12,
+    "issues_after": 10,
+    "resolved": 2,
+    "introduced": 0,
+    "valid_cells_damaged": 0
+  },
+  "passport": {
+    "original_sha256": "4c54ce8451fea0518ced50caa138e5443684cd7465da381087ae38b94d924393",
+    "cleaned_sha256": "5e767bd8692151c9e473b7bfd353125b221fd06b1479ae01250a3ba6067110b9",
+    "verification_status": "verified"
+  },
+  "exports": [
+    {
+      "artifact": "cleaned",
+      "http": 200,
+      "download_matches_api": true,
+      "bytes": 2524,
+      "sha256": "5e767bd8692151c9e473b7bfd353125b221fd06b1479ae01250a3ba6067110b9",
+      "content_type": "text/csv; charset=utf-8",
+      "rows": 31,
+      "columns": 10,
+      "uniform_columns": true
+    },
+    {
+      "artifact": "log",
+      "http": 200,
+      "download_matches_api": true,
+      "bytes": 928,
+      "sha256": "ca277deac52e7275637676b4159d2ada30951171d2db976f0ebc5ac3b32c936e",
+      "content_type": "application/json"
+    },
+    {
+      "artifact": "passport",
+      "http": 200,
+      "download_matches_api": true,
+      "bytes": 146850,
+      "sha256": "ebdb1a5124821441b0ee6433d97117aec9bf93474cc5bd6ff913ea1555b51d6a",
+      "content_type": "application/json"
+    },
+    {
+      "artifact": "recipe",
+      "http": 200,
+      "download_matches_api": true,
+      "bytes": 1124,
+      "sha256": "b1b9a06766f0f9fb241f472e64dda88df18f51e2f3d8e83f50570548cc5c10ff",
+      "content_type": "application/json"
+    },
+    {
+      "artifact": "report",
+      "http": 200,
+      "download_matches_api": true,
+      "bytes": 130634,
+      "sha256": "3f186e2f5a42406f2b16ec281e93816c612c4b691f93924df10668e6822b15e9",
+      "content_type": "application/json"
+    }
+  ]
+}

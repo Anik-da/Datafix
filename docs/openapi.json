@@ -1,0 +1,4616 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DataFix API",
+    "description": "Deterministic CSV and XLSX profiling, issue analysis, repair proposals, approval decisions, repair application, verification, undo, and format-aware exports.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/runs": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Upload Run",
+        "operationId": "upload_run_api_v1_runs_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_run_api_v1_runs_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/datasets/worksheets": {
+      "post": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Workbook Worksheets",
+        "operationId": "workbook_worksheets_api_v1_datasets_worksheets_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_workbook_worksheets_api_v1_datasets_worksheets_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorksheetListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/analyze": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Analyze Run",
+        "operationId": "analyze_run_api_v1_runs__run_id__analyze_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/proposals/{proposal_id}/edit": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Edit Proposal",
+        "operationId": "edit_proposal_api_v1_runs__run_id__proposals__proposal_id__edit_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "proposal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Proposal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposalEditRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalEditResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/decisions": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Record Decisions",
+        "operationId": "record_decisions_api_v1_runs__run_id__decisions_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/bulk-decisions": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Bulk Decisions",
+        "operationId": "bulk_decisions_api_v1_runs__run_id__bulk_decisions_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkDecisionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkDecisionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/apply": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Apply Repairs",
+        "operationId": "apply_repairs_api_v1_runs__run_id__apply_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/operations": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Operation History",
+        "operationId": "operation_history_api_v1_runs__run_id__operations_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationHistoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/verify": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Verify Run",
+        "operationId": "verify_run_api_v1_runs__run_id__verify_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/undo/{op_id}": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Undo Operation",
+        "operationId": "undo_operation_api_v1_runs__run_id__undo__op_id__post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "op_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Op Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UndoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/export/passport": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Export Passport",
+        "operationId": "export_passport_api_v1_runs__run_id__export_passport_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified Trust Passport JSON attachment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustPassport"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/export/{artifact}": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Export Artifact",
+        "operationId": "export_artifact_api_v1_runs__run_id__export__artifact__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "artifact",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Artifact"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/runs/{run_id}/uncertainty": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Uncertainty Heatmap",
+        "operationId": "uncertainty_heatmap_api_v1_runs__run_id__uncertainty_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UncertaintyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/datasets/profile": {
+      "post": {
+        "tags": [
+          "compatibility"
+        ],
+        "summary": "Compatibility Profile",
+        "operationId": "compatibility_profile_api_v1_datasets_profile_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_compatibility_profile_api_v1_datasets_profile_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompatibilityProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalysisResponse": {
+        "properties": {
+          "run": {
+            "$ref": "#/components/schemas/AnalysisRunMetadata"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/DatasetProfile"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "type": "array",
+            "title": "Issues"
+          },
+          "proposals": {
+            "items": {
+              "$ref": "#/components/schemas/Proposal"
+            },
+            "type": "array",
+            "title": "Proposals"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AnalysisSummary"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run",
+          "profile",
+          "issues",
+          "proposals",
+          "summary"
+        ],
+        "title": "AnalysisResponse"
+      },
+      "AnalysisRunMetadata": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "row_count": {
+            "type": "integer",
+            "title": "Row Count"
+          },
+          "column_count": {
+            "type": "integer",
+            "title": "Column Count"
+          },
+          "file_sha256": {
+            "type": "string",
+            "title": "File Sha256"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "engine_version": {
+            "type": "string",
+            "title": "Engine Version"
+          },
+          "format_metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Format Metadata"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "filename",
+          "row_count",
+          "column_count",
+          "file_sha256",
+          "status",
+          "engine_version"
+        ],
+        "title": "AnalysisRunMetadata"
+      },
+      "AnalysisSummary": {
+        "properties": {
+          "issue_count": {
+            "type": "integer",
+            "title": "Issue Count"
+          },
+          "proposal_count": {
+            "type": "integer",
+            "title": "Proposal Count"
+          },
+          "auto_apply_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auto Apply Count"
+          },
+          "needs_approval_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Needs Approval Count"
+          },
+          "refused_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refused Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "issue_count",
+          "proposal_count"
+        ],
+        "title": "AnalysisSummary"
+      },
+      "AppliedOperation": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "title": "Seq"
+          },
+          "op_id": {
+            "type": "string",
+            "title": "Op Id"
+          },
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "op": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Column"
+          },
+          "cells_changed": {
+            "type": "integer",
+            "title": "Cells Changed"
+          },
+          "rows_removed": {
+            "type": "integer",
+            "title": "Rows Removed"
+          },
+          "decided_by": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "user"
+            ],
+            "title": "Decided By"
+          },
+          "applied_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Applied At"
+          },
+          "confidence_at_decision": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence At Decision"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seq",
+          "op_id",
+          "proposal_id",
+          "op",
+          "column",
+          "cells_changed",
+          "rows_removed",
+          "decided_by",
+          "applied_at"
+        ],
+        "title": "AppliedOperation"
+      },
+      "AppliedOperationResult": {
+        "properties": {
+          "op_id": {
+            "type": "string",
+            "title": "Op Id"
+          },
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "op": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Column"
+          },
+          "cells_changed": {
+            "type": "integer",
+            "title": "Cells Changed"
+          },
+          "rows_removed": {
+            "type": "integer",
+            "title": "Rows Removed"
+          },
+          "decided_by": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "user"
+            ],
+            "title": "Decided By"
+          },
+          "applied_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Applied At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op_id",
+          "proposal_id",
+          "op",
+          "column",
+          "cells_changed",
+          "rows_removed",
+          "decided_by",
+          "applied_at"
+        ],
+        "title": "AppliedOperationResult"
+      },
+      "ApplyResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "aborted"
+            ],
+            "title": "Status"
+          },
+          "applied_operations": {
+            "items": {
+              "$ref": "#/components/schemas/AppliedOperationResult"
+            },
+            "type": "array",
+            "title": "Applied Operations"
+          },
+          "skipped": {
+            "items": {
+              "$ref": "#/components/schemas/SkippedProposal"
+            },
+            "type": "array",
+            "title": "Skipped"
+          },
+          "blocking_invariants": {
+            "items": {
+              "$ref": "#/components/schemas/Invariant"
+            },
+            "type": "array",
+            "title": "Blocking Invariants"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "applied_operations",
+          "skipped",
+          "blocking_invariants"
+        ],
+        "title": "ApplyResponse"
+      },
+      "Body_compatibility_profile_api_v1_datasets_profile_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "title": "File",
+            "description": "CSV or XLSX file, maximum 5242880 bytes",
+            "format": "binary"
+          },
+          "worksheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worksheet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_compatibility_profile_api_v1_datasets_profile_post"
+      },
+      "Body_upload_run_api_v1_runs_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "title": "File",
+            "description": "CSV or XLSX file, maximum 5242880 bytes",
+            "format": "binary"
+          },
+          "worksheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worksheet",
+            "description": "Optional worksheet name for XLSX; defaults to the active worksheet."
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_run_api_v1_runs_post"
+      },
+      "Body_workbook_worksheets_api_v1_datasets_worksheets_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "title": "File",
+            "description": "XLSX workbook to inspect before selecting a worksheet",
+            "format": "binary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_workbook_worksheets_api_v1_datasets_worksheets_post"
+      },
+      "BulkDecisionRequest": {
+        "properties": {
+          "proposal_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Proposal Ids"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "reject"
+            ],
+            "title": "Action"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_ids",
+          "action"
+        ],
+        "title": "BulkDecisionRequest"
+      },
+      "BulkDecisionResult": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "refused"
+            ],
+            "title": "State"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "state"
+        ],
+        "title": "BulkDecisionResult"
+      },
+      "BulkDecisionsResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/BulkDecisionResult"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "BulkDecisionsResponse"
+      },
+      "CastNumericParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "cast_numeric",
+            "title": "Op"
+          },
+          "row_values": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Row Values"
+          },
+          "target_type": {
+            "type": "string",
+            "const": "number",
+            "title": "Target Type"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "row_values",
+          "target_type"
+        ],
+        "title": "CastNumericParams"
+      },
+      "ColumnProfile": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "inferred_type": {
+            "type": "string",
+            "title": "Inferred Type"
+          },
+          "null_count": {
+            "type": "integer",
+            "title": "Null Count"
+          },
+          "null_pct": {
+            "type": "number",
+            "title": "Null Pct"
+          },
+          "distinct_count": {
+            "type": "integer",
+            "title": "Distinct Count"
+          },
+          "is_key_candidate": {
+            "type": "boolean",
+            "title": "Is Key Candidate"
+          },
+          "most_frequent": {
+            "items": {
+              "$ref": "#/components/schemas/MostFrequent"
+            },
+            "type": "array",
+            "title": "Most Frequent"
+          },
+          "minimum": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Minimum"
+          },
+          "maximum": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maximum"
+          },
+          "mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean"
+          },
+          "median": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median"
+          },
+          "standard_deviation": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Standard Deviation"
+          },
+          "category_distribution": {
+            "items": {
+              "$ref": "#/components/schemas/MostFrequent"
+            },
+            "type": "array",
+            "title": "Category Distribution"
+          },
+          "format_consistency": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format Consistency"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "inferred_type",
+          "null_count",
+          "null_pct",
+          "distinct_count",
+          "is_key_candidate"
+        ],
+        "title": "ColumnProfile"
+      },
+      "ColumnUncertainty": {
+        "properties": {
+          "column": {
+            "type": "string",
+            "title": "Column"
+          },
+          "total_records": {
+            "type": "integer",
+            "title": "Total Records"
+          },
+          "missing_count": {
+            "type": "integer",
+            "title": "Missing Count"
+          },
+          "missing_rate": {
+            "type": "number",
+            "title": "Missing Rate"
+          },
+          "invalid_count": {
+            "type": "integer",
+            "title": "Invalid Count"
+          },
+          "invalid_rate": {
+            "type": "number",
+            "title": "Invalid Rate"
+          },
+          "inconsistent_count": {
+            "type": "integer",
+            "title": "Inconsistent Count"
+          },
+          "inconsistent_rate": {
+            "type": "number",
+            "title": "Inconsistent Rate"
+          },
+          "anomaly_count": {
+            "type": "integer",
+            "title": "Anomaly Count"
+          },
+          "pending_proposals": {
+            "type": "integer",
+            "title": "Pending Proposals"
+          },
+          "refused_proposals": {
+            "type": "integer",
+            "title": "Refused Proposals"
+          },
+          "unresolved_issues": {
+            "type": "integer",
+            "title": "Unresolved Issues"
+          },
+          "evidence_available": {
+            "type": "boolean",
+            "title": "Evidence Available"
+          },
+          "confidence_available": {
+            "type": "boolean",
+            "title": "Confidence Available"
+          },
+          "rule_coverage": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Rule Coverage"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "column",
+          "total_records",
+          "missing_count",
+          "missing_rate",
+          "invalid_count",
+          "invalid_rate",
+          "inconsistent_count",
+          "inconsistent_rate",
+          "anomaly_count",
+          "pending_proposals",
+          "refused_proposals",
+          "unresolved_issues",
+          "evidence_available",
+          "confidence_available",
+          "rule_coverage"
+        ],
+        "title": "ColumnUncertainty"
+      },
+      "CompatibilityProfileResponse": {
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/DatasetProfile"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "profile"
+        ],
+        "title": "CompatibilityProfileResponse"
+      },
+      "Confidence": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "method": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "rule_support",
+                  "backtest",
+                  "similarity",
+                  "losslessness"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Method"
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/ConfidenceComponent"
+            },
+            "type": "array",
+            "title": "Components"
+          },
+          "n_support": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N Support"
+          },
+          "lower_bound": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower Bound"
+          },
+          "caveat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caveat"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Confidence"
+      },
+      "ConfidenceComponent": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "label",
+          "note"
+        ],
+        "title": "ConfidenceComponent"
+      },
+      "DatasetProfile": {
+        "properties": {
+          "row_count": {
+            "type": "integer",
+            "title": "Row Count"
+          },
+          "column_count": {
+            "type": "integer",
+            "title": "Column Count"
+          },
+          "dataset_size_bytes": {
+            "type": "integer",
+            "title": "Dataset Size Bytes"
+          },
+          "duplicate_record_count": {
+            "type": "integer",
+            "title": "Duplicate Record Count"
+          },
+          "total_missing_cells": {
+            "type": "integer",
+            "title": "Total Missing Cells"
+          },
+          "total_distinct_values": {
+            "type": "integer",
+            "title": "Total Distinct Values"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnProfile"
+            },
+            "type": "array",
+            "title": "Columns"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "row_count",
+          "column_count",
+          "dataset_size_bytes",
+          "duplicate_record_count",
+          "total_missing_cells",
+          "total_distinct_values",
+          "columns"
+        ],
+        "title": "DatasetProfile"
+      },
+      "DecisionAction": {
+        "type": "string",
+        "enum": [
+          "approve",
+          "reject"
+        ],
+        "title": "DecisionAction"
+      },
+      "DecisionAuditEntry": {
+        "properties": {
+          "previous_state": {
+            "type": "string",
+            "title": "Previous State"
+          },
+          "new_state": {
+            "type": "string",
+            "title": "New State"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "proposal_version": {
+            "type": "integer",
+            "title": "Proposal Version"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "original_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Value"
+          },
+          "edited_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edited Value"
+          },
+          "suggested_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggested Value"
+          },
+          "operation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operation Id"
+          },
+          "prior_proposal": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prior Proposal"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "previous_state",
+          "new_state",
+          "action",
+          "timestamp",
+          "proposal_version"
+        ],
+        "title": "DecisionAuditEntry"
+      },
+      "DecisionState": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "action": {
+            "$ref": "#/components/schemas/DecisionAction"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected",
+              "edited_pending_reapproval"
+            ],
+            "title": "State",
+            "default": "approved"
+          },
+          "decided_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Decided At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "action",
+          "decided_at"
+        ],
+        "title": "DecisionState"
+      },
+      "DecisionsRequest": {
+        "properties": {
+          "decisions": {
+            "items": {
+              "$ref": "#/components/schemas/ProposalDecisionInput"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Decisions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "decisions"
+        ],
+        "title": "DecisionsRequest"
+      },
+      "DecisionsResponse": {
+        "properties": {
+          "decisions": {
+            "items": {
+              "$ref": "#/components/schemas/DecisionState"
+            },
+            "type": "array",
+            "title": "Decisions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "decisions"
+        ],
+        "title": "DecisionsResponse"
+      },
+      "DeriveFromRuleParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "derive_from_rule",
+            "title": "Op"
+          },
+          "rule_id": {
+            "type": "string",
+            "title": "Rule Id"
+          },
+          "row_values": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Row Values"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "rule_id",
+          "row_values"
+        ],
+        "title": "DeriveFromRuleParams"
+      },
+      "DiagnosisHypothesis": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "statement": {
+            "type": "string",
+            "title": "Statement"
+          },
+          "evidence_labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Labels"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "statement"
+        ],
+        "title": "DiagnosisHypothesis"
+      },
+      "DropExactDupesParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "drop_exact_dupes",
+            "title": "Op"
+          },
+          "duplicate_row_groups": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Duplicate Row Groups"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "duplicate_row_groups"
+        ],
+        "title": "DropExactDupesParams"
+      },
+      "ErrorEnvelope": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Details"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "request_id"
+        ],
+        "title": "ErrorEnvelope"
+      },
+      "Evidence": {
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/EvidenceKind"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Metrics"
+          },
+          "examples": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 8,
+            "title": "Examples"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "label",
+          "detail"
+        ],
+        "title": "Evidence"
+      },
+      "EvidenceKind": {
+        "type": "string",
+        "enum": [
+          "count",
+          "example",
+          "rule",
+          "statistic"
+        ],
+        "title": "EvidenceKind"
+      },
+      "Gate": {
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "auto_apply",
+              "needs_approval",
+              "refused"
+            ],
+            "title": "Decision"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "refusal_kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "invariant_failed",
+                  "insufficient_evidence"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal Kind"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "decision",
+          "reasons",
+          "refusal_kind"
+        ],
+        "title": "Gate"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status"
+          },
+          "api": {
+            "type": "string",
+            "const": "available",
+            "title": "Api"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/LLMHealth"
+          },
+          "limits": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Limits"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "api",
+          "llm",
+          "limits"
+        ],
+        "title": "HealthResponse"
+      },
+      "ImpactMetric": {
+        "properties": {
+          "metric": {
+            "type": "string",
+            "title": "Metric"
+          },
+          "column": {
+            "type": "string",
+            "title": "Column"
+          },
+          "before": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Before"
+          },
+          "after": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "After"
+          },
+          "change": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Change"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "measured_dependency"
+            ],
+            "title": "Relationship"
+          },
+          "support": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Support"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "metric",
+          "column",
+          "before",
+          "after",
+          "relationship"
+        ],
+        "title": "ImpactMetric"
+      },
+      "ImputeParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "impute",
+            "title": "Op"
+          },
+          "strategy": {
+            "type": "string",
+            "enum": [
+              "constant",
+              "mode",
+              "median"
+            ],
+            "title": "Strategy"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "strategy"
+        ],
+        "title": "ImputeParams"
+      },
+      "Invariant": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "skipped"
+            ],
+            "title": "Status"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          },
+          "observed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Threshold"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "status",
+          "detail"
+        ],
+        "title": "Invariant"
+      },
+      "Issue": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "category": {
+            "$ref": "#/components/schemas/IssueCategory"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Column"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "affected_rows": {
+            "type": "integer",
+            "title": "Affected Rows"
+          },
+          "affected_cells": {
+            "type": "integer",
+            "title": "Affected Cells"
+          },
+          "affected_row_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Affected Row Ids"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "disposition": {
+            "$ref": "#/components/schemas/IssueDisposition"
+          },
+          "diagnosis": {
+            "items": {
+              "$ref": "#/components/schemas/DiagnosisHypothesis"
+            },
+            "type": "array",
+            "title": "Diagnosis"
+          },
+          "pattern": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PatternMatch"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "category",
+          "title",
+          "column",
+          "description",
+          "affected_rows",
+          "affected_cells",
+          "evidence",
+          "disposition"
+        ],
+        "title": "Issue"
+      },
+      "IssueCategory": {
+        "type": "string",
+        "enum": [
+          "missing",
+          "duplicate",
+          "invalid_format",
+          "inconsistent",
+          "anomaly",
+          "relationship",
+          "row_structure_mismatch"
+        ],
+        "title": "IssueCategory"
+      },
+      "IssueCategoryCount": {
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/IssueCategory"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "category",
+          "count"
+        ],
+        "title": "IssueCategoryCount"
+      },
+      "IssueDisposition": {
+        "type": "string",
+        "enum": [
+          "repair_proposed",
+          "flagged_only",
+          "preserved_as_valid"
+        ],
+        "title": "IssueDisposition"
+      },
+      "LLMHealth": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled"
+          },
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "enabled",
+          "available"
+        ],
+        "title": "LLMHealth"
+      },
+      "ManualEditParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "manual_edit",
+            "title": "Op"
+          },
+          "row_id": {
+            "type": "string",
+            "title": "Row Id"
+          },
+          "expected_value": {
+            "type": "string",
+            "title": "Expected Value"
+          },
+          "value": {
+            "type": "string",
+            "title": "Value"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "row_id",
+          "expected_value",
+          "value",
+          "reason"
+        ],
+        "title": "ManualEditParams"
+      },
+      "MapValuesParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "map_values",
+            "title": "Op"
+          },
+          "mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Mapping"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "mapping"
+        ],
+        "title": "MapValuesParams"
+      },
+      "MergeNearDupesParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "merge_near_dupes",
+            "title": "Op"
+          },
+          "candidate_pairs": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Candidate Pairs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "candidate_pairs"
+        ],
+        "title": "MergeNearDupesParams"
+      },
+      "MostFrequent": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "value",
+          "count"
+        ],
+        "title": "MostFrequent"
+      },
+      "NormalizeDateParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "normalize_date",
+            "title": "Op"
+          },
+          "target_format": {
+            "type": "string",
+            "const": "YYYY-MM-DD",
+            "title": "Target Format"
+          },
+          "row_values": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Row Values"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "target_format",
+          "row_values"
+        ],
+        "title": "NormalizeDateParams"
+      },
+      "Operation": {
+        "type": "string",
+        "enum": [
+          "normalize_date",
+          "trim_text",
+          "map_values",
+          "set_null",
+          "impute",
+          "drop_exact_dupes",
+          "merge_near_dupes",
+          "cast_numeric",
+          "derive_from_rule",
+          "manual_edit"
+        ],
+        "title": "Operation"
+      },
+      "OperationHistoryResponse": {
+        "properties": {
+          "operations": {
+            "items": {
+              "$ref": "#/components/schemas/AppliedOperation"
+            },
+            "type": "array",
+            "title": "Operations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operations"
+        ],
+        "title": "OperationHistoryResponse"
+      },
+      "PassportColumn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "inferred_type": {
+            "type": "string",
+            "title": "Inferred Type"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "inferred_type"
+        ],
+        "title": "PassportColumn"
+      },
+      "PassportProposal": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "proposal_version": {
+            "type": "integer",
+            "title": "Proposal Version"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Column"
+          },
+          "risk_class": {
+            "$ref": "#/components/schemas/RiskClass"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "parameter_summary": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Parameter Summary"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "simulation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Simulation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gate_decision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gate Decision"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "proposal_version",
+          "operation",
+          "column",
+          "risk_class",
+          "title",
+          "explanation",
+          "parameter_summary",
+          "confidence",
+          "simulation",
+          "gate_decision",
+          "status"
+        ],
+        "title": "PassportProposal"
+      },
+      "PassportProposalDecision": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "proposal_version": {
+            "type": "integer",
+            "title": "Proposal Version"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "gate_decision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gate Decision"
+          },
+          "decision_history": {
+            "items": {
+              "$ref": "#/components/schemas/DecisionAuditEntry"
+            },
+            "type": "array",
+            "title": "Decision History"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "proposal_version",
+          "status",
+          "gate_decision",
+          "decision_history"
+        ],
+        "title": "PassportProposalDecision"
+      },
+      "PatternMatch": {
+        "properties": {
+          "fingerprint_id": {
+            "type": "string",
+            "title": "Fingerprint Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "support_count": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Support Count"
+          },
+          "column_type": {
+            "type": "string",
+            "title": "Column Type"
+          },
+          "error_type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "value_shape": {
+            "type": "string",
+            "title": "Value Shape"
+          },
+          "format_pattern": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format Pattern"
+          },
+          "frequency_count": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Frequency Count"
+          },
+          "supporting_rule_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Supporting Rule Ids"
+          },
+          "match_method": {
+            "type": "string",
+            "const": "exact_signature",
+            "title": "Match Method",
+            "default": "exact_signature"
+          },
+          "evidence": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "suggested_strategy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggested Strategy"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "fingerprint_id",
+          "title",
+          "explanation",
+          "support_count",
+          "column_type",
+          "error_type",
+          "value_shape",
+          "frequency_count"
+        ],
+        "title": "PatternMatch"
+      },
+      "Proposal": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "issue_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Issue Ids"
+          },
+          "op": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Column"
+          },
+          "risk_class": {
+            "$ref": "#/components/schemas/RiskClass"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ProposalSource"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "params": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/NormalizeDateParams"
+              },
+              {
+                "$ref": "#/components/schemas/TrimTextParams"
+              },
+              {
+                "$ref": "#/components/schemas/MapValuesParams"
+              },
+              {
+                "$ref": "#/components/schemas/SetNullParams"
+              },
+              {
+                "$ref": "#/components/schemas/DropExactDupesParams"
+              },
+              {
+                "$ref": "#/components/schemas/MergeNearDupesParams"
+              },
+              {
+                "$ref": "#/components/schemas/ImputeParams"
+              },
+              {
+                "$ref": "#/components/schemas/CastNumericParams"
+              },
+              {
+                "$ref": "#/components/schemas/DeriveFromRuleParams"
+              },
+              {
+                "$ref": "#/components/schemas/ManualEditParams"
+              }
+            ],
+            "title": "Params",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "cast_numeric": "#/components/schemas/CastNumericParams",
+                "derive_from_rule": "#/components/schemas/DeriveFromRuleParams",
+                "drop_exact_dupes": "#/components/schemas/DropExactDupesParams",
+                "impute": "#/components/schemas/ImputeParams",
+                "manual_edit": "#/components/schemas/ManualEditParams",
+                "map_values": "#/components/schemas/MapValuesParams",
+                "merge_near_dupes": "#/components/schemas/MergeNearDupesParams",
+                "normalize_date": "#/components/schemas/NormalizeDateParams",
+                "set_null": "#/components/schemas/SetNullParams",
+                "trim_text": "#/components/schemas/TrimTextParams"
+              }
+            }
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "simulation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Simulation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Gate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "rejected",
+              "edited_pending_reapproval",
+              "applied",
+              "failed",
+              "refused"
+            ],
+            "title": "Status",
+            "default": "pending"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Version",
+            "default": 1
+          },
+          "decision_history": {
+            "items": {
+              "$ref": "#/components/schemas/DecisionAuditEntry"
+            },
+            "type": "array",
+            "title": "Decision History"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "issue_ids",
+          "op",
+          "column",
+          "risk_class",
+          "source",
+          "title",
+          "explanation",
+          "params",
+          "evidence",
+          "confidence",
+          "simulation",
+          "gate"
+        ],
+        "title": "Proposal"
+      },
+      "ProposalDecisionInput": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "action": {
+            "$ref": "#/components/schemas/DecisionAction"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "action"
+        ],
+        "title": "ProposalDecisionInput"
+      },
+      "ProposalEditRequest": {
+        "properties": {
+          "row_id": {
+            "type": "string",
+            "title": "Row Id"
+          },
+          "column": {
+            "type": "string",
+            "title": "Column"
+          },
+          "original_value": {
+            "type": "string",
+            "title": "Original Value"
+          },
+          "edited_value": {
+            "type": "string",
+            "title": "Edited Value"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "row_id",
+          "column",
+          "original_value",
+          "edited_value",
+          "reason"
+        ],
+        "title": "ProposalEditRequest"
+      },
+      "ProposalEditResponse": {
+        "properties": {
+          "proposal": {
+            "$ref": "#/components/schemas/Proposal"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "edited_pending_reapproval",
+              "refused"
+            ],
+            "title": "Status"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal",
+          "status"
+        ],
+        "title": "ProposalEditResponse"
+      },
+      "ProposalSource": {
+        "type": "string",
+        "enum": [
+          "rule",
+          "stat",
+          "llm_assisted",
+          "human"
+        ],
+        "title": "ProposalSource"
+      },
+      "QualityDimensions": {
+        "properties": {
+          "completeness": {
+            "type": "number",
+            "title": "Completeness"
+          },
+          "validity": {
+            "type": "number",
+            "title": "Validity"
+          },
+          "uniqueness": {
+            "type": "number",
+            "title": "Uniqueness"
+          },
+          "consistency": {
+            "type": "number",
+            "title": "Consistency"
+          },
+          "formulas": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Formulas"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "completeness",
+          "validity",
+          "uniqueness",
+          "consistency",
+          "formulas"
+        ],
+        "title": "QualityDimensions"
+      },
+      "RecordUncertainty": {
+        "properties": {
+          "row_id": {
+            "type": "string",
+            "title": "Row Id"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "verified_by_checks",
+              "issue_detected",
+              "pending_human_review",
+              "refused_repair",
+              "unresolved",
+              "not_evaluated"
+            ],
+            "title": "State"
+          },
+          "issue_density": {
+            "type": "integer",
+            "title": "Issue Density"
+          },
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Columns"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "evidence_references": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence References"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "row_id",
+          "state",
+          "issue_density",
+          "columns",
+          "reasons",
+          "evidence_references"
+        ],
+        "title": "RecordUncertainty"
+      },
+      "ReplayResult": {
+        "properties": {
+          "operations": {
+            "type": "integer",
+            "title": "Operations"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "replay_hash": {
+            "type": "string",
+            "title": "Replay Hash"
+          },
+          "match": {
+            "type": "boolean",
+            "title": "Match"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operations",
+          "input_hash",
+          "replay_hash",
+          "match"
+        ],
+        "title": "ReplayResult"
+      },
+      "RippleImpact": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "direct_row_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 200,
+            "title": "Direct Row Ids"
+          },
+          "direct_cells": {
+            "type": "integer",
+            "title": "Direct Cells"
+          },
+          "direct_columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Direct Columns"
+          },
+          "direct_metrics": {
+            "items": {
+              "$ref": "#/components/schemas/ImpactMetric"
+            },
+            "type": "array",
+            "title": "Direct Metrics"
+          },
+          "indirect_metrics": {
+            "items": {
+              "$ref": "#/components/schemas/ImpactMetric"
+            },
+            "type": "array",
+            "title": "Indirect Metrics"
+          },
+          "affected_dependency_checks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Affected Dependency Checks"
+          },
+          "potentially_resolved_issue_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Potentially Resolved Issue Ids"
+          },
+          "remaining_issue_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Remaining Issue Ids"
+          },
+          "introduced_issue_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Introduced Issue Ids"
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "moderate",
+              "high",
+              "unknown"
+            ],
+            "title": "Risk Level",
+            "default": "unknown"
+          },
+          "invariants": {
+            "items": {
+              "$ref": "#/components/schemas/Invariant"
+            },
+            "type": "array",
+            "title": "Invariants"
+          },
+          "risk_explanations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Risk Explanations"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "direct_cells",
+          "direct_columns",
+          "direct_metrics",
+          "indirect_metrics",
+          "affected_dependency_checks",
+          "potentially_resolved_issue_ids",
+          "introduced_issue_ids",
+          "invariants",
+          "risk_explanations",
+          "limitations"
+        ],
+        "title": "RippleImpact"
+      },
+      "RiskClass": {
+        "type": "string",
+        "enum": [
+          "format_only",
+          "value_substitution",
+          "imputation",
+          "destructive"
+        ],
+        "title": "RiskClass"
+      },
+      "RunMetadata": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "file_sha256": {
+            "type": "string",
+            "title": "File Sha256"
+          },
+          "file_size_bytes": {
+            "type": "integer",
+            "title": "File Size Bytes"
+          },
+          "row_count": {
+            "type": "integer",
+            "title": "Row Count"
+          },
+          "column_count": {
+            "type": "integer",
+            "title": "Column Count"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "engine_version": {
+            "type": "string",
+            "title": "Engine Version"
+          },
+          "format_metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Format Metadata"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "filename",
+          "file_sha256",
+          "file_size_bytes",
+          "row_count",
+          "column_count",
+          "status",
+          "created_at",
+          "engine_version"
+        ],
+        "title": "RunMetadata"
+      },
+      "RunStatus": {
+        "type": "string",
+        "enum": [
+          "uploaded",
+          "analyzed",
+          "applied"
+        ],
+        "title": "RunStatus"
+      },
+      "SampleDiff": {
+        "properties": {
+          "row_id": {
+            "type": "string",
+            "title": "Row Id"
+          },
+          "column": {
+            "type": "string",
+            "title": "Column"
+          },
+          "before": {
+            "type": "string",
+            "title": "Before"
+          },
+          "after": {
+            "type": "string",
+            "title": "After"
+          },
+          "was_valid": {
+            "type": "boolean",
+            "title": "Was Valid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "row_id",
+          "column",
+          "before",
+          "after",
+          "was_valid"
+        ],
+        "title": "SampleDiff"
+      },
+      "SetNullParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "set_null",
+            "title": "Op"
+          },
+          "placeholder_values": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Placeholder Values"
+          },
+          "row_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Row Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "placeholder_values",
+          "row_ids"
+        ],
+        "title": "SetNullParams"
+      },
+      "Simulation": {
+        "properties": {
+          "cells_changed": {
+            "type": "integer",
+            "title": "Cells Changed"
+          },
+          "rows_affected": {
+            "type": "integer",
+            "title": "Rows Affected"
+          },
+          "rows_removed": {
+            "type": "integer",
+            "title": "Rows Removed"
+          },
+          "previously_valid_cells_changed": {
+            "type": "integer",
+            "title": "Previously Valid Cells Changed"
+          },
+          "aggregate_drift": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Aggregate Drift"
+          },
+          "new_issues_introduced": {
+            "type": "integer",
+            "title": "New Issues Introduced"
+          },
+          "sample_diff": {
+            "items": {
+              "$ref": "#/components/schemas/SampleDiff"
+            },
+            "type": "array",
+            "title": "Sample Diff"
+          },
+          "invariants": {
+            "items": {
+              "$ref": "#/components/schemas/Invariant"
+            },
+            "type": "array",
+            "title": "Invariants"
+          },
+          "impact": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RippleImpact"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cells_changed",
+          "rows_affected",
+          "rows_removed",
+          "previously_valid_cells_changed",
+          "aggregate_drift",
+          "new_issues_introduced",
+          "sample_diff",
+          "invariants"
+        ],
+        "title": "Simulation"
+      },
+      "SkippedProposal": {
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "title": "Proposal Id"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "proposal_id",
+          "reason"
+        ],
+        "title": "SkippedProposal"
+      },
+      "TrimTextParams": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "trim_text",
+            "title": "Op"
+          },
+          "row_values": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Row Values"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "row_values"
+        ],
+        "title": "TrimTextParams"
+      },
+      "TrustPassport": {
+        "properties": {
+          "passport_version": {
+            "type": "string",
+            "title": "Passport Version"
+          },
+          "passport_id": {
+            "type": "string",
+            "title": "Passport Id"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "original_filename": {
+            "type": "string",
+            "title": "Original Filename"
+          },
+          "original_sha256": {
+            "type": "string",
+            "title": "Original Sha256"
+          },
+          "cleaned_sha256": {
+            "type": "string",
+            "title": "Cleaned Sha256"
+          },
+          "passport_sha256": {
+            "type": "string",
+            "title": "Passport Sha256"
+          },
+          "original_size_bytes": {
+            "type": "integer",
+            "title": "Original Size Bytes"
+          },
+          "original_row_count": {
+            "type": "integer",
+            "title": "Original Row Count"
+          },
+          "original_column_count": {
+            "type": "integer",
+            "title": "Original Column Count"
+          },
+          "original_column_schema": {
+            "items": {
+              "$ref": "#/components/schemas/PassportColumn"
+            },
+            "type": "array",
+            "title": "Original Column Schema"
+          },
+          "output_row_count": {
+            "type": "integer",
+            "title": "Output Row Count"
+          },
+          "output_column_count": {
+            "type": "integer",
+            "title": "Output Column Count"
+          },
+          "engine_version": {
+            "type": "string",
+            "title": "Engine Version"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At"
+          },
+          "initial_issue_count": {
+            "type": "integer",
+            "title": "Initial Issue Count"
+          },
+          "initial_issue_categories": {
+            "items": {
+              "$ref": "#/components/schemas/IssueCategoryCount"
+            },
+            "type": "array",
+            "title": "Initial Issue Categories"
+          },
+          "final_unresolved_issues": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "type": "array",
+            "title": "Final Unresolved Issues"
+          },
+          "previously_valid_cells_changed": {
+            "type": "integer",
+            "title": "Previously Valid Cells Changed"
+          },
+          "quality_before": {
+            "$ref": "#/components/schemas/QualityDimensions"
+          },
+          "quality_after": {
+            "$ref": "#/components/schemas/QualityDimensions"
+          },
+          "proposal_count": {
+            "type": "integer",
+            "title": "Proposal Count"
+          },
+          "proposals": {
+            "items": {
+              "$ref": "#/components/schemas/PassportProposal"
+            },
+            "type": "array",
+            "title": "Proposals"
+          },
+          "auto_apply_decisions": {
+            "type": "integer",
+            "title": "Auto Apply Decisions"
+          },
+          "user_approvals": {
+            "type": "integer",
+            "title": "User Approvals"
+          },
+          "rejections": {
+            "type": "integer",
+            "title": "Rejections"
+          },
+          "edited_proposals": {
+            "type": "integer",
+            "title": "Edited Proposals"
+          },
+          "refused_repairs": {
+            "type": "integer",
+            "title": "Refused Repairs"
+          },
+          "applied_operations": {
+            "items": {
+              "$ref": "#/components/schemas/AppliedOperation"
+            },
+            "type": "array",
+            "title": "Applied Operations"
+          },
+          "modification_log_reference": {
+            "type": "string",
+            "title": "Modification Log Reference"
+          },
+          "simulation_summary": {
+            "items": {
+              "$ref": "#/components/schemas/Simulation"
+            },
+            "type": "array",
+            "title": "Simulation Summary"
+          },
+          "gate_outcomes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Gate Outcomes"
+          },
+          "proposal_decisions": {
+            "items": {
+              "$ref": "#/components/schemas/PassportProposalDecision"
+            },
+            "type": "array",
+            "title": "Proposal Decisions"
+          },
+          "exported_artifact_sha256": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Exported Artifact Sha256"
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "replay_mismatch",
+              "not_run"
+            ],
+            "title": "Verification Status"
+          },
+          "replay_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replay Hash"
+          },
+          "replay_matches": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replay Matches"
+          },
+          "benchmark_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Benchmark Version"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "unresolved_count": {
+            "type": "integer",
+            "title": "Unresolved Count"
+          },
+          "abstained_repairs": {
+            "type": "integer",
+            "title": "Abstained Repairs"
+          },
+          "llm_enabled": {
+            "type": "boolean",
+            "title": "Llm Enabled"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "passport_version",
+          "passport_id",
+          "run_id",
+          "original_filename",
+          "original_sha256",
+          "cleaned_sha256",
+          "passport_sha256",
+          "original_size_bytes",
+          "original_row_count",
+          "original_column_count",
+          "original_column_schema",
+          "output_row_count",
+          "output_column_count",
+          "engine_version",
+          "generated_at",
+          "initial_issue_count",
+          "initial_issue_categories",
+          "final_unresolved_issues",
+          "previously_valid_cells_changed",
+          "quality_before",
+          "quality_after",
+          "proposal_count",
+          "proposals",
+          "auto_apply_decisions",
+          "user_approvals",
+          "rejections",
+          "edited_proposals",
+          "refused_repairs",
+          "applied_operations",
+          "modification_log_reference",
+          "simulation_summary",
+          "gate_outcomes",
+          "proposal_decisions",
+          "exported_artifact_sha256",
+          "verification_status",
+          "limitations",
+          "unresolved_count",
+          "abstained_repairs",
+          "llm_enabled"
+        ],
+        "title": "TrustPassport"
+      },
+      "UncertaintyResponse": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "total_records": {
+            "type": "integer",
+            "title": "Total Records"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnUncertainty"
+            },
+            "type": "array",
+            "title": "Columns"
+          },
+          "records": {
+            "items": {
+              "$ref": "#/components/schemas/RecordUncertainty"
+            },
+            "type": "array",
+            "title": "Records"
+          },
+          "calculation_notes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Calculation Notes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "offset",
+          "limit",
+          "total_records",
+          "columns",
+          "records",
+          "calculation_notes"
+        ],
+        "title": "UncertaintyResponse"
+      },
+      "UndoResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "undone",
+              "refused"
+            ],
+            "title": "Status"
+          },
+          "op_id": {
+            "type": "string",
+            "title": "Op Id"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "op_id"
+        ],
+        "title": "UndoResponse"
+      },
+      "UploadResponse": {
+        "properties": {
+          "run": {
+            "$ref": "#/components/schemas/RunMetadata"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run"
+        ],
+        "title": "UploadResponse"
+      },
+      "VerificationIssues": {
+        "properties": {
+          "before": {
+            "type": "integer",
+            "title": "Before"
+          },
+          "after": {
+            "type": "integer",
+            "title": "After"
+          },
+          "resolved": {
+            "type": "integer",
+            "title": "Resolved"
+          },
+          "introduced": {
+            "type": "integer",
+            "title": "Introduced"
+          },
+          "by_category": {
+            "items": {
+              "$ref": "#/components/schemas/IssueCategoryCount"
+            },
+            "type": "array",
+            "title": "By Category"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "before",
+          "after",
+          "resolved",
+          "introduced",
+          "by_category"
+        ],
+        "title": "VerificationIssues"
+      },
+      "VerificationResponse": {
+        "properties": {
+          "replay": {
+            "$ref": "#/components/schemas/ReplayResult"
+          },
+          "issues": {
+            "$ref": "#/components/schemas/VerificationIssues"
+          },
+          "valid_cells_damaged": {
+            "type": "integer",
+            "title": "Valid Cells Damaged"
+          },
+          "quality_dimensions": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/QualityDimensions"
+            },
+            "type": "object",
+            "title": "Quality Dimensions"
+          },
+          "remaining": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "type": "array",
+            "title": "Remaining"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "replay",
+          "issues",
+          "valid_cells_damaged",
+          "quality_dimensions",
+          "remaining"
+        ],
+        "title": "VerificationResponse"
+      },
+      "WorksheetListResponse": {
+        "properties": {
+          "worksheets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Worksheets"
+          },
+          "active_worksheet": {
+            "type": "string",
+            "title": "Active Worksheet"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "worksheets",
+          "active_worksheet"
+        ],
+        "title": "WorksheetListResponse"
+      }
+    }
+  }
+}

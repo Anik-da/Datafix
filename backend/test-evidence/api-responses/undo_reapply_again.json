@@ -1,0 +1,43 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/fb2213e4-e2e9-4d1e-a991-838ec0fae702/apply",
+  "status_code": 200,
+  "response": {
+    "status": "applied",
+    "applied_operations": [
+      {
+        "op_id": "op_9c79608c86be4eedbdc0e3d0ec2d2eb2",
+        "proposal_id": "prp_a3633db052b4",
+        "op": "drop_exact_dupes",
+        "column": null,
+        "cells_changed": 0,
+        "rows_removed": 1,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:20:09.516344Z"
+      }
+    ],
+    "skipped": [
+      {
+        "proposal_id": "prp_ce64674398bf",
+        "reason": "Proposal was already applied in this run."
+      },
+      {
+        "proposal_id": "prp_6f803fa9060a",
+        "reason": "Proposal was already applied in this run."
+      },
+      {
+        "proposal_id": "prp_f40fbf5dc41a",
+        "reason": "Proposal was refused by a safety invariant."
+      },
+      {
+        "proposal_id": "prp_b3ed057c8e08",
+        "reason": "Proposal was already applied in this run."
+      },
+      {
+        "proposal_id": "prp_fe76541a426c",
+        "reason": "No changes remained applicable after earlier operations."
+      }
+    ],
+    "blocking_invariants": []
+  }
+}

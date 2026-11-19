@@ -1,0 +1,3955 @@
+{
+  "passport_version": "1.0",
+  "passport_id": "pass_317b5ec42578eee7",
+  "run_id": "1b1a1f78-7266-446a-863a-1ff52d1d7769",
+  "original_filename": "datafix_1000_dirty.csv",
+  "original_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+  "cleaned_sha256": "d2dfcedbcae047f73cfa0f0ee579efbfa2f3d2484a34fb8f8aabff0599920507",
+  "passport_sha256": "7a4057f630f7a46b5f2b718e5f71733f3380f2063ec0d299b4dfa802f8331e76",
+  "original_size_bytes": 85553,
+  "original_row_count": 1001,
+  "original_column_count": 10,
+  "original_column_schema": [
+    {
+      "name": "order_id",
+      "inferred_type": "string"
+    },
+    {
+      "name": "quantity",
+      "inferred_type": "number"
+    },
+    {
+      "name": "unit_price",
+      "inferred_type": "number"
+    },
+    {
+      "name": "total",
+      "inferred_type": "number"
+    },
+    {
+      "name": "city",
+      "inferred_type": "category"
+    },
+    {
+      "name": "email",
+      "inferred_type": "string"
+    },
+    {
+      "name": "order_date",
+      "inferred_type": "date"
+    },
+    {
+      "name": "ship_date",
+      "inferred_type": "date"
+    },
+    {
+      "name": "category",
+      "inferred_type": "category"
+    },
+    {
+      "name": "note",
+      "inferred_type": "category"
+    }
+  ],
+  "output_row_count": 1000,
+  "output_column_count": 10,
+  "engine_version": "0.1.0",
+  "generated_at": "2026-11-19T21:17:27.349273Z",
+  "initial_issue_count": 12,
+  "initial_issue_categories": [
+    {
+      "category": "anomaly",
+      "count": 1
+    },
+    {
+      "category": "duplicate",
+      "count": 1
+    },
+    {
+      "category": "inconsistent",
+      "count": 3
+    },
+    {
+      "category": "invalid_format",
+      "count": 4
+    },
+    {
+      "category": "missing",
+      "count": 1
+    },
+    {
+      "category": "relationship",
+      "count": 2
+    }
+  ],
+  "final_unresolved_issues": [
+    {
+      "id": "iss_28d65132da2f",
+      "category": "anomaly",
+      "title": "IQR statistical outliers",
+      "column": "unit_price",
+      "description": "Found 1 observations outside the Tukey IQR fences. Statistical outliers may be legitimate and are preserved. Possible causes (unconfirmed hypotheses): Possible unit mismatch or entry error. Possible legitimate extreme value.",
+      "affected_rows": 1,
+      "affected_cells": 1,
+      "affected_row_ids": [
+        "row_110"
+      ],
+      "evidence": [
+        {
+          "kind": "statistic",
+          "label": "IQR outlier detection",
+          "detail": "Bounds are Q1 − 1.5×IQR and Q3 + 1.5×IQR.",
+          "metrics": {
+            "q1": 140.0,
+            "q3": 220.0,
+            "iqr": 80.0,
+            "lower_bound": 20.0,
+            "upper_bound": 340.0
+          },
+          "examples": [
+            "999999"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_110"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_0f43d194a0",
+          "statement": "unit mismatch or entry error.",
+          "evidence_labels": [
+            "IQR outlier detection"
+          ]
+        },
+        {
+          "id": "hyp_41b7a33a78",
+          "statement": "legitimate extreme value.",
+          "evidence_labels": [
+            "IQR outlier detection"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_3c0192da910f",
+      "category": "missing",
+      "title": "Missing or placeholder values",
+      "column": "note",
+      "description": "Observed 2 blank or configured placeholder values. Possible causes include incomplete source records or upstream import conventions; optionality is unknown.",
+      "affected_rows": 2,
+      "affected_cells": 2,
+      "affected_row_ids": [
+        "row_10",
+        "row_20"
+      ],
+      "evidence": [
+        {
+          "kind": "count",
+          "label": "Missing or placeholder cells",
+          "detail": "Measured blank and configured placeholder values in this column.",
+          "metrics": {
+            "count": 2,
+            "percentage": 0.2
+          },
+          "examples": [
+            "",
+            "   "
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 2
+          },
+          "examples": [
+            "row_10",
+            "row_20"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_9bcabf89a9",
+          "statement": "incomplete source records.",
+          "evidence_labels": [
+            "Missing or placeholder cells"
+          ]
+        },
+        {
+          "id": "hyp_63d5b20f05",
+          "statement": "upstream export or import conventions.",
+          "evidence_labels": [
+            "Missing or placeholder cells"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_643202f30593",
+      "category": "invalid_format",
+      "title": "Invalid numeric representations",
+      "column": "quantity",
+      "description": "Found 1 values in a mostly numeric column that cannot be parsed as numbers. Possible causes (unconfirmed hypotheses): Possible non-numeric text in a numeric field. Possible column containing mixed meanings.",
+      "affected_rows": 1,
+      "affected_cells": 1,
+      "affected_row_ids": [
+        "row_40"
+      ],
+      "evidence": [
+        {
+          "kind": "rule",
+          "label": "Numeric parsing",
+          "detail": "At least 80% of non-empty values parse numerically; listed values do not.",
+          "metrics": {
+            "parse_ratio": 0.999,
+            "invalid_count": 1
+          },
+          "examples": [
+            "2x"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_40"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_2d5cb0e915",
+          "statement": "non-numeric text in a numeric field.",
+          "evidence_labels": [
+            "Numeric parsing"
+          ]
+        },
+        {
+          "id": "hyp_72f21933bb",
+          "statement": "column containing mixed meanings.",
+          "evidence_labels": [
+            "Numeric parsing"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_6c4522828891",
+      "category": "invalid_format",
+      "title": "Invalid email format",
+      "column": "email",
+      "description": "Found 1 non-empty values that fail a conservative email syntax check. Possible causes (unconfirmed hypotheses): Possible typing error. Possible field containing non-email identifiers.",
+      "affected_rows": 1,
+      "affected_cells": 1,
+      "affected_row_ids": [
+        "row_30"
+      ],
+      "evidence": [
+        {
+          "kind": "rule",
+          "label": "Email syntax",
+          "detail": "Value does not match the conservative email syntax rule.",
+          "metrics": {
+            "invalid_count": 1
+          },
+          "examples": [
+            "[redacted]"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_30"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_43c4d0f2de",
+          "statement": "typing error.",
+          "evidence_labels": [
+            "Email syntax"
+          ]
+        },
+        {
+          "id": "hyp_bb0a7d217b",
+          "statement": "field containing non-email identifiers.",
+          "evidence_labels": [
+            "Email syntax"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_6fa72bba016d",
+      "category": "relationship",
+      "title": "End date precedes start date",
+      "column": null,
+      "description": "An unambiguous date ordering rule is violated; no date is changed. Possible causes (unconfirmed hypotheses): Possible date entry error. Possible exception to the expected chronology.",
+      "affected_rows": 2,
+      "affected_cells": 4,
+      "affected_row_ids": [
+        "row_70",
+        "row_80"
+      ],
+      "evidence": [
+        {
+          "kind": "rule",
+          "label": "ship_date >= order_date",
+          "detail": "Both dates parse unambiguously, and the end date precedes the start date.",
+          "metrics": {
+            "violations": 2
+          },
+          "examples": [
+            "2026-01-14 < 2026-01-17",
+            "2026-01-01 < 2026-01-27"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 2
+          },
+          "examples": [
+            "row_70",
+            "row_80"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_4a7e4b0518",
+          "statement": "date entry error.",
+          "evidence_labels": [
+            "ship_date >= order_date"
+          ]
+        },
+        {
+          "id": "hyp_cc35f0d8fc",
+          "statement": "exception to the expected chronology.",
+          "evidence_labels": [
+            "ship_date >= order_date"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_7c43107ea80b",
+      "category": "invalid_format",
+      "title": "Invalid or ambiguous date values",
+      "column": "order_date",
+      "description": "Some date-like values could not be parsed. Possible causes include mixed regional formatting; no locale is inferred.",
+      "affected_rows": 2,
+      "affected_cells": 2,
+      "affected_row_ids": [
+        "row_50",
+        "row_60"
+      ],
+      "evidence": [
+        {
+          "kind": "rule",
+          "label": "Date parsing",
+          "detail": "Some date-like values could not be parsed.",
+          "metrics": {
+            "invalid_count": 1,
+            "ambiguous_count": 1,
+            "recognized_formats": 1
+          },
+          "examples": [
+            "2026-19-45",
+            "03/04/2026"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 2
+          },
+          "examples": [
+            "row_50",
+            "row_60"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_adfaaa4531",
+          "statement": "regional import differences.",
+          "evidence_labels": [
+            "Date parsing"
+          ]
+        },
+        {
+          "id": "hyp_2a24b2cf98",
+          "statement": "manual formatting inconsistency.",
+          "evidence_labels": [
+            "Date parsing"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_8dbd500ef9c9",
+      "category": "inconsistent",
+      "title": "Similar but distinct category values",
+      "column": "city",
+      "description": "Text similarity identified review candidates; similarity alone does not establish equivalence, so no mapping is proposed. Possible causes (unconfirmed hypotheses): Possible spelling variation; semantic equivalence is unconfirmed.",
+      "affected_rows": 1,
+      "affected_cells": 1,
+      "affected_row_ids": [
+        "row_100"
+      ],
+      "evidence": [
+        {
+          "kind": "statistic",
+          "label": "String similarity candidates",
+          "detail": "Sequence similarity is a candidate-generation heuristic, not a probability or identity proof.",
+          "metrics": {
+            "candidate_pairs": 1
+          },
+          "examples": [
+            "Bangaluru ↔ Bengaluru (0.89)"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_100"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_8474ccaf17",
+          "statement": "spelling variation; semantic equivalence is unconfirmed.",
+          "evidence_labels": [
+            "String similarity candidates"
+          ]
+        }
+      ],
+      "pattern": null
+    },
+    {
+      "id": "iss_9d9acde4ec18",
+      "category": "relationship",
+      "title": "Cross-column arithmetic inconsistency",
+      "column": null,
+      "description": "The explicit quantity × unit_price relationship does not equal total. Which source value is wrong is unknown; values are preserved. Possible causes (unconfirmed hypotheses): Possible quantity, unit price or total entry error. Possible tax/discount convention not represented by these columns.",
+      "affected_rows": 2,
+      "affected_cells": 6,
+      "affected_row_ids": [
+        "row_110",
+        "row_120"
+      ],
+      "evidence": [
+        {
+          "kind": "rule",
+          "label": "total = quantity × unit_price",
+          "detail": "Explicit arithmetic relationship inferred from exact conventional column names; no correction side is assumed.",
+          "metrics": {
+            "violations": 2
+          },
+          "examples": [
+            "6 × 999999 != 840",
+            "2 × 160 != 999"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 2
+          },
+          "examples": [
+            "row_110",
+            "row_120"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_32587db1a2",
+          "statement": "quantity, unit price or total entry error.",
+          "evidence_labels": [
+            "total = quantity × unit_price"
+          ]
+        },
+        {
+          "id": "hyp_466a8db1be",
+          "statement": "tax/discount convention not represented by these columns.",
+          "evidence_labels": [
+            "total = quantity × unit_price"
+          ]
+        }
+      ],
+      "pattern": null
+    }
+  ],
+  "previously_valid_cells_changed": 0,
+  "quality_before": {
+    "completeness": 0.9999000999000999,
+    "validity": 0.9995004995004995,
+    "uniqueness": 0.999000999000999,
+    "consistency": 0.9986013986013986,
+    "formulas": {
+      "completeness": "1 - blank_cells / total_cells",
+      "validity": "1 - detected_invalid_cells / total_cells",
+      "uniqueness": "1 - exact_duplicate_rows / row_count",
+      "consistency": "1 - inconsistent_or_relationship_affected_cells / total_cells"
+    }
+  },
+  "quality_after": {
+    "completeness": 0.9998,
+    "validity": 0.9996,
+    "uniqueness": 1.0,
+    "consistency": 0.9989,
+    "formulas": {
+      "completeness": "1 - blank_cells / total_cells",
+      "validity": "1 - detected_invalid_cells / total_cells",
+      "uniqueness": "1 - exact_duplicate_rows / row_count",
+      "consistency": "1 - inconsistent_or_relationship_affected_cells / total_cells"
+    }
+  },
+  "proposal_count": 6,
+  "proposals": [
+    {
+      "proposal_id": "prp_1224985a2d16",
+      "proposal_version": 1,
+      "operation": "set_null",
+      "column": "note",
+      "risk_class": "value_substitution",
+      "title": "Convert configured placeholders to null",
+      "explanation": "The values exactly match configured placeholder tokens; no imputation is proposed.",
+      "parameter_summary": {
+        "operation": "set_null",
+        "values": "redacted",
+        "target_row_count": 1
+      },
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 1,
+        "rows_affected": 1,
+        "rows_removed": 0,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0,
+          "quantity.mean_relative": 0.0,
+          "quantity.count_change": 0,
+          "total.sum_relative": 0.0,
+          "total.mean_relative": 0.0,
+          "total.count_change": 0,
+          "unit_price.sum_relative": 0.0,
+          "unit_price.mean_relative": 0.0,
+          "unit_price.count_change": 0,
+          "row_count_change": 0
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [
+          {
+            "row_id": "row_10",
+            "column": "note",
+            "before": "N/A",
+            "after": "",
+            "was_valid": false
+          }
+        ],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_1224985a2d16",
+          "direct_row_ids": [
+            "row_10"
+          ],
+          "direct_cells": 1,
+          "direct_columns": [
+            "note"
+          ],
+          "direct_metrics": [
+            {
+              "metric": "missing_count",
+              "column": "note",
+              "before": 1,
+              "after": 2,
+              "change": 1,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "note",
+              "before": 0.000999000999000999,
+              "after": 0.001998001998001998,
+              "change": 0.000999000999000999,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "note",
+              "before": 3,
+              "after": 2,
+              "change": -1,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            }
+          ],
+          "indirect_metrics": [],
+          "affected_dependency_checks": [],
+          "potentially_resolved_issue_ids": [],
+          "remaining_issue_ids": [
+            "iss_28d65132da2f",
+            "iss_b30c11afa294",
+            "iss_3bef3e916ad8",
+            "iss_d6a37e77aa98",
+            "iss_6e2b6f107202",
+            "iss_6c4522828891",
+            "iss_643202f30593",
+            "iss_7c43107ea80b",
+            "iss_5a360421005f",
+            "iss_3c0192da910f",
+            "iss_9d9acde4ec18",
+            "iss_6fa72bba016d"
+          ],
+          "introduced_issue_ids": [],
+          "risk_level": "moderate",
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1001,
+              "threshold": 1001,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+              "observed": 0.0,
+              "threshold": 0.05,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+            "Safety Gate remains the final authority and evaluates the same invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate_decision": "needs_approval",
+      "status": "applied"
+    },
+    {
+      "proposal_id": "prp_19d0c1d739a5",
+      "proposal_version": 1,
+      "operation": "normalize_date",
+      "column": "order_date",
+      "risk_class": "format_only",
+      "title": "Do not infer ambiguous date formats",
+      "explanation": "The values have multiple valid interpretations and no locale was supplied; the proposal intentionally contains no changes.",
+      "parameter_summary": {
+        "operation": "normalize_date",
+        "values": "redacted",
+        "target_row_count": 0
+      },
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 0,
+        "rows_affected": 0,
+        "rows_removed": 0,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0,
+          "quantity.mean_relative": 0.0,
+          "quantity.count_change": 0,
+          "total.sum_relative": 0.0,
+          "total.mean_relative": 0.0,
+          "total.count_change": 0,
+          "unit_price.sum_relative": 0.0,
+          "unit_price.mean_relative": 0.0,
+          "unit_price.count_change": 0,
+          "row_count_change": 0
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_19d0c1d739a5",
+          "direct_row_ids": [],
+          "direct_cells": 0,
+          "direct_columns": [],
+          "direct_metrics": [],
+          "indirect_metrics": [],
+          "affected_dependency_checks": [],
+          "potentially_resolved_issue_ids": [],
+          "remaining_issue_ids": [
+            "iss_28d65132da2f",
+            "iss_b30c11afa294",
+            "iss_3bef3e916ad8",
+            "iss_d6a37e77aa98",
+            "iss_6e2b6f107202",
+            "iss_6c4522828891",
+            "iss_643202f30593",
+            "iss_7c43107ea80b",
+            "iss_5a360421005f",
+            "iss_3c0192da910f",
+            "iss_9d9acde4ec18",
+            "iss_6fa72bba016d"
+          ],
+          "introduced_issue_ids": [],
+          "risk_level": "unknown",
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1001,
+              "threshold": 1001,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+              "observed": 0.0,
+              "threshold": 0.05,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Risk level unknown follows deterministic proposal class format_only and simulated invariant results.",
+            "Safety Gate remains the final authority and evaluates the same invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate_decision": "refused",
+      "status": "refused"
+    },
+    {
+      "proposal_id": "prp_48edb6359caf",
+      "proposal_version": 1,
+      "operation": "normalize_date",
+      "column": "ship_date",
+      "risk_class": "format_only",
+      "title": "Normalize unambiguous dates",
+      "explanation": "All observed values parse to one date without locale ambiguity.",
+      "parameter_summary": {
+        "operation": "normalize_date",
+        "values": "redacted",
+        "target_row_count": 1
+      },
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 1,
+        "rows_affected": 1,
+        "rows_removed": 0,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0,
+          "quantity.mean_relative": 0.0,
+          "quantity.count_change": 0,
+          "total.sum_relative": 0.0,
+          "total.mean_relative": 0.0,
+          "total.count_change": 0,
+          "unit_price.sum_relative": 0.0,
+          "unit_price.mean_relative": 0.0,
+          "unit_price.count_change": 0,
+          "row_count_change": 0
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [
+          {
+            "row_id": "row_70",
+            "column": "ship_date",
+            "before": "Jan 14, 2026",
+            "after": "2026-01-14",
+            "was_valid": false
+          }
+        ],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_48edb6359caf",
+          "direct_row_ids": [
+            "row_70"
+          ],
+          "direct_cells": 1,
+          "direct_columns": [
+            "ship_date"
+          ],
+          "direct_metrics": [
+            {
+              "metric": "missing_count",
+              "column": "ship_date",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "ship_date",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "ship_date",
+              "before": 28,
+              "after": 27,
+              "change": -1,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            }
+          ],
+          "indirect_metrics": [
+            {
+              "metric": "business_rule_violations",
+              "column": "dataset",
+              "before": 4,
+              "after": 4,
+              "change": 0,
+              "relationship": "measured_dependency",
+              "support": [
+                "existing deterministic cross-column business rules evaluated on both frames"
+              ]
+            }
+          ],
+          "affected_dependency_checks": [
+            "ship_date -> quantity: explicit supported relationship",
+            "ship_date -> unit_price: explicit supported relationship",
+            "ship_date -> total: explicit supported relationship",
+            "ship_date -> order_date: explicit supported relationship",
+            "configured cross-column business rules"
+          ],
+          "potentially_resolved_issue_ids": [
+            "iss_5a360421005f"
+          ],
+          "remaining_issue_ids": [
+            "iss_28d65132da2f",
+            "iss_b30c11afa294",
+            "iss_3bef3e916ad8",
+            "iss_d6a37e77aa98",
+            "iss_6e2b6f107202",
+            "iss_6c4522828891",
+            "iss_643202f30593",
+            "iss_7c43107ea80b",
+            "iss_3c0192da910f",
+            "iss_9d9acde4ec18",
+            "iss_6fa72bba016d"
+          ],
+          "introduced_issue_ids": [],
+          "risk_level": "low",
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1001,
+              "threshold": 1001,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+              "observed": 0.0,
+              "threshold": 0.05,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Risk level low follows deterministic proposal class format_only and simulated invariant results.",
+            "Safety Gate remains the final authority and evaluates the same invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate_decision": "auto_apply",
+      "status": "applied"
+    },
+    {
+      "proposal_id": "prp_844a0bcdead8",
+      "proposal_version": 1,
+      "operation": "trim_text",
+      "column": "city",
+      "risk_class": "format_only",
+      "title": "Trim boundary whitespace",
+      "explanation": "Removing leading and trailing whitespace preserves the observed text content.",
+      "parameter_summary": {
+        "operation": "trim_text",
+        "values": "redacted",
+        "target_row_count": 1
+      },
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 1,
+        "rows_affected": 1,
+        "rows_removed": 0,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0,
+          "quantity.mean_relative": 0.0,
+          "quantity.count_change": 0,
+          "total.sum_relative": 0.0,
+          "total.mean_relative": 0.0,
+          "total.count_change": 0,
+          "unit_price.sum_relative": 0.0,
+          "unit_price.mean_relative": 0.0,
+          "unit_price.count_change": 0,
+          "row_count_change": 0
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [
+          {
+            "row_id": "row_90",
+            "column": "city",
+            "before": "BENGALURU ",
+            "after": "BENGALURU",
+            "was_valid": false
+          }
+        ],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_844a0bcdead8",
+          "direct_row_ids": [
+            "row_90"
+          ],
+          "direct_cells": 1,
+          "direct_columns": [
+            "city"
+          ],
+          "direct_metrics": [
+            {
+              "metric": "missing_count",
+              "column": "city",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "city",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "city",
+              "before": 6,
+              "after": 6,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            }
+          ],
+          "indirect_metrics": [],
+          "affected_dependency_checks": [],
+          "potentially_resolved_issue_ids": [
+            "iss_d6a37e77aa98"
+          ],
+          "remaining_issue_ids": [
+            "iss_28d65132da2f",
+            "iss_b30c11afa294",
+            "iss_3bef3e916ad8",
+            "iss_6e2b6f107202",
+            "iss_6c4522828891",
+            "iss_643202f30593",
+            "iss_7c43107ea80b",
+            "iss_5a360421005f",
+            "iss_3c0192da910f",
+            "iss_9d9acde4ec18",
+            "iss_6fa72bba016d"
+          ],
+          "introduced_issue_ids": [],
+          "risk_level": "low",
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1001,
+              "threshold": 1001,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+              "observed": 0.0,
+              "threshold": 0.05,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Risk level low follows deterministic proposal class format_only and simulated invariant results.",
+            "Safety Gate remains the final authority and evaluates the same invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate_decision": "auto_apply",
+      "status": "pending"
+    },
+    {
+      "proposal_id": "prp_8e687c93de99",
+      "proposal_version": 1,
+      "operation": "drop_exact_dupes",
+      "column": null,
+      "risk_class": "destructive",
+      "title": "Review exact duplicate rows",
+      "explanation": "Removing rows is destructive and requires future review; no rows were removed.",
+      "parameter_summary": {
+        "operation": "drop_exact_dupes",
+        "values": "redacted",
+        "duplicate_group_count": 1,
+        "duplicate_row_count": 1
+      },
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 0,
+        "rows_affected": 1,
+        "rows_removed": 1,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0005001250312578145,
+          "quantity.mean_relative": 0.0005003753440861554,
+          "quantity.count_change": -1,
+          "total.sum_relative": 0.0003331394646726419,
+          "total.mean_relative": 0.0006665273958626576,
+          "total.count_change": -1,
+          "unit_price.sum_relative": 0.00010170189648611472,
+          "unit_price.mean_relative": 0.0008981964016174007,
+          "unit_price.count_change": -1,
+          "row_count_change": -1
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1000,
+            "threshold": 1000,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the destructive limit.",
+            "observed": 0.0008981964016174007,
+            "threshold": 0.1,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_8e687c93de99",
+          "direct_row_ids": [
+            "row_1001"
+          ],
+          "direct_cells": 0,
+          "direct_columns": [
+            "category",
+            "city",
+            "email",
+            "note",
+            "order_date",
+            "order_id",
+            "quantity",
+            "ship_date",
+            "total",
+            "unit_price"
+          ],
+          "direct_metrics": [
+            {
+              "metric": "missing_count",
+              "column": "category",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "category",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "category",
+              "before": 2,
+              "after": 2,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "missing_count",
+              "column": "city",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "city",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "city",
+              "before": 6,
+              "after": 6,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "missing_count",
+              "column": "email",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "email",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "email",
+              "before": 1000,
+              "after": 1000,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "missing_count",
+              "column": "note",
+              "before": 1,
+              "after": 1,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "note",
+              "before": 0.000999000999000999,
+              "after": 0.001,
+              "change": 9.990009990010207e-07,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "note",
+              "before": 3,
+              "after": 3,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "missing_count",
+              "column": "order_id",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "order_id",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "order_id",
+              "before": 1000,
+              "after": 1000,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            }
+          ],
+          "indirect_metrics": [
+            {
+              "metric": "mean",
+              "column": "quantity",
+              "before": 3.999,
+              "after": 4.001001001001001,
+              "change": 0.0020010010010005352,
+              "relationship": "measured_dependency",
+              "support": [
+                "explicit supported dependency; no correlation-based inference"
+              ]
+            },
+            {
+              "metric": "sum",
+              "column": "quantity",
+              "before": 3999.0,
+              "after": 3997.0,
+              "change": -2.0,
+              "relationship": "measured_dependency",
+              "support": [
+                "explicit supported dependency; no correlation-based inference"
+              ]
+            },
+            {
+              "metric": "mean",
+              "column": "total",
+              "before": 719.6993006993007,
+              "after": 720.179,
+              "change": 0.4796993006992807,
+              "relationship": "measured_dependency",
+              "support": [
+                "explicit supported dependency; no correlation-based inference"
+              ]
+            },
+            {
+              "metric": "sum",
+              "column": "total",
+              "before": 720419.0,
+              "after": 720179.0,
+              "change": -240.0,
+              "relationship": "measured_dependency",
+              "support": [
+                "explicit supported dependency; no correlation-based inference"
+              ]
+            },
+            {
+              "metric": "mean",
+              "column": "unit_price",
+              "before": 1178.7402597402597,
+              "after": 1179.799,
+              "change": 1.0587402597402615,
+              "relationship": "measured_dependency",
+              "support": [
+                "explicit supported dependency; no correlation-based inference"
+              ]
+            },
+            {
+              "metric": "sum",
+              "column": "unit_price",
+              "before": 1179919.0,
+              "after": 1179799.0,
+              "change": -120.0,
+              "relationship": "measured_dependency",
+              "support": [
+                "explicit supported dependency; no correlation-based inference"
+              ]
+            },
+            {
+              "metric": "business_rule_violations",
+              "column": "dataset",
+              "before": 4,
+              "after": 4,
+              "change": 0,
+              "relationship": "measured_dependency",
+              "support": [
+                "existing deterministic cross-column business rules evaluated on both frames"
+              ]
+            }
+          ],
+          "affected_dependency_checks": [
+            "order_date -> quantity: explicit supported relationship",
+            "order_date -> unit_price: explicit supported relationship",
+            "order_date -> total: explicit supported relationship",
+            "order_date -> ship_date: explicit supported relationship",
+            "quantity -> unit_price: explicit supported relationship",
+            "quantity -> total: explicit supported relationship",
+            "quantity -> order_date: explicit supported relationship",
+            "quantity -> ship_date: explicit supported relationship",
+            "ship_date -> quantity: explicit supported relationship",
+            "ship_date -> unit_price: explicit supported relationship",
+            "ship_date -> total: explicit supported relationship",
+            "ship_date -> order_date: explicit supported relationship",
+            "total -> quantity: explicit supported relationship",
+            "total -> unit_price: explicit supported relationship",
+            "total -> order_date: explicit supported relationship",
+            "total -> ship_date: explicit supported relationship",
+            "unit_price -> quantity: explicit supported relationship",
+            "unit_price -> total: explicit supported relationship",
+            "unit_price -> order_date: explicit supported relationship",
+            "unit_price -> ship_date: explicit supported relationship",
+            "configured cross-column business rules"
+          ],
+          "potentially_resolved_issue_ids": [
+            "iss_b30c11afa294"
+          ],
+          "remaining_issue_ids": [
+            "iss_28d65132da2f",
+            "iss_3bef3e916ad8",
+            "iss_d6a37e77aa98",
+            "iss_6e2b6f107202",
+            "iss_6c4522828891",
+            "iss_643202f30593",
+            "iss_7c43107ea80b",
+            "iss_5a360421005f",
+            "iss_3c0192da910f",
+            "iss_9d9acde4ec18",
+            "iss_6fa72bba016d"
+          ],
+          "introduced_issue_ids": [],
+          "risk_level": "high",
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1000,
+              "threshold": 1000,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the destructive limit.",
+              "observed": 0.0008981964016174007,
+              "threshold": 0.1,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Risk level high follows deterministic proposal class destructive and simulated invariant results.",
+            "Safety Gate remains the final authority and evaluates the same invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate_decision": "needs_approval",
+      "status": "applied"
+    },
+    {
+      "proposal_id": "prp_c675e5bd6b52",
+      "proposal_version": 1,
+      "operation": "map_values",
+      "column": "city",
+      "risk_class": "value_substitution",
+      "title": "Map equivalent category spellings",
+      "explanation": "The destination is an existing observed category and variants differ only by case or whitespace.",
+      "parameter_summary": {
+        "operation": "map_values",
+        "values": "redacted",
+        "mapping_count": 1
+      },
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 1,
+        "rows_affected": 1,
+        "rows_removed": 0,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0,
+          "quantity.mean_relative": 0.0,
+          "quantity.count_change": 0,
+          "total.sum_relative": 0.0,
+          "total.mean_relative": 0.0,
+          "total.count_change": 0,
+          "unit_price.sum_relative": 0.0,
+          "unit_price.mean_relative": 0.0,
+          "unit_price.count_change": 0,
+          "row_count_change": 0
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [
+          {
+            "row_id": "row_90",
+            "column": "city",
+            "before": "BENGALURU ",
+            "after": "Bengaluru",
+            "was_valid": false
+          }
+        ],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_c675e5bd6b52",
+          "direct_row_ids": [
+            "row_90"
+          ],
+          "direct_cells": 1,
+          "direct_columns": [
+            "city"
+          ],
+          "direct_metrics": [
+            {
+              "metric": "missing_count",
+              "column": "city",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "city",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "city",
+              "before": 6,
+              "after": 5,
+              "change": -1,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            }
+          ],
+          "indirect_metrics": [],
+          "affected_dependency_checks": [],
+          "potentially_resolved_issue_ids": [
+            "iss_3bef3e916ad8",
+            "iss_d6a37e77aa98"
+          ],
+          "remaining_issue_ids": [
+            "iss_28d65132da2f",
+            "iss_b30c11afa294",
+            "iss_6e2b6f107202",
+            "iss_6c4522828891",
+            "iss_643202f30593",
+            "iss_7c43107ea80b",
+            "iss_5a360421005f",
+            "iss_3c0192da910f",
+            "iss_9d9acde4ec18",
+            "iss_6fa72bba016d"
+          ],
+          "introduced_issue_ids": [],
+          "risk_level": "moderate",
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1001,
+              "threshold": 1001,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+              "observed": 0.0,
+              "threshold": 0.05,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+            "Safety Gate remains the final authority and evaluates the same invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate_decision": "needs_approval",
+      "status": "applied"
+    }
+  ],
+  "auto_apply_decisions": 1,
+  "user_approvals": 3,
+  "rejections": 0,
+  "edited_proposals": 0,
+  "refused_repairs": 1,
+  "applied_operations": [
+    {
+      "seq": 1,
+      "op_id": "op_b83dbe55e11f4892a0f7f34eab7bc0d2",
+      "proposal_id": "prp_c675e5bd6b52",
+      "op": "map_values",
+      "column": "city",
+      "cells_changed": 1,
+      "rows_removed": 0,
+      "decided_by": "user",
+      "applied_at": "2026-11-19T21:17:27.349273Z",
+      "confidence_at_decision": null,
+      "active": true
+    },
+    {
+      "seq": 2,
+      "op_id": "op_02b16d5f03d4434e8229bf0099296920",
+      "proposal_id": "prp_48edb6359caf",
+      "op": "normalize_date",
+      "column": "ship_date",
+      "cells_changed": 1,
+      "rows_removed": 0,
+      "decided_by": "auto",
+      "applied_at": "2026-11-19T21:17:27.349273Z",
+      "confidence_at_decision": null,
+      "active": true
+    },
+    {
+      "seq": 3,
+      "op_id": "op_51a3cf0beefd4edd894a84f78cd6ea48",
+      "proposal_id": "prp_1224985a2d16",
+      "op": "set_null",
+      "column": "note",
+      "cells_changed": 1,
+      "rows_removed": 0,
+      "decided_by": "user",
+      "applied_at": "2026-11-19T21:17:27.349273Z",
+      "confidence_at_decision": null,
+      "active": true
+    },
+    {
+      "seq": 4,
+      "op_id": "op_7012e11f08c146cc93f54a31e48c10db",
+      "proposal_id": "prp_8e687c93de99",
+      "op": "drop_exact_dupes",
+      "column": null,
+      "cells_changed": 0,
+      "rows_removed": 1,
+      "decided_by": "user",
+      "applied_at": "2026-11-19T21:17:27.349273Z",
+      "confidence_at_decision": null,
+      "active": true
+    }
+  ],
+  "modification_log_reference": "/api/v1/runs/1b1a1f78-7266-446a-863a-1ff52d1d7769/export/log",
+  "simulation_summary": [
+    {
+      "cells_changed": 1,
+      "rows_affected": 1,
+      "rows_removed": 0,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0,
+        "quantity.mean_relative": 0.0,
+        "quantity.count_change": 0,
+        "total.sum_relative": 0.0,
+        "total.mean_relative": 0.0,
+        "total.count_change": 0,
+        "unit_price.sum_relative": 0.0,
+        "unit_price.mean_relative": 0.0,
+        "unit_price.count_change": 0,
+        "row_count_change": 0
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [
+        {
+          "row_id": "row_10",
+          "column": "note",
+          "before": "N/A",
+          "after": "",
+          "was_valid": false
+        }
+      ],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 1001,
+          "threshold": 1001,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 4,
+          "threshold": 4,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_1224985a2d16",
+        "direct_row_ids": [
+          "row_10"
+        ],
+        "direct_cells": 1,
+        "direct_columns": [
+          "note"
+        ],
+        "direct_metrics": [
+          {
+            "metric": "missing_count",
+            "column": "note",
+            "before": 1,
+            "after": 2,
+            "change": 1,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "note",
+            "before": 0.000999000999000999,
+            "after": 0.001998001998001998,
+            "change": 0.000999000999000999,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "note",
+            "before": 3,
+            "after": 2,
+            "change": -1,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          }
+        ],
+        "indirect_metrics": [],
+        "affected_dependency_checks": [],
+        "potentially_resolved_issue_ids": [],
+        "remaining_issue_ids": [
+          "iss_28d65132da2f",
+          "iss_b30c11afa294",
+          "iss_3bef3e916ad8",
+          "iss_d6a37e77aa98",
+          "iss_6e2b6f107202",
+          "iss_6c4522828891",
+          "iss_643202f30593",
+          "iss_7c43107ea80b",
+          "iss_5a360421005f",
+          "iss_3c0192da910f",
+          "iss_9d9acde4ec18",
+          "iss_6fa72bba016d"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "moderate",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    },
+    {
+      "cells_changed": 0,
+      "rows_affected": 0,
+      "rows_removed": 0,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0,
+        "quantity.mean_relative": 0.0,
+        "quantity.count_change": 0,
+        "total.sum_relative": 0.0,
+        "total.mean_relative": 0.0,
+        "total.count_change": 0,
+        "unit_price.sum_relative": 0.0,
+        "unit_price.mean_relative": 0.0,
+        "unit_price.count_change": 0,
+        "row_count_change": 0
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 1001,
+          "threshold": 1001,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 4,
+          "threshold": 4,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_19d0c1d739a5",
+        "direct_row_ids": [],
+        "direct_cells": 0,
+        "direct_columns": [],
+        "direct_metrics": [],
+        "indirect_metrics": [],
+        "affected_dependency_checks": [],
+        "potentially_resolved_issue_ids": [],
+        "remaining_issue_ids": [
+          "iss_28d65132da2f",
+          "iss_b30c11afa294",
+          "iss_3bef3e916ad8",
+          "iss_d6a37e77aa98",
+          "iss_6e2b6f107202",
+          "iss_6c4522828891",
+          "iss_643202f30593",
+          "iss_7c43107ea80b",
+          "iss_5a360421005f",
+          "iss_3c0192da910f",
+          "iss_9d9acde4ec18",
+          "iss_6fa72bba016d"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "unknown",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level unknown follows deterministic proposal class format_only and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    },
+    {
+      "cells_changed": 1,
+      "rows_affected": 1,
+      "rows_removed": 0,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0,
+        "quantity.mean_relative": 0.0,
+        "quantity.count_change": 0,
+        "total.sum_relative": 0.0,
+        "total.mean_relative": 0.0,
+        "total.count_change": 0,
+        "unit_price.sum_relative": 0.0,
+        "unit_price.mean_relative": 0.0,
+        "unit_price.count_change": 0,
+        "row_count_change": 0
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [
+        {
+          "row_id": "row_70",
+          "column": "ship_date",
+          "before": "Jan 14, 2026",
+          "after": "2026-01-14",
+          "was_valid": false
+        }
+      ],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 1001,
+          "threshold": 1001,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 4,
+          "threshold": 4,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_48edb6359caf",
+        "direct_row_ids": [
+          "row_70"
+        ],
+        "direct_cells": 1,
+        "direct_columns": [
+          "ship_date"
+        ],
+        "direct_metrics": [
+          {
+            "metric": "missing_count",
+            "column": "ship_date",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "ship_date",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "ship_date",
+            "before": 28,
+            "after": 27,
+            "change": -1,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          }
+        ],
+        "indirect_metrics": [
+          {
+            "metric": "business_rule_violations",
+            "column": "dataset",
+            "before": 4,
+            "after": 4,
+            "change": 0,
+            "relationship": "measured_dependency",
+            "support": [
+              "existing deterministic cross-column business rules evaluated on both frames"
+            ]
+          }
+        ],
+        "affected_dependency_checks": [
+          "ship_date -> quantity: explicit supported relationship",
+          "ship_date -> unit_price: explicit supported relationship",
+          "ship_date -> total: explicit supported relationship",
+          "ship_date -> order_date: explicit supported relationship",
+          "configured cross-column business rules"
+        ],
+        "potentially_resolved_issue_ids": [
+          "iss_5a360421005f"
+        ],
+        "remaining_issue_ids": [
+          "iss_28d65132da2f",
+          "iss_b30c11afa294",
+          "iss_3bef3e916ad8",
+          "iss_d6a37e77aa98",
+          "iss_6e2b6f107202",
+          "iss_6c4522828891",
+          "iss_643202f30593",
+          "iss_7c43107ea80b",
+          "iss_3c0192da910f",
+          "iss_9d9acde4ec18",
+          "iss_6fa72bba016d"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "low",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level low follows deterministic proposal class format_only and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    },
+    {
+      "cells_changed": 1,
+      "rows_affected": 1,
+      "rows_removed": 0,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0,
+        "quantity.mean_relative": 0.0,
+        "quantity.count_change": 0,
+        "total.sum_relative": 0.0,
+        "total.mean_relative": 0.0,
+        "total.count_change": 0,
+        "unit_price.sum_relative": 0.0,
+        "unit_price.mean_relative": 0.0,
+        "unit_price.count_change": 0,
+        "row_count_change": 0
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [
+        {
+          "row_id": "row_90",
+          "column": "city",
+          "before": "BENGALURU ",
+          "after": "BENGALURU",
+          "was_valid": false
+        }
+      ],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 1001,
+          "threshold": 1001,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 4,
+          "threshold": 4,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_844a0bcdead8",
+        "direct_row_ids": [
+          "row_90"
+        ],
+        "direct_cells": 1,
+        "direct_columns": [
+          "city"
+        ],
+        "direct_metrics": [
+          {
+            "metric": "missing_count",
+            "column": "city",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "city",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "city",
+            "before": 6,
+            "after": 6,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          }
+        ],
+        "indirect_metrics": [],
+        "affected_dependency_checks": [],
+        "potentially_resolved_issue_ids": [
+          "iss_d6a37e77aa98"
+        ],
+        "remaining_issue_ids": [
+          "iss_28d65132da2f",
+          "iss_b30c11afa294",
+          "iss_3bef3e916ad8",
+          "iss_6e2b6f107202",
+          "iss_6c4522828891",
+          "iss_643202f30593",
+          "iss_7c43107ea80b",
+          "iss_5a360421005f",
+          "iss_3c0192da910f",
+          "iss_9d9acde4ec18",
+          "iss_6fa72bba016d"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "low",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the format_only limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level low follows deterministic proposal class format_only and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    },
+    {
+      "cells_changed": 0,
+      "rows_affected": 1,
+      "rows_removed": 1,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0005001250312578145,
+        "quantity.mean_relative": 0.0005003753440861554,
+        "quantity.count_change": -1,
+        "total.sum_relative": 0.0003331394646726419,
+        "total.mean_relative": 0.0006665273958626576,
+        "total.count_change": -1,
+        "unit_price.sum_relative": 0.00010170189648611472,
+        "unit_price.mean_relative": 0.0008981964016174007,
+        "unit_price.count_change": -1,
+        "row_count_change": -1
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 1000,
+          "threshold": 1000,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 4,
+          "threshold": 4,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the destructive limit.",
+          "observed": 0.0008981964016174007,
+          "threshold": 0.1,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_8e687c93de99",
+        "direct_row_ids": [
+          "row_1001"
+        ],
+        "direct_cells": 0,
+        "direct_columns": [
+          "category",
+          "city",
+          "email",
+          "note",
+          "order_date",
+          "order_id",
+          "quantity",
+          "ship_date",
+          "total",
+          "unit_price"
+        ],
+        "direct_metrics": [
+          {
+            "metric": "missing_count",
+            "column": "category",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "category",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "category",
+            "before": 2,
+            "after": 2,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "missing_count",
+            "column": "city",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "city",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "city",
+            "before": 6,
+            "after": 6,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "missing_count",
+            "column": "email",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "email",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "email",
+            "before": 1000,
+            "after": 1000,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "missing_count",
+            "column": "note",
+            "before": 1,
+            "after": 1,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "note",
+            "before": 0.000999000999000999,
+            "after": 0.001,
+            "change": 9.990009990010207e-07,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "note",
+            "before": 3,
+            "after": 3,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "missing_count",
+            "column": "order_id",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "order_id",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "order_id",
+            "before": 1000,
+            "after": 1000,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          }
+        ],
+        "indirect_metrics": [
+          {
+            "metric": "mean",
+            "column": "quantity",
+            "before": 3.999,
+            "after": 4.001001001001001,
+            "change": 0.0020010010010005352,
+            "relationship": "measured_dependency",
+            "support": [
+              "explicit supported dependency; no correlation-based inference"
+            ]
+          },
+          {
+            "metric": "sum",
+            "column": "quantity",
+            "before": 3999.0,
+            "after": 3997.0,
+            "change": -2.0,
+            "relationship": "measured_dependency",
+            "support": [
+              "explicit supported dependency; no correlation-based inference"
+            ]
+          },
+          {
+            "metric": "mean",
+            "column": "total",
+            "before": 719.6993006993007,
+            "after": 720.179,
+            "change": 0.4796993006992807,
+            "relationship": "measured_dependency",
+            "support": [
+              "explicit supported dependency; no correlation-based inference"
+            ]
+          },
+          {
+            "metric": "sum",
+            "column": "total",
+            "before": 720419.0,
+            "after": 720179.0,
+            "change": -240.0,
+            "relationship": "measured_dependency",
+            "support": [
+              "explicit supported dependency; no correlation-based inference"
+            ]
+          },
+          {
+            "metric": "mean",
+            "column": "unit_price",
+            "before": 1178.7402597402597,
+            "after": 1179.799,
+            "change": 1.0587402597402615,
+            "relationship": "measured_dependency",
+            "support": [
+              "explicit supported dependency; no correlation-based inference"
+            ]
+          },
+          {
+            "metric": "sum",
+            "column": "unit_price",
+            "before": 1179919.0,
+            "after": 1179799.0,
+            "change": -120.0,
+            "relationship": "measured_dependency",
+            "support": [
+              "explicit supported dependency; no correlation-based inference"
+            ]
+          },
+          {
+            "metric": "business_rule_violations",
+            "column": "dataset",
+            "before": 4,
+            "after": 4,
+            "change": 0,
+            "relationship": "measured_dependency",
+            "support": [
+              "existing deterministic cross-column business rules evaluated on both frames"
+            ]
+          }
+        ],
+        "affected_dependency_checks": [
+          "order_date -> quantity: explicit supported relationship",
+          "order_date -> unit_price: explicit supported relationship",
+          "order_date -> total: explicit supported relationship",
+          "order_date -> ship_date: explicit supported relationship",
+          "quantity -> unit_price: explicit supported relationship",
+          "quantity -> total: explicit supported relationship",
+          "quantity -> order_date: explicit supported relationship",
+          "quantity -> ship_date: explicit supported relationship",
+          "ship_date -> quantity: explicit supported relationship",
+          "ship_date -> unit_price: explicit supported relationship",
+          "ship_date -> total: explicit supported relationship",
+          "ship_date -> order_date: explicit supported relationship",
+          "total -> quantity: explicit supported relationship",
+          "total -> unit_price: explicit supported relationship",
+          "total -> order_date: explicit supported relationship",
+          "total -> ship_date: explicit supported relationship",
+          "unit_price -> quantity: explicit supported relationship",
+          "unit_price -> total: explicit supported relationship",
+          "unit_price -> order_date: explicit supported relationship",
+          "unit_price -> ship_date: explicit supported relationship",
+          "configured cross-column business rules"
+        ],
+        "potentially_resolved_issue_ids": [
+          "iss_b30c11afa294"
+        ],
+        "remaining_issue_ids": [
+          "iss_28d65132da2f",
+          "iss_3bef3e916ad8",
+          "iss_d6a37e77aa98",
+          "iss_6e2b6f107202",
+          "iss_6c4522828891",
+          "iss_643202f30593",
+          "iss_7c43107ea80b",
+          "iss_5a360421005f",
+          "iss_3c0192da910f",
+          "iss_9d9acde4ec18",
+          "iss_6fa72bba016d"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "high",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1000,
+            "threshold": 1000,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the destructive limit.",
+            "observed": 0.0008981964016174007,
+            "threshold": 0.1,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level high follows deterministic proposal class destructive and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    },
+    {
+      "cells_changed": 1,
+      "rows_affected": 1,
+      "rows_removed": 0,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0,
+        "quantity.mean_relative": 0.0,
+        "quantity.count_change": 0,
+        "total.sum_relative": 0.0,
+        "total.mean_relative": 0.0,
+        "total.count_change": 0,
+        "unit_price.sum_relative": 0.0,
+        "unit_price.mean_relative": 0.0,
+        "unit_price.count_change": 0,
+        "row_count_change": 0
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [
+        {
+          "row_id": "row_90",
+          "column": "city",
+          "before": "BENGALURU ",
+          "after": "Bengaluru",
+          "was_valid": false
+        }
+      ],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 1001,
+          "threshold": 1001,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 4,
+          "threshold": 4,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_c675e5bd6b52",
+        "direct_row_ids": [
+          "row_90"
+        ],
+        "direct_cells": 1,
+        "direct_columns": [
+          "city"
+        ],
+        "direct_metrics": [
+          {
+            "metric": "missing_count",
+            "column": "city",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "city",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "city",
+            "before": 6,
+            "after": 5,
+            "change": -1,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          }
+        ],
+        "indirect_metrics": [],
+        "affected_dependency_checks": [],
+        "potentially_resolved_issue_ids": [
+          "iss_3bef3e916ad8",
+          "iss_d6a37e77aa98"
+        ],
+        "remaining_issue_ids": [
+          "iss_28d65132da2f",
+          "iss_b30c11afa294",
+          "iss_6e2b6f107202",
+          "iss_6c4522828891",
+          "iss_643202f30593",
+          "iss_7c43107ea80b",
+          "iss_5a360421005f",
+          "iss_3c0192da910f",
+          "iss_9d9acde4ec18",
+          "iss_6fa72bba016d"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "moderate",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    }
+  ],
+  "gate_outcomes": {
+    "prp_1224985a2d16": "needs_approval",
+    "prp_19d0c1d739a5": "refused",
+    "prp_48edb6359caf": "auto_apply",
+    "prp_844a0bcdead8": "auto_apply",
+    "prp_8e687c93de99": "needs_approval",
+    "prp_c675e5bd6b52": "needs_approval"
+  },
+  "proposal_decisions": [
+    {
+      "proposal_id": "prp_1224985a2d16",
+      "proposal_version": 1,
+      "status": "applied",
+      "gate_decision": "needs_approval",
+      "decision_history": [
+        {
+          "previous_state": "pending",
+          "new_state": "approved",
+          "action": "approve",
+          "timestamp": "2026-11-19T21:17:27.286363Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": null,
+          "suggested_value": null,
+          "operation_id": null,
+          "prior_proposal": null
+        },
+        {
+          "previous_state": "approved",
+          "new_state": "applied",
+          "action": "apply",
+          "timestamp": "2026-11-19T21:17:27.349273Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": "",
+          "suggested_value": null,
+          "operation_id": "op_51a3cf0beefd4edd894a84f78cd6ea48",
+          "prior_proposal": null
+        }
+      ]
+    },
+    {
+      "proposal_id": "prp_19d0c1d739a5",
+      "proposal_version": 1,
+      "status": "refused",
+      "gate_decision": "refused",
+      "decision_history": []
+    },
+    {
+      "proposal_id": "prp_48edb6359caf",
+      "proposal_version": 1,
+      "status": "applied",
+      "gate_decision": "auto_apply",
+      "decision_history": [
+        {
+          "previous_state": "pending",
+          "new_state": "applied",
+          "action": "apply",
+          "timestamp": "2026-11-19T21:17:27.349273Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": "2026-01-14",
+          "suggested_value": null,
+          "operation_id": "op_02b16d5f03d4434e8229bf0099296920",
+          "prior_proposal": null
+        }
+      ]
+    },
+    {
+      "proposal_id": "prp_844a0bcdead8",
+      "proposal_version": 1,
+      "status": "pending",
+      "gate_decision": "auto_apply",
+      "decision_history": []
+    },
+    {
+      "proposal_id": "prp_8e687c93de99",
+      "proposal_version": 1,
+      "status": "applied",
+      "gate_decision": "needs_approval",
+      "decision_history": [
+        {
+          "previous_state": "pending",
+          "new_state": "approved",
+          "action": "approve",
+          "timestamp": "2026-11-19T21:17:27.304593Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": null,
+          "suggested_value": null,
+          "operation_id": null,
+          "prior_proposal": null
+        },
+        {
+          "previous_state": "approved",
+          "new_state": "applied",
+          "action": "apply",
+          "timestamp": "2026-11-19T21:17:27.349273Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": null,
+          "suggested_value": null,
+          "operation_id": "op_7012e11f08c146cc93f54a31e48c10db",
+          "prior_proposal": null
+        }
+      ]
+    },
+    {
+      "proposal_id": "prp_c675e5bd6b52",
+      "proposal_version": 1,
+      "status": "applied",
+      "gate_decision": "needs_approval",
+      "decision_history": [
+        {
+          "previous_state": "pending",
+          "new_state": "approved",
+          "action": "approve",
+          "timestamp": "2026-11-19T21:17:27.322814Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": null,
+          "suggested_value": null,
+          "operation_id": null,
+          "prior_proposal": null
+        },
+        {
+          "previous_state": "approved",
+          "new_state": "applied",
+          "action": "apply",
+          "timestamp": "2026-11-19T21:17:27.349273Z",
+          "proposal_version": 1,
+          "reason": null,
+          "original_value": null,
+          "edited_value": "Bengaluru",
+          "suggested_value": null,
+          "operation_id": "op_b83dbe55e11f4892a0f7f34eab7bc0d2",
+          "prior_proposal": null
+        }
+      ]
+    }
+  ],
+  "exported_artifact_sha256": {
+    "cleaned": "d2dfcedbcae047f73cfa0f0ee579efbfa2f3d2484a34fb8f8aabff0599920507",
+    "report": "c1c855bb7a434ac1a86b207fe6f4209d147b9715bc52e8397cb5a99b96e5b35b",
+    "log": "0cee539fe5a54e1b29495763fbf3d266ba5231dae74732b8a8387c2a4be05bb1",
+    "recipe": "b9a38f55e1e2ebc5bdc1a27a6821e93f566243ea866d755000b3ebcb4a4f6c25"
+  },
+  "verification_status": "verified",
+  "replay_hash": "a33eced958b430455dbc8b92413e727d71508461ced65801842cd0707869f052",
+  "replay_matches": true,
+  "benchmark_version": null,
+  "limitations": [
+    "Passport is an integrity summary, not a guarantee of universal correctness.",
+    "Dataset checks are limited to implemented deterministic rules.",
+    "No cryptographic signature is applied.",
+    "exported_artifact_sha256 covers cleaned, report, log, and recipe exports; passport_sha256 covers the canonical passport payload."
+  ],
+  "unresolved_count": 8,
+  "abstained_repairs": 1,
+  "llm_enabled": true
+}

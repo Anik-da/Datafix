@@ -1,0 +1,46 @@
+{
+  "input_sha256": "4c54ce8451fea0518ced50caa138e5443684cd7465da381087ae38b94d924393",
+  "operations": [
+    {
+      "seq": 1,
+      "op_id": "op_fc3b2ecfcddc469b89b08efe62c11b43",
+      "proposal_id": "prp_23fef9778305",
+      "op": "manual_edit",
+      "column": "note",
+      "params": {
+        "op": "manual_edit",
+        "row_id": "row_2",
+        "expected_value": "N/A",
+        "value": "standard",
+        "reason": "Reviewed manually in Repair Studio."
+      }
+    },
+    {
+      "seq": 2,
+      "op_id": "op_db679fe89abd493dae2be6c4fe6967ef",
+      "proposal_id": "prp_1fbef6ad4195",
+      "op": "normalize_date",
+      "column": "ship_date",
+      "params": {
+        "op": "normalize_date",
+        "target_format": "YYYY-MM-DD",
+        "row_values": {
+          "row_12": "2026-01-14"
+        }
+      }
+    },
+    {
+      "seq": 3,
+      "op_id": "op_51c3183bbb8b420082f027f335dbac2f",
+      "proposal_id": "prp_6a9177e95433",
+      "op": "trim_text",
+      "column": "city",
+      "params": {
+        "op": "trim_text",
+        "row_values": {
+          "row_5": "BENGALURU"
+        }
+      }
+    }
+  ]
+}

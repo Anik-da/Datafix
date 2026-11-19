@@ -1,0 +1,20 @@
+{
+  "format": "xlsx",
+  "selected_worksheet": "Orders",
+  "worksheets": [
+    "Orders",
+    "Summary",
+    "Notes"
+  ],
+  "known_errors": [
+    "missing values",
+    "exact duplicate row",
+    "invalid email/date values",
+    "category case/whitespace variant",
+    "numeric anomaly",
+    "quantity \u00d7 unit_price total inconsistency"
+  ],
+  "original_sha256": "12b241f52604c78e722c556ca036b0fb9ea6019e697fabb98175c8e5458bd4ca",
+  "formula_check": "Summary!B1 must remain =COUNTA(Orders!A2:A32)",
+  "preservation_check": "Notes sheet and Orders!C6 fill style remain unchanged"
+}

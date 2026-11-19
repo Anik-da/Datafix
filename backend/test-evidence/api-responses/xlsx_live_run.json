@@ -1,0 +1,41 @@
+{
+  "run_id": "b3163854-c612-43bc-848e-b947e94b4fb6",
+  "file": "C:\\Users\\anikd\\OneDrive\\Documents\\ChatGPT\\Datafix\\backend\\test-evidence\\sample-inputs\\datafix_dirty_workbook.xlsx",
+  "stages": {
+    "health": 200,
+    "worksheet_list": 200,
+    "upload": 201,
+    "analysis": 200,
+    "manual_edit": 200,
+    "approval": 200,
+    "apply": 200,
+    "verification": 200,
+    "cleaned_export": 200,
+    "passport": 200
+  },
+  "original_sha256": "12b241f52604c78e722c556ca036b0fb9ea6019e697fabb98175c8e5458bd4ca",
+  "selected_worksheet": "Orders",
+  "worksheets": [
+    "Orders",
+    "Summary",
+    "Notes"
+  ],
+  "issues": 12,
+  "proposals": 5,
+  "edited_proposal_id": "prp_273b2cc9dfef",
+  "revision": 2,
+  "gate": "needs_approval",
+  "applied_operations": 2,
+  "replay_match": true,
+  "cleaned_sha256": "5e7e8aaef091aa015b35583671f0434e2dc3413df42279599e35694c48011e7d",
+  "cleaned_content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "worksheet_names_preserved": [
+    "Orders",
+    "Summary",
+    "Notes"
+  ],
+  "summary_formula_preserved": "=COUNTA(Orders!A2:A32)",
+  "unaffected_notes_preserved": "Keep this content",
+  "style_preserved": "00FFFF00",
+  "passport_verified": "verified"
+}

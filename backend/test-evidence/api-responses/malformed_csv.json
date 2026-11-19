@@ -1,0 +1,15 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs",
+  "status_code": 400,
+  "response": {
+    "code": "malformed_csv",
+    "message": "A row has a different number of fields than the header.",
+    "details": {
+      "line": 2,
+      "expected_fields": 2,
+      "actual_fields": 1
+    },
+    "request_id": "d830025b-347c-40d5-89e2-81a7af645af4"
+  }
+}

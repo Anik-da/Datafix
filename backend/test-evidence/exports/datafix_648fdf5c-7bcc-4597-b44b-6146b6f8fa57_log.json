@@ -1,0 +1,24 @@
+[
+  {
+    "row_id": "row_90",
+    "column": "city",
+    "before": "BENGALURU ",
+    "after": "Bengaluru",
+    "action": "cell_changed",
+    "op_id": "op_d5e2c196ba754adeb62656fea6bd2f0a",
+    "proposal_id": "prp_b8e72a5780c4",
+    "decided_by": "user",
+    "applied_at": "2026-11-19T13:14:56.290466+00:00"
+  },
+  {
+    "row_id": "row_70",
+    "column": "ship_date",
+    "before": "Jan 14, 2026",
+    "after": "2026-01-14",
+    "action": "cell_changed",
+    "op_id": "op_3c3a15fcbae541ad915248160d4ee66c",
+    "proposal_id": "prp_a5f2293ac70c",
+    "decided_by": "auto",
+    "applied_at": "2026-11-19T13:14:56.290466+00:00"
+  }
+]

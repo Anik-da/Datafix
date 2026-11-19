@@ -1,0 +1,11 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs",
+  "status_code": 415,
+  "response": {
+    "code": "unsupported_format",
+    "message": "Only .csv uploads are supported.",
+    "details": {},
+    "request_id": "7b5a916f-278e-4cf0-ac57-06d5b759cd48"
+  }
+}

@@ -1,0 +1,683 @@
+{
+  "run": {
+    "id": "cc946edb-a356-4bb9-b408-86c4b00cca85",
+    "filename": "orders_clean_truth.csv",
+    "row_count": 1000,
+    "column_count": 14,
+    "file_sha256": "bdc6178bfcb34cabf581b7c03a4e31bb9107cc9f16376b71459a7165338eb8d1",
+    "status": "analyzed",
+    "engine_version": "0.1.0",
+    "format_metadata": {
+      "format": "csv",
+      "encoding": "utf-8",
+      "delimiter": ","
+    }
+  },
+  "profile": {
+    "row_count": 1000,
+    "column_count": 14,
+    "dataset_size_bytes": 143902,
+    "duplicate_record_count": 0,
+    "total_missing_cells": 0,
+    "total_distinct_values": 6083,
+    "columns": [
+      {
+        "name": "order_id",
+        "inferred_type": "string",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 1000,
+        "is_key_candidate": true,
+        "most_frequent": [],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "customer_id",
+        "inferred_type": "string",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 500,
+        "is_key_candidate": false,
+        "most_frequent": [],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "customer_name",
+        "inferred_type": "string",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 500,
+        "is_key_candidate": false,
+        "most_frequent": [],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "email",
+        "inferred_type": "string",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 500,
+        "is_key_candidate": false,
+        "most_frequent": [],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "phone",
+        "inferred_type": "string",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 1000,
+        "is_key_candidate": true,
+        "most_frequent": [],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "city",
+        "inferred_type": "category",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 8,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "Bengaluru",
+            "count": 125
+          },
+          {
+            "value": "Bangalore",
+            "count": 125
+          },
+          {
+            "value": "Delhi",
+            "count": 125
+          },
+          {
+            "value": "Mumbai",
+            "count": 125
+          },
+          {
+            "value": "Pune",
+            "count": 125
+          }
+        ],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [
+          {
+            "value": "Bengaluru",
+            "count": 125
+          },
+          {
+            "value": "Bangalore",
+            "count": 125
+          },
+          {
+            "value": "Delhi",
+            "count": 125
+          },
+          {
+            "value": "Mumbai",
+            "count": 125
+          },
+          {
+            "value": "Pune",
+            "count": 125
+          }
+        ],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "pincode",
+        "inferred_type": "category",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 8,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "560001",
+            "count": 125
+          },
+          {
+            "value": "560002",
+            "count": 125
+          },
+          {
+            "value": "110001",
+            "count": 125
+          },
+          {
+            "value": "400001",
+            "count": 125
+          },
+          {
+            "value": "411001",
+            "count": 125
+          }
+        ],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [
+          {
+            "value": "560001",
+            "count": 125
+          },
+          {
+            "value": "560002",
+            "count": 125
+          },
+          {
+            "value": "110001",
+            "count": 125
+          },
+          {
+            "value": "400001",
+            "count": 125
+          },
+          {
+            "value": "411001",
+            "count": 125
+          }
+        ],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "order_date",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 287,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "2025-10-08",
+            "count": 9
+          },
+          {
+            "value": "2025-08-14",
+            "count": 8
+          },
+          {
+            "value": "2025-05-20",
+            "count": 8
+          },
+          {
+            "value": "2025-06-10",
+            "count": 8
+          },
+          {
+            "value": "2025-02-16",
+            "count": 8
+          }
+        ],
+        "minimum": "2025-01-01T00:00:00",
+        "maximum": "2025-10-27T00:00:00",
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "ship_date",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 298,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "2025-03-18",
+            "count": 9
+          },
+          {
+            "value": "2025-09-12",
+            "count": 8
+          },
+          {
+            "value": "2025-03-13",
+            "count": 8
+          },
+          {
+            "value": "2025-10-13",
+            "count": 8
+          },
+          {
+            "value": "2025-09-08",
+            "count": 7
+          }
+        ],
+        "minimum": "2025-01-03T00:00:00",
+        "maximum": "2025-11-04T00:00:00",
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "category",
+        "inferred_type": "category",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 4,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "Books",
+            "count": 250
+          },
+          {
+            "value": "Electronics",
+            "count": 250
+          },
+          {
+            "value": "Home",
+            "count": 250
+          },
+          {
+            "value": "Sports",
+            "count": 250
+          }
+        ],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [
+          {
+            "value": "Books",
+            "count": 250
+          },
+          {
+            "value": "Electronics",
+            "count": 250
+          },
+          {
+            "value": "Home",
+            "count": 250
+          },
+          {
+            "value": "Sports",
+            "count": 250
+          }
+        ],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "quantity",
+        "inferred_type": "number",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 6,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "2",
+            "count": 218
+          },
+          {
+            "value": "3",
+            "count": 208
+          },
+          {
+            "value": "1",
+            "count": 201
+          },
+          {
+            "value": "5",
+            "count": 188
+          },
+          {
+            "value": "4",
+            "count": 184
+          }
+        ],
+        "minimum": 1.0,
+        "maximum": 40.0,
+        "mean": 2.977,
+        "median": 3.0,
+        "standard_deviation": 1.8247741780288325,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "unit_price",
+        "inferred_type": "number",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 980,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "145.83",
+            "count": 2
+          },
+          {
+            "value": "103.10",
+            "count": 2
+          },
+          {
+            "value": "239.95",
+            "count": 2
+          },
+          {
+            "value": "194.69",
+            "count": 2
+          },
+          {
+            "value": "13.88",
+            "count": 2
+          }
+        ],
+        "minimum": 8.05,
+        "maximum": 249.32,
+        "mean": 131.39961,
+        "median": 132.765,
+        "standard_deviation": 71.13926532245408,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "total",
+        "inferred_type": "number",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 988,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "232.95",
+            "count": 2
+          },
+          {
+            "value": "861.80",
+            "count": 2
+          },
+          {
+            "value": "461.82",
+            "count": 2
+          },
+          {
+            "value": "478.20",
+            "count": 2
+          },
+          {
+            "value": "150.80",
+            "count": 2
+          }
+        ],
+        "minimum": 9.48,
+        "maximum": 6909.6,
+        "mean": 393.04554,
+        "median": 305.36,
+        "standard_deviation": 360.6649948398253,
+        "category_distribution": [],
+        "format_consistency": 1.0
+      },
+      {
+        "name": "status",
+        "inferred_type": "category",
+        "null_count": 0,
+        "null_pct": 0.0,
+        "distinct_count": 4,
+        "is_key_candidate": false,
+        "most_frequent": [
+          {
+            "value": "shipped",
+            "count": 250
+          },
+          {
+            "value": "processing",
+            "count": 250
+          },
+          {
+            "value": "delivered",
+            "count": 250
+          },
+          {
+            "value": "cancelled",
+            "count": 250
+          }
+        ],
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "median": null,
+        "standard_deviation": null,
+        "category_distribution": [
+          {
+            "value": "shipped",
+            "count": 250
+          },
+          {
+            "value": "processing",
+            "count": 250
+          },
+          {
+            "value": "delivered",
+            "count": 250
+          },
+          {
+            "value": "cancelled",
+            "count": 250
+          }
+        ],
+        "format_consistency": 1.0
+      }
+    ]
+  },
+  "issues": [
+    {
+      "id": "iss_3c76e3cc71d1",
+      "category": "anomaly",
+      "title": "IQR statistical outliers",
+      "column": "total",
+      "description": "The single affected row exceeds the upper IQR bound (1240.57). With only one outlier, this suggests a legitimate extreme value rather than systematic unit mismatch or widespread entry errors.",
+      "affected_rows": 1,
+      "affected_cells": 1,
+      "affected_row_ids": [
+        "row_131"
+      ],
+      "evidence": [
+        {
+          "kind": "statistic",
+          "label": "IQR outlier detection",
+          "detail": "Bounds are Q1 \u2212 1.5\u00d7IQR and Q3 + 1.5\u00d7IQR.",
+          "metrics": {
+            "q1": 148.035,
+            "q3": 585.05,
+            "iqr": 437.015,
+            "lower_bound": -507.48750000000007,
+            "upper_bound": 1240.5725
+          },
+          "examples": [
+            "6909.60"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_131"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_d5318669e5",
+          "statement": "unit mismatch or entry error.",
+          "evidence_labels": [
+            "IQR outlier detection"
+          ]
+        },
+        {
+          "id": "hyp_d4f6aaa1d3",
+          "statement": "legitimate extreme value.",
+          "evidence_labels": [
+            "IQR outlier detection"
+          ]
+        }
+      ],
+      "pattern": {
+        "fingerprint_id": "fp_7bd597eed4218476",
+        "title": "Anomaly pattern",
+        "explanation": "This signature groups issues by detector category, inferred column type and normalized issue shape; it does not establish that a repair is correct.",
+        "support_count": 1,
+        "column_type": "number",
+        "error_type": "statistical_or_rule_anomaly",
+        "value_shape": "numeric_or_rule_outlier",
+        "format_pattern": null,
+        "frequency_count": 1,
+        "supporting_rule_ids": [
+          "detector:anomaly:affected_row_references",
+          "detector:anomaly:iqr_outlier_detection"
+        ],
+        "match_method": "exact_signature",
+        "evidence": [
+          "IQR outlier detection: 1 affected observations",
+          "Affected row references: 1 affected observations"
+        ],
+        "suggested_strategy": "review as an outlier; do not assume it is invalid",
+        "limitations": [
+          "Signature contains no raw cell values.",
+          "Matches are scoped to this issue shape, not prior user approvals.",
+          "Current-run simulation and Safety Gate remain required."
+        ]
+      }
+    },
+    {
+      "id": "iss_a9b1d8c71b25",
+      "category": "anomaly",
+      "title": "IQR statistical outliers",
+      "column": "quantity",
+      "description": "Only one row exceeds the upper bound of 7.0. A single isolated outlier in quantity data typically indicates a legitimate extreme value rather than a systematic unit mismatch or widespread entry error.",
+      "affected_rows": 1,
+      "affected_cells": 1,
+      "affected_row_ids": [
+        "row_131"
+      ],
+      "evidence": [
+        {
+          "kind": "statistic",
+          "label": "IQR outlier detection",
+          "detail": "Bounds are Q1 \u2212 1.5\u00d7IQR and Q3 + 1.5\u00d7IQR.",
+          "metrics": {
+            "q1": 2.0,
+            "q3": 4.0,
+            "iqr": 2.0,
+            "lower_bound": -1.0,
+            "upper_bound": 7.0
+          },
+          "examples": [
+            "40"
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_131"
+          ]
+        }
+      ],
+      "disposition": "flagged_only",
+      "diagnosis": [
+        {
+          "id": "hyp_e5d25e6793",
+          "statement": "unit mismatch or entry error.",
+          "evidence_labels": [
+            "IQR outlier detection"
+          ]
+        },
+        {
+          "id": "hyp_81fa24f63e",
+          "statement": "legitimate extreme value.",
+          "evidence_labels": [
+            "IQR outlier detection"
+          ]
+        }
+      ],
+      "pattern": {
+        "fingerprint_id": "fp_7bd597eed4218476",
+        "title": "Anomaly pattern",
+        "explanation": "This signature groups issues by detector category, inferred column type and normalized issue shape; it does not establish that a repair is correct.",
+        "support_count": 1,
+        "column_type": "number",
+        "error_type": "statistical_or_rule_anomaly",
+        "value_shape": "numeric_or_rule_outlier",
+        "format_pattern": null,
+        "frequency_count": 1,
+        "supporting_rule_ids": [
+          "detector:anomaly:affected_row_references",
+          "detector:anomaly:iqr_outlier_detection"
+        ],
+        "match_method": "exact_signature",
+        "evidence": [
+          "IQR outlier detection: 1 affected observations",
+          "Affected row references: 1 affected observations"
+        ],
+        "suggested_strategy": "review as an outlier; do not assume it is invalid",
+        "limitations": [
+          "Signature contains no raw cell values.",
+          "Matches are scoped to this issue shape, not prior user approvals.",
+          "Current-run simulation and Safety Gate remain required."
+        ]
+      }
+    }
+  ],
+  "proposals": [],
+  "summary": {
+    "issue_count": 2,
+    "proposal_count": 0,
+    "auto_apply_count": 0,
+    "needs_approval_count": 0,
+    "refused_count": 0
+  }
+}

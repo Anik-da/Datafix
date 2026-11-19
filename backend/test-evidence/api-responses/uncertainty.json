@@ -1,0 +1,324 @@
+{
+  "method": "GET",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/uncertainty?offset=0&limit=10",
+  "status_code": 200,
+  "response": {
+    "run_id": "648fdf5c-7bcc-4597-b44b-6146b6f8fa57",
+    "offset": 0,
+    "limit": 10,
+    "total_records": 1001,
+    "columns": [
+      {
+        "column": "order_id",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 3,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "quantity",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 1,
+        "invalid_rate": 0.000999000999000999,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "unit_price",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 1,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "anomaly",
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "total",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 3,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "city",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 6,
+        "inconsistent_rate": 0.005994005994005994,
+        "anomaly_count": 0,
+        "pending_proposals": 1,
+        "refused_proposals": 0,
+        "unresolved_issues": 6,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "inconsistent",
+          "relationship"
+        ]
+      },
+      {
+        "column": "email",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 1,
+        "invalid_rate": 0.000999000999000999,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "order_date",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 2,
+        "invalid_rate": 0.001998001998001998,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 1,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "ship_date",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 1,
+        "invalid_rate": 0.000999000999000999,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 1,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "category",
+        "total_records": 1001,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 3,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "note",
+        "total_records": 1001,
+        "missing_count": 2,
+        "missing_rate": 0.001998001998001998,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 4,
+        "inconsistent_rate": 0.003996003996003996,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "missing",
+          "relationship"
+        ]
+      }
+    ],
+    "records": [
+      {
+        "row_id": "row_1",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_2",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_3",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_4",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_5",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_6",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_7",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_8",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_9",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_10",
+        "state": "unresolved",
+        "issue_density": 1,
+        "columns": [
+          "note"
+        ],
+        "reasons": [
+          "Missing or placeholder values"
+        ],
+        "evidence_references": [
+          "iss_61a8782db2db"
+        ],
+        "confidence": null
+      }
+    ],
+    "calculation_notes": [
+      "Rates are measured counts divided by row count; overlapping issues can be counted in separate categories.",
+      "Record confidence is null because record-level correctness probability is not estimated.",
+      "verified_by_checks means the applied run replayed and the record has no remaining detector findings; it is not a universal correctness claim.",
+      "Rule coverage lists detector categories observed for the column, not complete domain validation."
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "row_id": "row_90",
+    "column": "city",
+    "before": "BENGALURU ",
+    "after": "Bengaluru",
+    "action": "cell_changed",
+    "op_id": "op_b83dbe55e11f4892a0f7f34eab7bc0d2",
+    "proposal_id": "prp_c675e5bd6b52",
+    "decided_by": "user",
+    "applied_at": "2026-11-19T21:17:27.349273+00:00"
+  },
+  {
+    "row_id": "row_70",
+    "column": "ship_date",
+    "before": "Jan 14, 2026",
+    "after": "2026-01-14",
+    "action": "cell_changed",
+    "op_id": "op_02b16d5f03d4434e8229bf0099296920",
+    "proposal_id": "prp_48edb6359caf",
+    "decided_by": "auto",
+    "applied_at": "2026-11-19T21:17:27.349273+00:00"
+  },
+  {
+    "row_id": "row_10",
+    "column": "note",
+    "before": "N/A",
+    "after": "",
+    "action": "cell_changed",
+    "op_id": "op_51a3cf0beefd4edd894a84f78cd6ea48",
+    "proposal_id": "prp_1224985a2d16",
+    "decided_by": "user",
+    "applied_at": "2026-11-19T21:17:27.349273+00:00"
+  },
+  {
+    "row_id": "row_1001",
+    "column": null,
+    "before": null,
+    "after": null,
+    "action": "row_removed",
+    "op_id": "op_7012e11f08c146cc93f54a31e48c10db",
+    "proposal_id": "prp_8e687c93de99",
+    "decided_by": "user",
+    "applied_at": "2026-11-19T21:17:27.349273+00:00"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/fb2213e4-e2e9-4d1e-a991-838ec0fae702/undo/op_32a363ac62184ba4957c8bc29b43f136",
+  "status_code": 200,
+  "response": {
+    "status": "undone",
+    "op_id": "op_32a363ac62184ba4957c8bc29b43f136",
+    "reason": null
+  }
+}

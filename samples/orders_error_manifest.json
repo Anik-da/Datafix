@@ -1,0 +1,210 @@
+{
+  "dataset": "DataFix synthetic e-commerce orders",
+  "seed": 20261119,
+  "tuning_seed": 7319,
+  "clean_rows": 1000,
+  "dirty_rows": 1001,
+  "columns": [
+    "order_id",
+    "customer_id",
+    "customer_name",
+    "email",
+    "phone",
+    "city",
+    "pincode",
+    "order_date",
+    "ship_date",
+    "category",
+    "quantity",
+    "unit_price",
+    "total",
+    "status"
+  ],
+  "synthetic_personal_data": true,
+  "errors": [
+    {
+      "error_id": "missing-customer-name",
+      "row_id": "row_11",
+      "source_row_id": "row_11",
+      "column": "customer_name",
+      "original_value": "Synthetic Customer 0006",
+      "injected_value": "",
+      "category": "missing",
+      "expected_outcome": "flag_or_abstain",
+      "detail": "Blank value has no safe inferred replacement."
+    },
+    {
+      "error_id": "placeholder-email",
+      "row_id": "row_21",
+      "source_row_id": "row_21",
+      "column": "email",
+      "original_value": "customer0011@example.test",
+      "injected_value": "N/A",
+      "category": "missing",
+      "expected_outcome": "needs_approval_or_flag",
+      "detail": "Configured placeholder is detected; substitution to null is not imputed."
+    },
+    {
+      "error_id": "placeholder-phone",
+      "row_id": "row_31",
+      "source_row_id": "row_31",
+      "column": "phone",
+      "original_value": "555010031",
+      "injected_value": "-",
+      "category": "missing",
+      "expected_outcome": "needs_approval_or_flag",
+      "detail": "Configured placeholder token."
+    },
+    {
+      "error_id": "invalid-email",
+      "row_id": "row_41",
+      "source_row_id": "row_41",
+      "column": "email",
+      "original_value": "customer0021@example.test",
+      "injected_value": "not-an-email",
+      "category": "invalid_format",
+      "expected_outcome": "flag_only",
+      "detail": "Conservative syntax detector; no guessed replacement."
+    },
+    {
+      "error_id": "invalid-quantity",
+      "row_id": "row_51",
+      "source_row_id": "row_51",
+      "column": "quantity",
+      "original_value": "5",
+      "injected_value": "several",
+      "category": "invalid_format",
+      "expected_outcome": "flag_only",
+      "detail": "Mostly numeric quantity column contains text."
+    },
+    {
+      "error_id": "mixed-date-format",
+      "row_id": "row_61",
+      "source_row_id": "row_61",
+      "column": "ship_date",
+      "original_value": "2025-08-13",
+      "injected_value": "13/08/2025",
+      "category": "invalid_format",
+      "expected_outcome": "auto_apply_if_simulation_passes",
+      "detail": "Unambiguous day-first representation of the clean truth date (day exceeds 12)."
+    },
+    {
+      "error_id": "ambiguous-order-date",
+      "row_id": "row_71",
+      "source_row_id": "row_71",
+      "column": "order_date",
+      "original_value": "2025-09-14",
+      "injected_value": "03/04/2025",
+      "category": "invalid_format",
+      "expected_outcome": "refuse_or_flag",
+      "detail": "Date may mean March 4 or April 3; locale is unknown."
+    },
+    {
+      "error_id": "city-case-whitespace",
+      "row_id": "row_81",
+      "source_row_id": "row_81",
+      "column": "city",
+      "original_value": "Bengaluru",
+      "injected_value": " bengaluru ",
+      "category": "inconsistent",
+      "expected_outcome": "needs_approval",
+      "detail": "Equivalent normalized category spelling."
+    },
+    {
+      "error_id": "category-case",
+      "row_id": "row_89",
+      "source_row_id": "row_89",
+      "column": "category",
+      "original_value": "Books",
+      "injected_value": "books",
+      "category": "inconsistent",
+      "expected_outcome": "needs_approval",
+      "detail": "Case-only category variant in a clean-truth Books row."
+    },
+    {
+      "error_id": "near-distinct-city",
+      "row_id": "row_101",
+      "source_row_id": "row_101",
+      "column": "city",
+      "original_value": "Pune",
+      "injected_value": "Bangaluru",
+      "category": "inconsistent",
+      "expected_outcome": "flag_only",
+      "detail": "Similar-looking value is kept distinct without evidence of equivalence."
+    },
+    {
+      "error_id": "arithmetic-inconsistency",
+      "row_id": "row_111",
+      "source_row_id": "row_111",
+      "column": "total",
+      "original_value": "62.16",
+      "injected_value": "99999.99",
+      "category": "relationship",
+      "expected_outcome": "flag_only",
+      "detail": "Quantity, price and total conflict; wrong source field is unknown."
+    },
+    {
+      "error_id": "date-order-inconsistency",
+      "row_id": "row_121",
+      "source_row_id": "row_121",
+      "column": "ship_date",
+      "original_value": "2025-01-14",
+      "injected_value": "2024-12-31",
+      "category": "relationship",
+      "expected_outcome": "flag_only",
+      "detail": "Ship date precedes order date; no correction is safe."
+    },
+    {
+      "error_id": "unrecoverable-missing-price",
+      "row_id": "row_141",
+      "source_row_id": "row_141",
+      "column": "unit_price",
+      "original_value": "44.87",
+      "injected_value": "",
+      "category": "missing",
+      "expected_outcome": "refuse_or_flag",
+      "detail": "No same-row or reliable functional-dependency evidence supports imputation."
+    },
+    {
+      "error_id": "exact-duplicate-row",
+      "row_id": "row_1001",
+      "source_row_id": "row_251",
+      "column": null,
+      "original_value": null,
+      "injected_value": "duplicate of complete row",
+      "category": "duplicate",
+      "expected_outcome": "needs_approval",
+      "detail": "Exact complete-row duplicate is destructive and requires approval."
+    }
+  ],
+  "preservation_cases": [
+    {
+      "row_id": "row_101",
+      "column": "city",
+      "value": "Pune",
+      "category": "inconsistent",
+      "expected": "Similar-looking distinct spelling remains unmapped."
+    },
+    {
+      "row_id": "row_131",
+      "column": "quantity",
+      "value": "40",
+      "category": "anomaly",
+      "expected": "IQR outlier is a correct clean-truth value and must be preserved."
+    },
+    {
+      "row_id": "row_131",
+      "column": "total",
+      "value": "6909.60",
+      "category": "anomaly",
+      "expected": "IQR outlier is a correct clean-truth value and must be preserved."
+    },
+    {
+      "row_id": "row_131",
+      "column": "quantity",
+      "value": "40",
+      "category": "anomaly",
+      "expected": "IQR outlier is flagged and preserved; total is consistent."
+    }
+  ]
+}

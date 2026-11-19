@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-20",
+  "request": "GET /rest/v1/datafix_runs?select=id&limit=0",
+  "credentials_present": true,
+  "secret_values_recorded": false,
+  "http_status": 404,
+  "error_code": "PGRST205",
+  "message": "Could not find the table 'public.datafix_runs' in the schema cache",
+  "storage_backend_configured": "local",
+  "database_lifecycle_test": "not_passed",
+  "storage_lifecycle_test": "not_run"
+}

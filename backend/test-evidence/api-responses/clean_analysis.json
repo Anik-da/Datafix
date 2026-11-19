@@ -1,0 +1,370 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/f7b7b3dd-a65d-4051-9249-cda1024a1bdc/analyze",
+  "status_code": 200,
+  "response": {
+    "run": {
+      "id": "f7b7b3dd-a65d-4051-9249-cda1024a1bdc",
+      "filename": "datafix_1000_clean.csv",
+      "row_count": 1000,
+      "column_count": 10,
+      "file_sha256": "c4052da6e244a18012db06015b2f936c1a73fae4dbe88f97f1e6bfc2a037ea00",
+      "status": "analyzed",
+      "engine_version": "0.1.0"
+    },
+    "profile": {
+      "row_count": 1000,
+      "column_count": 10,
+      "dataset_size_bytes": 85477,
+      "duplicate_record_count": 0,
+      "total_missing_cells": 0,
+      "total_distinct_values": 2125,
+      "columns": [
+        {
+          "name": "order_id",
+          "inferred_type": "string",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 1000,
+          "is_key_candidate": true,
+          "most_frequent": [],
+          "minimum": null,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "quantity",
+          "inferred_type": "number",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 7,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "2",
+              "count": 143
+            },
+            {
+              "value": "3",
+              "count": 143
+            },
+            {
+              "value": "4",
+              "count": 143
+            },
+            {
+              "value": "5",
+              "count": 143
+            },
+            {
+              "value": "6",
+              "count": 143
+            }
+          ],
+          "minimum": 1.0,
+          "maximum": 7.0,
+          "mean": 4.003,
+          "median": 4.0,
+          "standard_deviation": 1.999747481556106,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "unit_price",
+          "inferred_type": "number",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 9,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "120",
+              "count": 112
+            },
+            {
+              "value": "140",
+              "count": 111
+            },
+            {
+              "value": "160",
+              "count": 111
+            },
+            {
+              "value": "180",
+              "count": 111
+            },
+            {
+              "value": "200",
+              "count": 111
+            }
+          ],
+          "minimum": 100.0,
+          "maximum": 260.0,
+          "mean": 179.94,
+          "median": 180.0,
+          "standard_deviation": 51.67462304329531,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "total",
+          "inferred_type": "number",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 48,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "480",
+              "count": 48
+            },
+            {
+              "value": "720",
+              "count": 48
+            },
+            {
+              "value": "600",
+              "count": 48
+            },
+            {
+              "value": "240",
+              "count": 32
+            },
+            {
+              "value": "1200",
+              "count": 32
+            }
+          ],
+          "minimum": 100.0,
+          "maximum": 1820.0,
+          "mean": 719.5,
+          "median": 660.0,
+          "standard_deviation": 426.3636193860071,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "city",
+          "inferred_type": "category",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 4,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "Kolkata",
+              "count": 250
+            },
+            {
+              "value": "Delhi",
+              "count": 250
+            },
+            {
+              "value": "Pune",
+              "count": 250
+            },
+            {
+              "value": "Bengaluru",
+              "count": 250
+            }
+          ],
+          "minimum": null,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [
+            {
+              "value": "Kolkata",
+              "count": 250
+            },
+            {
+              "value": "Delhi",
+              "count": 250
+            },
+            {
+              "value": "Pune",
+              "count": 250
+            },
+            {
+              "value": "Bengaluru",
+              "count": 250
+            }
+          ],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "email",
+          "inferred_type": "string",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 1000,
+          "is_key_candidate": true,
+          "most_frequent": [],
+          "minimum": null,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "order_date",
+          "inferred_type": "date",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 27,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "2026-01-02",
+              "count": 38
+            },
+            {
+              "value": "2026-01-03",
+              "count": 37
+            },
+            {
+              "value": "2026-01-04",
+              "count": 37
+            },
+            {
+              "value": "2026-01-05",
+              "count": 37
+            },
+            {
+              "value": "2026-01-06",
+              "count": 37
+            }
+          ],
+          "minimum": "2026-01-01T00:00:00",
+          "maximum": "2026-01-27T00:00:00",
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "ship_date",
+          "inferred_type": "date",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 26,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "2026-01-28",
+              "count": 74
+            },
+            {
+              "value": "2026-01-04",
+              "count": 38
+            },
+            {
+              "value": "2026-01-05",
+              "count": 37
+            },
+            {
+              "value": "2026-01-06",
+              "count": 37
+            },
+            {
+              "value": "2026-01-07",
+              "count": 37
+            }
+          ],
+          "minimum": "2026-01-03T00:00:00",
+          "maximum": "2026-01-28T00:00:00",
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "category",
+          "inferred_type": "category",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 2,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "Books",
+              "count": 500
+            },
+            {
+              "value": "Games",
+              "count": 500
+            }
+          ],
+          "minimum": null,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [
+            {
+              "value": "Books",
+              "count": 500
+            },
+            {
+              "value": "Games",
+              "count": 500
+            }
+          ],
+          "format_consistency": 1.0
+        },
+        {
+          "name": "note",
+          "inferred_type": "category",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "distinct_count": 2,
+          "is_key_candidate": false,
+          "most_frequent": [
+            {
+              "value": "standard",
+              "count": 667
+            },
+            {
+              "value": "priority",
+              "count": 333
+            }
+          ],
+          "minimum": null,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "standard_deviation": null,
+          "category_distribution": [
+            {
+              "value": "standard",
+              "count": 667
+            },
+            {
+              "value": "priority",
+              "count": 333
+            }
+          ],
+          "format_consistency": 1.0
+        }
+      ]
+    },
+    "issues": [],
+    "proposals": [],
+    "summary": {
+      "issue_count": 0,
+      "proposal_count": 0,
+      "auto_apply_count": 0,
+      "needs_approval_count": 0,
+      "refused_count": 0
+    }
+  }
+}

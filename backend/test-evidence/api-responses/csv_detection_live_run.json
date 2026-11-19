@@ -1,0 +1,9 @@
+{
+  "run_id": "018ba89a-3f4e-4090-81f4-2adf27f2e4ff",
+  "upload_status": 201,
+  "analysis_status": 200,
+  "encoding_detected": "cp1252",
+  "delimiter_detected": ";",
+  "row_count": 2,
+  "original_hash_matches": true
+}

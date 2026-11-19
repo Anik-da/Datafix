@@ -1,0 +1,19 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/bulk-decisions",
+  "status_code": 200,
+  "response": {
+    "results": [
+      {
+        "proposal_id": "prp_7f4bbccf58d4",
+        "state": "rejected",
+        "reason": null
+      },
+      {
+        "proposal_id": "prp_d3a2c93081fa",
+        "state": "rejected",
+        "reason": null
+      }
+    ]
+  }
+}

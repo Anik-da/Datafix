@@ -1,0 +1,6 @@
+{
+  "code": "invalid_decision_state",
+  "message": "Only proposals that need approval can be approved or rejected.",
+  "details": {},
+  "request_id": "30534f5f-2f19-4007-ba37-9171b86ab7f3"
+}

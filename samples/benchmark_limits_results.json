@@ -1,0 +1,24 @@
+{
+  "row_limit_case": {
+    "rows": 50000,
+    "columns": 40,
+    "csv_size_bytes": 4250157,
+    "upload_status": 201,
+    "analysis_status": 200,
+    "issue_count": 0,
+    "proposal_count": 0
+  },
+  "column_limit_case": {
+    "rows": 1,
+    "columns": 60,
+    "csv_size_bytes": 358,
+    "upload_status": 201
+  },
+  "upload_limit_bytes": 5242880,
+  "row_limit": 50000,
+  "column_limit": 60,
+  "runtime_seconds": 15.707,
+  "peak_process_rss_mb": 233.3,
+  "llm_enabled": false,
+  "note": "Peak working set includes Python, pandas, TestClient and generated-input handling; Windows local measurement, not Render service memory. Maximum row and column dimensions are validated separately because 50,000 rows x 60 populated columns exceeds the 5 MiB upload cap."
+}

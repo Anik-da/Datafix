@@ -1,0 +1,1031 @@
+{
+  "source_fixture": "C:\\Users\\anikd\\OneDrive\\Documents\\ChatGPT\\Datafix\\backend\\tests\\fixtures\\datafix_dirty.csv",
+  "llm_enabled": false,
+  "stages": {
+    "health": {
+      "status_code": 200,
+      "ok": true
+    },
+    "upload": {
+      "status_code": 201,
+      "ok": true
+    },
+    "analysis": {
+      "status_code": 200,
+      "ok": true
+    },
+    "uncertainty": {
+      "status_code": 200,
+      "ok": true
+    },
+    "manual_edit": {
+      "status_code": 200,
+      "ok": true
+    },
+    "approval": {
+      "status_code": 200,
+      "ok": true
+    },
+    "apply": {
+      "status_code": 200,
+      "ok": true
+    },
+    "verification": {
+      "status_code": 200,
+      "ok": true
+    },
+    "passport": {
+      "status_code": 200,
+      "ok": true
+    },
+    "cleaned_export": {
+      "status_code": 200,
+      "ok": true
+    },
+    "operation_history": {
+      "status_code": 200,
+      "ok": true
+    }
+  },
+  "upload": {
+    "run_id": "2ba423f7-4400-430b-a8b7-1919a558bd58",
+    "original_sha256_expected": "4c54ce8451fea0518ced50caa138e5443684cd7465da381087ae38b94d924393",
+    "original_sha256_returned": "4c54ce8451fea0518ced50caa138e5443684cd7465da381087ae38b94d924393",
+    "row_count": 31,
+    "column_count": 10
+  },
+  "analysis": {
+    "issue_count": 12,
+    "proposal_count": 6,
+    "fingerprinted_issue_count": 12,
+    "fingerprint_sample": [
+      {
+        "fingerprint_id": "fp_6953ce291e94b335",
+        "title": "Inconsistent pattern",
+        "explanation": "This signature groups issues by detector category, inferred column type and normalized issue shape; it does not establish that a repair is correct.",
+        "support_count": 2,
+        "column_type": "category",
+        "error_type": "category_variant",
+        "value_shape": "case_or_whitespace_variant",
+        "format_pattern": "category_case_or_boundary_space",
+        "frequency_count": 2,
+        "supporting_rule_ids": [
+          "detector:inconsistent:affected_row_references",
+          "detector:inconsistent:string_similarity_candidates"
+        ],
+        "match_method": "exact_signature",
+        "evidence": [
+          "String similarity candidates: 2 affected observations",
+          "Affected row references: 2 affected observations"
+        ],
+        "suggested_strategy": "review canonical mapping candidates against current dataset evidence",
+        "limitations": [
+          "Signature contains no raw cell values.",
+          "Matches are scoped to this issue shape, not prior user approvals.",
+          "Current-run simulation and Safety Gate remain required."
+        ]
+      },
+      {
+        "fingerprint_id": "fp_0528dfb449387afe",
+        "title": "Relationship pattern",
+        "explanation": "This signature groups issues by detector category, inferred column type and normalized issue shape; it does not establish that a repair is correct.",
+        "support_count": 2,
+        "column_type": "unknown",
+        "error_type": "cross_column_rule",
+        "value_shape": "relationship_violation",
+        "format_pattern": null,
+        "frequency_count": 2,
+        "supporting_rule_ids": [
+          "detector:relationship:affected_row_references",
+          "detector:relationship:total_quantity_unit_price"
+        ],
+        "match_method": "exact_signature",
+        "evidence": [
+          "total = quantity × unit_price: 2 affected observations",
+          "Affected row references: 2 affected observations"
+        ],
+        "suggested_strategy": "inspect the supported cross-column rule and its affected rows",
+        "limitations": [
+          "Signature contains no raw cell values.",
+          "Matches are scoped to this issue shape, not prior user approvals.",
+          "Current-run simulation and Safety Gate remain required."
+        ]
+      },
+      {
+        "fingerprint_id": "fp_7bd597eed4218476",
+        "title": "Anomaly pattern",
+        "explanation": "This signature groups issues by detector category, inferred column type and normalized issue shape; it does not establish that a repair is correct.",
+        "support_count": 1,
+        "column_type": "number",
+        "error_type": "statistical_or_rule_anomaly",
+        "value_shape": "numeric_or_rule_outlier",
+        "format_pattern": null,
+        "frequency_count": 1,
+        "supporting_rule_ids": [
+          "detector:anomaly:affected_row_references",
+          "detector:anomaly:iqr_outlier_detection"
+        ],
+        "match_method": "exact_signature",
+        "evidence": [
+          "IQR outlier detection: 1 affected observations",
+          "Affected row references: 1 affected observations"
+        ],
+        "suggested_strategy": "review as an outlier; do not assume it is invalid",
+        "limitations": [
+          "Signature contains no raw cell values.",
+          "Matches are scoped to this issue shape, not prior user approvals.",
+          "Current-run simulation and Safety Gate remain required."
+        ]
+      }
+    ]
+  },
+  "uncertainty": {
+    "total_records": 31,
+    "columns": [
+      {
+        "column": "order_id",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 3,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "quantity",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 1,
+        "invalid_rate": 0.03225806451612903,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "unit_price",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 1,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "anomaly",
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "total",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 3,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "city",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 5,
+        "inconsistent_rate": 0.16129032258064516,
+        "anomaly_count": 0,
+        "pending_proposals": 2,
+        "refused_proposals": 0,
+        "unresolved_issues": 6,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "inconsistent",
+          "relationship"
+        ]
+      },
+      {
+        "column": "email",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 1,
+        "invalid_rate": 0.03225806451612903,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "order_date",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 2,
+        "invalid_rate": 0.06451612903225806,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 1,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "ship_date",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 1,
+        "invalid_rate": 0.03225806451612903,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 1,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "invalid_format",
+          "relationship"
+        ]
+      },
+      {
+        "column": "category",
+        "total_records": 31,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 0,
+        "refused_proposals": 0,
+        "unresolved_issues": 3,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "relationship"
+        ]
+      },
+      {
+        "column": "note",
+        "total_records": 31,
+        "missing_count": 2,
+        "missing_rate": 0.06451612903225806,
+        "invalid_count": 0,
+        "invalid_rate": 0.0,
+        "inconsistent_count": 3,
+        "inconsistent_rate": 0.0967741935483871,
+        "anomaly_count": 0,
+        "pending_proposals": 1,
+        "refused_proposals": 0,
+        "unresolved_issues": 4,
+        "evidence_available": true,
+        "confidence_available": false,
+        "rule_coverage": [
+          "duplicate",
+          "missing",
+          "relationship"
+        ]
+      }
+    ],
+    "records": [
+      {
+        "row_id": "row_1",
+        "state": "not_evaluated",
+        "issue_density": 0,
+        "columns": [],
+        "reasons": [],
+        "evidence_references": [],
+        "confidence": null
+      },
+      {
+        "row_id": "row_2",
+        "state": "pending_human_review",
+        "issue_density": 1,
+        "columns": [
+          "note"
+        ],
+        "reasons": [
+          "Missing or placeholder values"
+        ],
+        "evidence_references": [
+          "iss_75be0dd5adea"
+        ],
+        "confidence": null
+      },
+      {
+        "row_id": "row_3",
+        "state": "issue_detected",
+        "issue_density": 1,
+        "columns": [
+          "email"
+        ],
+        "reasons": [
+          "Invalid email format"
+        ],
+        "evidence_references": [
+          "iss_80d10096656b"
+        ],
+        "confidence": null
+      },
+      {
+        "row_id": "row_4",
+        "state": "refused_repair",
+        "issue_density": 1,
+        "columns": [
+          "order_date"
+        ],
+        "reasons": [
+          "Invalid or ambiguous date values"
+        ],
+        "evidence_references": [
+          "iss_ddf5f7b6ff06"
+        ],
+        "confidence": null
+      },
+      {
+        "row_id": "row_5",
+        "state": "pending_human_review",
+        "issue_density": 3,
+        "columns": [
+          "city"
+        ],
+        "reasons": [
+          "Similar but distinct category values",
+          "Equivalent category formatting variants",
+          "Leading or trailing whitespace"
+        ],
+        "evidence_references": [
+          "iss_08c6bb4c3299",
+          "iss_be3e0bd24e07",
+          "iss_ea2d2fdd7907"
+        ],
+        "confidence": null
+      }
+    ]
+  },
+  "rippleguard": {
+    "proposal_id": "prp_6bc1fa80c084",
+    "risk_level": "moderate",
+    "direct_cells": 1,
+    "direct_row_ids": [
+      "row_5"
+    ],
+    "resolved_issue_ids": [
+      "iss_be3e0bd24e07",
+      "iss_ea2d2fdd7907"
+    ],
+    "introduced_issue_ids": [],
+    "direct_metrics": [
+      {
+        "metric": "missing_count",
+        "column": "city",
+        "before": 0,
+        "after": 0,
+        "change": 0,
+        "relationship": "direct",
+        "support": [
+          "measured on original and temporary simulated data"
+        ]
+      },
+      {
+        "metric": "null_pct",
+        "column": "city",
+        "before": 0.0,
+        "after": 0.0,
+        "change": 0.0,
+        "relationship": "direct",
+        "support": [
+          "measured on original and temporary simulated data"
+        ]
+      },
+      {
+        "metric": "distinct_count",
+        "column": "city",
+        "before": 6,
+        "after": 5,
+        "change": -1,
+        "relationship": "direct",
+        "support": [
+          "measured on original and temporary simulated data"
+        ]
+      }
+    ],
+    "indirect_metrics": [],
+    "invariants": [
+      {
+        "name": "schema_and_types_preserved",
+        "status": "pass",
+        "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+        "observed": "preserved",
+        "threshold": "preserved",
+        "unit": null
+      },
+      {
+        "name": "row_count_policy",
+        "status": "pass",
+        "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+        "observed": 31,
+        "threshold": 31,
+        "unit": "rows"
+      },
+      {
+        "name": "candidate_keys_unique_non_null",
+        "status": "pass",
+        "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+        "observed": 0,
+        "threshold": 0,
+        "unit": "violations"
+      },
+      {
+        "name": "previously_valid_cells_preserved",
+        "status": "pass",
+        "detail": "Cells not flagged by the original detector set remain unchanged.",
+        "observed": 0,
+        "threshold": 0,
+        "unit": "cells"
+      },
+      {
+        "name": "business_rules_not_worsened",
+        "status": "pass",
+        "detail": "Explicit cross-column business-rule violations do not increase.",
+        "observed": 3,
+        "threshold": 3,
+        "unit": "violations"
+      },
+      {
+        "name": "functional_dependencies_not_worsened",
+        "status": "pass",
+        "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+        "observed": 0,
+        "threshold": 0,
+        "unit": "violations"
+      },
+      {
+        "name": "aggregate_drift_within_risk_limit",
+        "status": "pass",
+        "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+        "observed": 0.0,
+        "threshold": 0.05,
+        "unit": "relative fraction"
+      }
+    ],
+    "risk_explanations": [
+      "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+      "Safety Gate remains the final authority and evaluates the same invariant results."
+    ]
+  },
+  "manual_edit": {
+    "proposal_id": "prp_6bc1fa80c084",
+    "version": 2,
+    "status": "edited_pending_reapproval",
+    "gate_decision": "needs_approval",
+    "simulation": {
+      "cells_changed": 1,
+      "rows_affected": 1,
+      "rows_removed": 0,
+      "previously_valid_cells_changed": 0,
+      "aggregate_drift": {
+        "quantity.sum_relative": 0.0,
+        "quantity.mean_relative": 0.0,
+        "quantity.count_change": 0,
+        "total.sum_relative": 0.0,
+        "total.mean_relative": 0.0,
+        "total.count_change": 0,
+        "unit_price.sum_relative": 0.0,
+        "unit_price.mean_relative": 0.0,
+        "unit_price.count_change": 0,
+        "row_count_change": 0
+      },
+      "new_issues_introduced": 0,
+      "sample_diff": [
+        {
+          "row_id": "row_5",
+          "column": "city",
+          "before": "BENGALURU ",
+          "after": "Bengaluru",
+          "was_valid": false
+        }
+      ],
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 31,
+          "threshold": 31,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 3,
+          "threshold": 3,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "impact": {
+        "proposal_id": "prp_6bc1fa80c084",
+        "direct_row_ids": [
+          "row_5"
+        ],
+        "direct_cells": 1,
+        "direct_columns": [
+          "city"
+        ],
+        "direct_metrics": [
+          {
+            "metric": "missing_count",
+            "column": "city",
+            "before": 0,
+            "after": 0,
+            "change": 0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "null_pct",
+            "column": "city",
+            "before": 0.0,
+            "after": 0.0,
+            "change": 0.0,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          },
+          {
+            "metric": "distinct_count",
+            "column": "city",
+            "before": 6,
+            "after": 5,
+            "change": -1,
+            "relationship": "direct",
+            "support": [
+              "measured on original and temporary simulated data"
+            ]
+          }
+        ],
+        "indirect_metrics": [],
+        "affected_dependency_checks": [],
+        "potentially_resolved_issue_ids": [
+          "iss_be3e0bd24e07",
+          "iss_ea2d2fdd7907"
+        ],
+        "remaining_issue_ids": [
+          "iss_6f6549e328ad",
+          "iss_cba353fb5f85",
+          "iss_08c6bb4c3299",
+          "iss_80d10096656b",
+          "iss_d38609580bdd",
+          "iss_ddf5f7b6ff06",
+          "iss_74c1aa9b06c9",
+          "iss_75be0dd5adea",
+          "iss_228fb3ec3cc0",
+          "iss_e6bb8614e1f5"
+        ],
+        "introduced_issue_ids": [],
+        "risk_level": "moderate",
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 31,
+            "threshold": 31,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 3,
+            "threshold": 3,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "risk_explanations": [
+          "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+          "Safety Gate remains the final authority and evaluates the same invariant results."
+        ],
+        "limitations": [
+          "Only directly changed columns and explicit supported dependencies are included.",
+          "Statistical correlations are not treated as dependencies.",
+          "Numeric summaries do not establish semantic correctness."
+        ]
+      }
+    },
+    "impact": {
+      "proposal_id": "prp_6bc1fa80c084",
+      "direct_row_ids": [
+        "row_5"
+      ],
+      "direct_cells": 1,
+      "direct_columns": [
+        "city"
+      ],
+      "direct_metrics": [
+        {
+          "metric": "missing_count",
+          "column": "city",
+          "before": 0,
+          "after": 0,
+          "change": 0,
+          "relationship": "direct",
+          "support": [
+            "measured on original and temporary simulated data"
+          ]
+        },
+        {
+          "metric": "null_pct",
+          "column": "city",
+          "before": 0.0,
+          "after": 0.0,
+          "change": 0.0,
+          "relationship": "direct",
+          "support": [
+            "measured on original and temporary simulated data"
+          ]
+        },
+        {
+          "metric": "distinct_count",
+          "column": "city",
+          "before": 6,
+          "after": 5,
+          "change": -1,
+          "relationship": "direct",
+          "support": [
+            "measured on original and temporary simulated data"
+          ]
+        }
+      ],
+      "indirect_metrics": [],
+      "affected_dependency_checks": [],
+      "potentially_resolved_issue_ids": [
+        "iss_be3e0bd24e07",
+        "iss_ea2d2fdd7907"
+      ],
+      "remaining_issue_ids": [
+        "iss_6f6549e328ad",
+        "iss_cba353fb5f85",
+        "iss_08c6bb4c3299",
+        "iss_80d10096656b",
+        "iss_d38609580bdd",
+        "iss_ddf5f7b6ff06",
+        "iss_74c1aa9b06c9",
+        "iss_75be0dd5adea",
+        "iss_228fb3ec3cc0",
+        "iss_e6bb8614e1f5"
+      ],
+      "introduced_issue_ids": [],
+      "risk_level": "moderate",
+      "invariants": [
+        {
+          "name": "schema_and_types_preserved",
+          "status": "pass",
+          "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+          "observed": "preserved",
+          "threshold": "preserved",
+          "unit": null
+        },
+        {
+          "name": "row_count_policy",
+          "status": "pass",
+          "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+          "observed": 31,
+          "threshold": 31,
+          "unit": "rows"
+        },
+        {
+          "name": "candidate_keys_unique_non_null",
+          "status": "pass",
+          "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "previously_valid_cells_preserved",
+          "status": "pass",
+          "detail": "Cells not flagged by the original detector set remain unchanged.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "cells"
+        },
+        {
+          "name": "business_rules_not_worsened",
+          "status": "pass",
+          "detail": "Explicit cross-column business-rule violations do not increase.",
+          "observed": 3,
+          "threshold": 3,
+          "unit": "violations"
+        },
+        {
+          "name": "functional_dependencies_not_worsened",
+          "status": "pass",
+          "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+          "observed": 0,
+          "threshold": 0,
+          "unit": "violations"
+        },
+        {
+          "name": "aggregate_drift_within_risk_limit",
+          "status": "pass",
+          "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+          "observed": 0.0,
+          "threshold": 0.05,
+          "unit": "relative fraction"
+        }
+      ],
+      "risk_explanations": [
+        "Risk level moderate follows deterministic proposal class value_substitution and simulated invariant results.",
+        "Safety Gate remains the final authority and evaluates the same invariant results."
+      ],
+      "limitations": [
+        "Only directly changed columns and explicit supported dependencies are included.",
+        "Statistical correlations are not treated as dependencies.",
+        "Numeric summaries do not establish semantic correctness."
+      ]
+    },
+    "approval_action": "approve",
+    "approval_status_code": 200
+  },
+  "refused_approval": {
+    "status_code": 409,
+    "error": {
+      "code": "invalid_decision_state",
+      "message": "Only proposals that need approval can be approved or rejected.",
+      "details": {},
+      "request_id": "20579c91-c223-48bf-aeec-515eb88cb92a"
+    },
+    "proposal_id": "prp_77bc436f667f",
+    "gate_decision": "refused"
+  },
+  "apply": {
+    "status": "applied",
+    "applied_operations": [
+      {
+        "op_id": "op_cb735fbf662e4e108e05633dfa2953a3",
+        "proposal_id": "prp_6bc1fa80c084",
+        "op": "manual_edit",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T20:05:57.877574Z"
+      },
+      {
+        "op_id": "op_45b79ad228884db8baacd7d74e626d63",
+        "proposal_id": "prp_0caa094cda0a",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T20:05:57.877574Z"
+      }
+    ],
+    "skipped_proposals": []
+  },
+  "verification": {
+    "replay": {
+      "operations": 2,
+      "input_hash": "92ed7c6c3dddb0c0ab2908f1fd50a2969e30b44e720073b4488d48eaa06d67e8",
+      "replay_hash": "c20813b4df2dd6b9f08753e239e393fc534efb1003d2f6a9ce51aa39749e45a1",
+      "match": true
+    },
+    "issues": {
+      "before": 12,
+      "after": 9,
+      "resolved": 3,
+      "introduced": 0,
+      "by_category": [
+        {
+          "category": "anomaly",
+          "count": 1
+        },
+        {
+          "category": "duplicate",
+          "count": 1
+        },
+        {
+          "category": "inconsistent",
+          "count": 1
+        },
+        {
+          "category": "invalid_format",
+          "count": 3
+        },
+        {
+          "category": "missing",
+          "count": 1
+        },
+        {
+          "category": "relationship",
+          "count": 2
+        }
+      ]
+    },
+    "valid_cells_damaged": 0
+  },
+  "passport": {
+    "run_id": "2ba423f7-4400-430b-a8b7-1919a558bd58",
+    "original_sha256": "4c54ce8451fea0518ced50caa138e5443684cd7465da381087ae38b94d924393",
+    "cleaned_sha256": "1b5d67f6fbfc67aa2a883e1482d5ef50c2b6d94e29a597cd17a82afde03f17d8",
+    "passport_sha256": "ad79d100d7083da73ebfc2a00d54a9736ab1aaa179e4bd0ca94f7c34de9b9b46",
+    "verification_status": "verified",
+    "replay_hash": "c20813b4df2dd6b9f08753e239e393fc534efb1003d2f6a9ce51aa39749e45a1",
+    "replay_matches": true,
+    "proposal_count": 6,
+    "initial_issue_count": 12,
+    "unresolved_count": 9,
+    "applied_operations": [
+      {
+        "seq": 1,
+        "op_id": "op_cb735fbf662e4e108e05633dfa2953a3",
+        "proposal_id": "prp_6bc1fa80c084",
+        "op": "manual_edit",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T20:05:57.877574Z",
+        "confidence_at_decision": null,
+        "active": true
+      },
+      {
+        "seq": 2,
+        "op_id": "op_45b79ad228884db8baacd7d74e626d63",
+        "proposal_id": "prp_0caa094cda0a",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T20:05:57.877574Z",
+        "confidence_at_decision": null,
+        "active": true
+      }
+    ],
+    "user_approvals": 1,
+    "edited_proposals": 1,
+    "refused_repairs": 1,
+    "exported_artifact_sha256": {
+      "cleaned": "1b5d67f6fbfc67aa2a883e1482d5ef50c2b6d94e29a597cd17a82afde03f17d8",
+      "report": "3419c5719fb04b39a8a06af56b145999dcaf2dcd7ce86d65ba80be1080ba37c6",
+      "log": "485e348c9599d18144d0452997607d496b2a5c4b98dd9288603607fe8a25437c",
+      "recipe": "c2d9c3334396e419658539b72d02f51908942097a6976fc69586f91ce8a68446"
+    }
+  },
+  "cleaned_export": {
+    "bytes": 2519,
+    "sha256": "1b5d67f6fbfc67aa2a883e1482d5ef50c2b6d94e29a597cd17a82afde03f17d8",
+    "passport_hash_matches": true
+  },
+  "operation_history_count": 2
+}

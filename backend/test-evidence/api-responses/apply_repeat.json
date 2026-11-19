@@ -1,0 +1,20 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/apply",
+  "status_code": 200,
+  "response": {
+    "status": "aborted",
+    "applied_operations": [],
+    "skipped": [],
+    "blocking_invariants": [
+      {
+        "name": "operation_execution",
+        "status": "fail",
+        "detail": "A typed operation failed during atomic staging.",
+        "observed": null,
+        "threshold": null,
+        "unit": null
+      }
+    ]
+  }
+}

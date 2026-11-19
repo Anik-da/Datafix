@@ -1,0 +1,217 @@
+{
+  "dataset": "synthetic regression only",
+  "seed": 20261119,
+  "rows_uploaded": 1001,
+  "columns": 14,
+  "stage_statuses": {
+    "upload": 201,
+    "analyze": 200,
+    "refused_override": 409,
+    "decisions": 200,
+    "apply": 200,
+    "operations": 200,
+    "verify": 200,
+    "exports": {
+      "cleaned": 200,
+      "report": 200,
+      "log": 200,
+      "recipe": 200
+    }
+  },
+  "injected_error_cases": 14,
+  "detector_findings": 16,
+  "detection_true_positives": 15,
+  "detection_precision": 0.9375,
+  "detection_recall": 1.0,
+  "issues_before": 17,
+  "issues_after": 12,
+  "proposal_count": 8,
+  "gate_counts": {
+    "issue_count": 17,
+    "proposal_count": 8,
+    "auto_apply_count": 2,
+    "needs_approval_count": 5,
+    "refused_count": 1
+  },
+  "operations_applied": 6,
+  "proposal_gate_details": [
+    {
+      "title": "Convert configured placeholders to null",
+      "decision": "needs_approval",
+      "reasons": [
+        "Value substitutions and row removal require explicit approval."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Trim boundary whitespace",
+      "decision": "auto_apply",
+      "reasons": [
+        "Typed format-only change passed deterministic simulation."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Normalize unambiguous dates",
+      "decision": "auto_apply",
+      "reasons": [
+        "Typed format-only change passed deterministic simulation."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Do not infer ambiguous date formats",
+      "decision": "refused",
+      "reasons": [
+        "Simulation found no applicable changes."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Map equivalent category spellings",
+      "decision": "needs_approval",
+      "reasons": [
+        "Value substitutions and row removal require explicit approval."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Convert configured placeholders to null",
+      "decision": "needs_approval",
+      "reasons": [
+        "Value substitutions and row removal require explicit approval."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Map equivalent category spellings",
+      "decision": "needs_approval",
+      "reasons": [
+        "Value substitutions and row removal require explicit approval."
+      ],
+      "failed_invariants": []
+    },
+    {
+      "title": "Review exact duplicate rows",
+      "decision": "needs_approval",
+      "reasons": [
+        "Value substitutions and row removal require explicit approval."
+      ],
+      "failed_invariants": []
+    }
+  ],
+  "cell_changes": 5,
+  "correct_cell_changes": 3,
+  "row_removals": 1,
+  "cell_change_audit": [
+    {
+      "row_id": "row_89",
+      "column": "category",
+      "before": "books",
+      "after": "Books",
+      "matches_clean_truth": true
+    },
+    {
+      "row_id": "row_81",
+      "column": "city",
+      "before": " bengaluru ",
+      "after": "Bengaluru",
+      "matches_clean_truth": true
+    },
+    {
+      "row_id": "row_61",
+      "column": "ship_date",
+      "before": "13/08/2025",
+      "after": "2025-08-13",
+      "matches_clean_truth": true
+    },
+    {
+      "row_id": "row_21",
+      "column": "email",
+      "before": "N/A",
+      "after": "",
+      "matches_clean_truth": false
+    },
+    {
+      "row_id": "row_31",
+      "column": "phone",
+      "before": "-",
+      "after": "",
+      "matches_clean_truth": false
+    }
+  ],
+  "actionable_case_status": [
+    {
+      "error_id": "mixed-date-format",
+      "repaired": true
+    },
+    {
+      "error_id": "city-case-whitespace",
+      "repaired": true
+    },
+    {
+      "error_id": "category-case",
+      "repaired": true
+    },
+    {
+      "error_id": "exact-duplicate-row",
+      "repaired": true
+    }
+  ],
+  "repair_precision": 0.6667,
+  "actionable_manifest_cases": 4,
+  "actionable_cases_repaired": 4,
+  "repair_recall": 1.0,
+  "abstentions_or_unresolved": 10,
+  "refused_proposal_ids": [
+    "prp_968cb66c580e"
+  ],
+  "refused_override_rejected": true,
+  "approval_decisions": [
+    {
+      "proposal_id": "prp_6cf88030e2cf",
+      "action": "approve"
+    },
+    {
+      "proposal_id": "prp_a1857b64e3ea",
+      "action": "approve"
+    },
+    {
+      "proposal_id": "prp_a96cbcce9a3d",
+      "action": "approve"
+    },
+    {
+      "proposal_id": "prp_acfa03a6bc2d",
+      "action": "approve"
+    },
+    {
+      "proposal_id": "prp_c23191bde9f1",
+      "action": "approve"
+    }
+  ],
+  "applied_operation_ids": [
+    "op_14998b9e292a482a87114b741889b672",
+    "op_84de13bcbe5e46959c47babc9bb5f635",
+    "op_f995ed174bed421e80e68dbe72307ab3",
+    "op_503d994c91444986add71295132de4f6",
+    "op_38e9a0fd59d447cd86f65b5a7d7b6847",
+    "op_099b4e7f21d84e6a972483e68fd781c9"
+  ],
+  "previously_valid_cells_changed": 0,
+  "invariant_failures_in_nonrefused_proposals": 0,
+  "replay_matches": true,
+  "output_cells_different_from_truth": 10,
+  "original_upload_sha256": "d824ac6ae0e9fae2ccb96935d704c7cae83d1f9f3104874c23cb95e14d4d882a",
+  "stored_original_sha256": "d824ac6ae0e9fae2ccb96935d704c7cae83d1f9f3104874c23cb95e14d4d882a",
+  "original_upload_preserved": true,
+  "exports_validated": {
+    "cleaned_csv_rows": 1000,
+    "report_json_object": true,
+    "modification_log_json_entries": 6,
+    "recipe_json_operations": 6
+  },
+  "runtime_seconds": 22.329,
+  "peak_process_rss_mb": 129.0,
+  "llm_enabled": false,
+  "note": "Precision/recall are measured only on this generated dataset. Detection truth is the manifest and listed preservation cases; repair recall denominator includes cases explicitly eligible for auto-apply or approval. No general accuracy claim."
+}

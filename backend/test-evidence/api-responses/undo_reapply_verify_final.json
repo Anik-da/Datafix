@@ -1,0 +1,512 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/fb2213e4-e2e9-4d1e-a991-838ec0fae702/verify",
+  "status_code": 200,
+  "response": {
+    "replay": {
+      "operations": 4,
+      "input_hash": "92ed7c6c3dddb0c0ab2908f1fd50a2969e30b44e720073b4488d48eaa06d67e8",
+      "replay_hash": "a34f89e1b6afbf74d1b27e13d1b7d0c3bad9afe6cd97089cbaf0f1a82475bcb1",
+      "match": true
+    },
+    "issues": {
+      "before": 12,
+      "after": 8,
+      "resolved": 4,
+      "introduced": 0,
+      "by_category": [
+        {
+          "category": "anomaly",
+          "count": 1
+        },
+        {
+          "category": "inconsistent",
+          "count": 1
+        },
+        {
+          "category": "invalid_format",
+          "count": 3
+        },
+        {
+          "category": "missing",
+          "count": 1
+        },
+        {
+          "category": "relationship",
+          "count": 2
+        }
+      ]
+    },
+    "valid_cells_damaged": 0,
+    "quality_dimensions": {
+      "before": {
+        "completeness": 0.9967741935483871,
+        "validity": 0.9838709677419355,
+        "uniqueness": 0.967741935483871,
+        "consistency": 0.9612903225806452,
+        "formulas": {
+          "completeness": "1 - blank_cells / total_cells",
+          "validity": "1 - detected_invalid_cells / total_cells",
+          "uniqueness": "1 - exact_duplicate_rows / row_count",
+          "consistency": "1 - inconsistent_or_relationship_affected_cells / total_cells"
+        }
+      },
+      "after": {
+        "completeness": 0.9933333333333333,
+        "validity": 0.9866666666666667,
+        "uniqueness": 1.0,
+        "consistency": 0.97,
+        "formulas": {
+          "completeness": "1 - blank_cells / total_cells",
+          "validity": "1 - detected_invalid_cells / total_cells",
+          "uniqueness": "1 - exact_duplicate_rows / row_count",
+          "consistency": "1 - inconsistent_or_relationship_affected_cells / total_cells"
+        }
+      }
+    },
+    "remaining": [
+      {
+        "id": "iss_38055658bcf4",
+        "category": "invalid_format",
+        "title": "Invalid numeric representations",
+        "column": "quantity",
+        "description": "Found 1 values in a mostly numeric column that cannot be parsed as numbers. Possible causes (unconfirmed hypotheses): Possible non-numeric text in a numeric field. Possible column containing mixed meanings.",
+        "affected_rows": 1,
+        "affected_cells": 1,
+        "affected_row_ids": [
+          "row_11"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "Numeric parsing",
+            "detail": "At least 80% of non-empty values parse numerically; listed values do not.",
+            "metrics": {
+              "parse_ratio": 0.9666666666666667,
+              "invalid_count": 1
+            },
+            "examples": [
+              "2x"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 1
+            },
+            "examples": [
+              "row_11"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_e44346a32a",
+            "statement": "non-numeric text in a numeric field.",
+            "evidence_labels": [
+              "Numeric parsing"
+            ]
+          },
+          {
+            "id": "hyp_aaa563b497",
+            "statement": "column containing mixed meanings.",
+            "evidence_labels": [
+              "Numeric parsing"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_3d968355095c",
+        "category": "relationship",
+        "title": "End date precedes start date",
+        "column": null,
+        "description": "An unambiguous date ordering rule is violated; no date is changed. Possible causes (unconfirmed hypotheses): Possible date entry error. Possible exception to the expected chronology.",
+        "affected_rows": 1,
+        "affected_cells": 2,
+        "affected_row_ids": [
+          "row_13"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "ship_date >= order_date",
+            "detail": "Both dates parse unambiguously, and the end date precedes the start date.",
+            "metrics": {
+              "violations": 1
+            },
+            "examples": [
+              "2026-01-13 < 2026-01-14"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 1
+            },
+            "examples": [
+              "row_13"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_e876b5b7f4",
+            "statement": "date entry error.",
+            "evidence_labels": [
+              "ship_date >= order_date"
+            ]
+          },
+          {
+            "id": "hyp_9994d716a1",
+            "statement": "exception to the expected chronology.",
+            "evidence_labels": [
+              "ship_date >= order_date"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_55bc75d501d2",
+        "category": "missing",
+        "title": "Missing or placeholder values",
+        "column": "note",
+        "description": "Observed 2 blank or configured placeholder values. Possible causes include incomplete source records or upstream import conventions; optionality is unknown.",
+        "affected_rows": 2,
+        "affected_cells": 2,
+        "affected_row_ids": [
+          "row_2",
+          "row_14"
+        ],
+        "evidence": [
+          {
+            "kind": "count",
+            "label": "Missing or placeholder cells",
+            "detail": "Measured blank and configured placeholder values in this column.",
+            "metrics": {
+              "count": 2,
+              "percentage": 6.666666666666667
+            },
+            "examples": [
+              "",
+              "   "
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 2
+            },
+            "examples": [
+              "row_2",
+              "row_14"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_f35c952655",
+            "statement": "incomplete source records.",
+            "evidence_labels": [
+              "Missing or placeholder cells"
+            ]
+          },
+          {
+            "id": "hyp_1dfa1ce826",
+            "statement": "upstream export or import conventions.",
+            "evidence_labels": [
+              "Missing or placeholder cells"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_5a3742f4da3f",
+        "category": "invalid_format",
+        "title": "Invalid or ambiguous date values",
+        "column": "order_date",
+        "description": "Some date-like values could not be parsed. Possible causes include mixed regional formatting; no locale is inferred.",
+        "affected_rows": 2,
+        "affected_cells": 2,
+        "affected_row_ids": [
+          "row_4",
+          "row_8"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "Date parsing",
+            "detail": "Some date-like values could not be parsed.",
+            "metrics": {
+              "invalid_count": 1,
+              "ambiguous_count": 1,
+              "recognized_formats": 1
+            },
+            "examples": [
+              "2026-19-45",
+              "03/04/2026"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 2
+            },
+            "examples": [
+              "row_4",
+              "row_8"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_db3348d923",
+            "statement": "regional import differences.",
+            "evidence_labels": [
+              "Date parsing"
+            ]
+          },
+          {
+            "id": "hyp_9947e4a3fa",
+            "statement": "manual formatting inconsistency.",
+            "evidence_labels": [
+              "Date parsing"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_5e1b710b1492",
+        "category": "inconsistent",
+        "title": "Similar but distinct category values",
+        "column": "city",
+        "description": "Text similarity identified review candidates; similarity alone does not establish equivalence, so no mapping is proposed. Possible causes (unconfirmed hypotheses): Possible spelling variation; semantic equivalence is unconfirmed.",
+        "affected_rows": 1,
+        "affected_cells": 1,
+        "affected_row_ids": [
+          "row_9"
+        ],
+        "evidence": [
+          {
+            "kind": "statistic",
+            "label": "String similarity candidates",
+            "detail": "Sequence similarity is a candidate-generation heuristic, not a probability or identity proof.",
+            "metrics": {
+              "candidate_pairs": 1
+            },
+            "examples": [
+              "Bangaluru ↔ Bengaluru (0.89)"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 1
+            },
+            "examples": [
+              "row_9"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_f2a611997e",
+            "statement": "spelling variation; semantic equivalence is unconfirmed.",
+            "evidence_labels": [
+              "String similarity candidates"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_95d37e354704",
+        "category": "invalid_format",
+        "title": "Invalid email format",
+        "column": "email",
+        "description": "Found 1 non-empty values that fail a conservative email syntax check. Possible causes (unconfirmed hypotheses): Possible typing error. Possible field containing non-email identifiers.",
+        "affected_rows": 1,
+        "affected_cells": 1,
+        "affected_row_ids": [
+          "row_3"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "Email syntax",
+            "detail": "Value does not match the conservative email syntax rule.",
+            "metrics": {
+              "invalid_count": 1
+            },
+            "examples": [
+              "[redacted]"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 1
+            },
+            "examples": [
+              "row_3"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_2d02e3a870",
+            "statement": "typing error.",
+            "evidence_labels": [
+              "Email syntax"
+            ]
+          },
+          {
+            "id": "hyp_5bd9f3ccae",
+            "statement": "field containing non-email identifiers.",
+            "evidence_labels": [
+              "Email syntax"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_a1cf783bb14a",
+        "category": "anomaly",
+        "title": "IQR statistical outliers",
+        "column": "unit_price",
+        "description": "Found 1 observations outside the Tukey IQR fences. Statistical outliers may be legitimate and are preserved. Possible causes (unconfirmed hypotheses): Possible unit mismatch or entry error. Possible legitimate extreme value.",
+        "affected_rows": 1,
+        "affected_cells": 1,
+        "affected_row_ids": [
+          "row_7"
+        ],
+        "evidence": [
+          {
+            "kind": "statistic",
+            "label": "IQR outlier detection",
+            "detail": "Bounds are Q1 − 1.5×IQR and Q3 + 1.5×IQR.",
+            "metrics": {
+              "q1": 112.5,
+              "q3": 150.0,
+              "iqr": 37.5,
+              "lower_bound": 56.25,
+              "upper_bound": 206.25
+            },
+            "examples": [
+              "999999"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 1
+            },
+            "examples": [
+              "row_7"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_ea830674ab",
+            "statement": "unit mismatch or entry error.",
+            "evidence_labels": [
+              "IQR outlier detection"
+            ]
+          },
+          {
+            "id": "hyp_2058a94c4c",
+            "statement": "legitimate extreme value.",
+            "evidence_labels": [
+              "IQR outlier detection"
+            ]
+          }
+        ],
+        "pattern": null
+      },
+      {
+        "id": "iss_e8718b5a8dfb",
+        "category": "relationship",
+        "title": "Cross-column arithmetic inconsistency",
+        "column": null,
+        "description": "The explicit quantity × unit_price relationship does not equal total. Which source value is wrong is unknown; values are preserved. Possible causes (unconfirmed hypotheses): Possible quantity, unit price or total entry error. Possible tax/discount convention not represented by these columns.",
+        "affected_rows": 2,
+        "affected_cells": 6,
+        "affected_row_ids": [
+          "row_6",
+          "row_7"
+        ],
+        "evidence": [
+          {
+            "kind": "rule",
+            "label": "total = quantity × unit_price",
+            "detail": "Explicit arithmetic relationship inferred from exact conventional column names; no correction side is assumed.",
+            "metrics": {
+              "violations": 2
+            },
+            "examples": [
+              "2 × 160 != 999",
+              "3 × 999999 != 300"
+            ]
+          },
+          {
+            "kind": "example",
+            "label": "Affected row references",
+            "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+            "metrics": {
+              "affected_rows": 2
+            },
+            "examples": [
+              "row_6",
+              "row_7"
+            ]
+          }
+        ],
+        "disposition": "flagged_only",
+        "diagnosis": [
+          {
+            "id": "hyp_4d54778cd1",
+            "statement": "quantity, unit price or total entry error.",
+            "evidence_labels": [
+              "total = quantity × unit_price"
+            ]
+          },
+          {
+            "id": "hyp_015c8f6c2b",
+            "statement": "tax/discount convention not represented by these columns.",
+            "evidence_labels": [
+              "total = quantity × unit_price"
+            ]
+          }
+        ],
+        "pattern": null
+      }
+    ]
+  }
+}

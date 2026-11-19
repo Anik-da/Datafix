@@ -1,0 +1,22 @@
+{
+  "status_code": 201,
+  "response": {
+    "run": {
+      "id": "f2b49f0c-798b-4c5e-aab2-1445806863f2",
+      "filename": "orders_dirty.csv",
+      "file_sha256": "d824ac6ae0e9fae2ccb96935d704c7cae83d1f9f3104874c23cb95e14d4d882a",
+      "file_size_bytes": 143986,
+      "row_count": 1001,
+      "column_count": 14,
+      "status": "uploaded",
+      "created_at": "2026-11-19T21:34:59.462910Z",
+      "engine_version": "0.1.0",
+      "format_metadata": {
+        "format": "csv",
+        "encoding": "utf-8",
+        "delimiter": ","
+      }
+    },
+    "warnings": []
+  }
+}

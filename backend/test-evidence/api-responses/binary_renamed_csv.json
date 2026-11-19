@@ -1,0 +1,11 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs",
+  "status_code": 415,
+  "response": {
+    "code": "unsupported_content",
+    "message": "The file content has a pdf signature; upload a plain-text CSV.",
+    "details": {},
+    "request_id": "ff2c26f5-42b1-40dd-a845-a5501b6d1d60"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/fb2213e4-e2e9-4d1e-a991-838ec0fae702/apply",
+  "status_code": 200,
+  "response": {
+    "status": "applied",
+    "applied_operations": [
+      {
+        "op_id": "op_114e03e0abcc4809b0c7d6854725362f",
+        "proposal_id": "prp_ce64674398bf",
+        "op": "map_values",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:20:09.265672Z"
+      },
+      {
+        "op_id": "op_76d2db5f47f24a00833fad4d6545d122",
+        "proposal_id": "prp_6f803fa9060a",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T13:20:09.265672Z"
+      },
+      {
+        "op_id": "op_36cd88493264418e90da47296c6ae9a3",
+        "proposal_id": "prp_b3ed057c8e08",
+        "op": "set_null",
+        "column": "note",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:20:09.265672Z"
+      },
+      {
+        "op_id": "op_32a363ac62184ba4957c8bc29b43f136",
+        "proposal_id": "prp_a3633db052b4",
+        "op": "drop_exact_dupes",
+        "column": null,
+        "cells_changed": 0,
+        "rows_removed": 1,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:20:09.265672Z"
+      }
+    ],
+    "skipped": [
+      {
+        "proposal_id": "prp_f40fbf5dc41a",
+        "reason": "Proposal was refused by a safety invariant."
+      },
+      {
+        "proposal_id": "prp_fe76541a426c",
+        "reason": "No changes remained applicable after earlier operations."
+      }
+    ],
+    "blocking_invariants": []
+  }
+}

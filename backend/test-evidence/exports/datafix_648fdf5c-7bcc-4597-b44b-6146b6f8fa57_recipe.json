@@ -1,0 +1,33 @@
+{
+  "input_sha256": "3d00c55b6f5540a1b97a318c73bc4acd87a46902f28a91408cb1ff85845b6fff",
+  "operations": [
+    {
+      "seq": 1,
+      "op_id": "op_d5e2c196ba754adeb62656fea6bd2f0a",
+      "proposal_id": "prp_b8e72a5780c4",
+      "op": "manual_edit",
+      "column": "city",
+      "params": {
+        "op": "manual_edit",
+        "row_id": "row_90",
+        "expected_value": "BENGALURU ",
+        "value": "Bengaluru",
+        "reason": "Audited deterministic correction"
+      }
+    },
+    {
+      "seq": 2,
+      "op_id": "op_3c3a15fcbae541ad915248160d4ee66c",
+      "proposal_id": "prp_a5f2293ac70c",
+      "op": "normalize_date",
+      "column": "ship_date",
+      "params": {
+        "op": "normalize_date",
+        "target_format": "YYYY-MM-DD",
+        "row_values": {
+          "row_70": "2026-01-14"
+        }
+      }
+    }
+  ]
+}

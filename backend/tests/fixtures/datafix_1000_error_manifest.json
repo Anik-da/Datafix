@@ -1,0 +1,123 @@
+{
+  "seed": "deterministic-formula-v1",
+  "base_rows": 1000,
+  "errors": [
+    {
+      "error_id": "missing-placeholder",
+      "expected_detector": "missing",
+      "expected_behavior": "detect",
+      "row_locator": "row_10",
+      "column": "note",
+      "original_value": "standard",
+      "injected_value": "N/A"
+    },
+    {
+      "error_id": "missing-blank",
+      "expected_detector": "missing",
+      "expected_behavior": "detect",
+      "row_locator": "row_20",
+      "column": "note",
+      "original_value": "standard",
+      "injected_value": "   "
+    },
+    {
+      "error_id": "invalid-email",
+      "expected_detector": "invalid_format",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_30",
+      "column": "email",
+      "original_value": "customer30@example.test",
+      "injected_value": "not-an-email"
+    },
+    {
+      "error_id": "invalid-number",
+      "expected_detector": "invalid_format",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_40",
+      "column": "quantity",
+      "original_value": "6",
+      "injected_value": "2x"
+    },
+    {
+      "error_id": "invalid-date",
+      "expected_detector": "invalid_format",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_50",
+      "column": "order_date",
+      "original_value": "2026-01-24",
+      "injected_value": "2026-19-45"
+    },
+    {
+      "error_id": "ambiguous-date",
+      "expected_detector": "invalid_format",
+      "expected_behavior": "no_locale_guess",
+      "row_locator": "row_60",
+      "column": "order_date",
+      "original_value": "2026-01-07",
+      "injected_value": "03/04/2026"
+    },
+    {
+      "error_id": "mixed-date",
+      "expected_detector": "invalid_format",
+      "expected_behavior": "unambiguous_normalization_candidate",
+      "row_locator": "row_70",
+      "column": "ship_date",
+      "original_value": "2026-01-19",
+      "injected_value": "Jan 14, 2026"
+    },
+    {
+      "error_id": "date-order",
+      "expected_detector": "relationship",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_80",
+      "column": "ship_date",
+      "original_value": "2026-01-28",
+      "injected_value": "2026-01-01"
+    },
+    {
+      "error_id": "equivalent-category",
+      "expected_detector": "inconsistent",
+      "expected_behavior": "map_requires_approval",
+      "row_locator": "row_90",
+      "column": "city",
+      "original_value": "Delhi",
+      "injected_value": "BENGALURU "
+    },
+    {
+      "error_id": "near-category",
+      "expected_detector": "inconsistent",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_100",
+      "column": "city",
+      "original_value": "Bengaluru",
+      "injected_value": "Bangaluru"
+    },
+    {
+      "error_id": "numeric-outlier",
+      "expected_detector": "anomaly",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_110",
+      "column": "unit_price",
+      "original_value": "140",
+      "injected_value": "999999"
+    },
+    {
+      "error_id": "arithmetic-mismatch",
+      "expected_detector": "relationship",
+      "expected_behavior": "flag_only",
+      "row_locator": "row_120",
+      "column": "total",
+      "original_value": "320",
+      "injected_value": "999"
+    },
+    {
+      "error_id": "exact-duplicate",
+      "expected_detector": "duplicate",
+      "expected_behavior": "drop_requires_approval",
+      "row_locator": "row_1001",
+      "column": null,
+      "original_value": null,
+      "injected_value": "exact copy of row_1"
+    }
+  ]
+}

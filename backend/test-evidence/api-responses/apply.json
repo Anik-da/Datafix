@@ -1,0 +1,49 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/apply",
+  "status_code": 200,
+  "response": {
+    "status": "applied",
+    "applied_operations": [
+      {
+        "op_id": "op_d5e2c196ba754adeb62656fea6bd2f0a",
+        "proposal_id": "prp_b8e72a5780c4",
+        "op": "manual_edit",
+        "column": "city",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "user",
+        "applied_at": "2026-11-19T13:14:56.290466Z"
+      },
+      {
+        "op_id": "op_3c3a15fcbae541ad915248160d4ee66c",
+        "proposal_id": "prp_a5f2293ac70c",
+        "op": "normalize_date",
+        "column": "ship_date",
+        "cells_changed": 1,
+        "rows_removed": 0,
+        "decided_by": "auto",
+        "applied_at": "2026-11-19T13:14:56.290466Z"
+      }
+    ],
+    "skipped": [
+      {
+        "proposal_id": "prp_e4c9072e0e19",
+        "reason": "Proposal was refused by a safety invariant."
+      },
+      {
+        "proposal_id": "prp_d3a2c93081fa",
+        "reason": "Proposal was rejected."
+      },
+      {
+        "proposal_id": "prp_6488ac2ba53d",
+        "reason": "No changes remained applicable after earlier operations."
+      },
+      {
+        "proposal_id": "prp_7f4bbccf58d4",
+        "reason": "Proposal was rejected."
+      }
+    ],
+    "blocking_invariants": []
+  }
+}

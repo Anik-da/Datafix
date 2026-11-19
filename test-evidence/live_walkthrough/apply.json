@@ -1,0 +1,56 @@
+{
+  "status": "applied",
+  "applied_operations": [
+    {
+      "op_id": "op_131a852d07cf41458f2693fea263bd4c",
+      "proposal_id": "prp_15064eaf25cd",
+      "op": "map_values",
+      "column": "city",
+      "cells_changed": 1,
+      "rows_removed": 0,
+      "decided_by": "user",
+      "applied_at": "2026-11-19T21:46:45.410531Z"
+    },
+    {
+      "op_id": "op_70d0d7144b0b4c87845065b78c2f8a45",
+      "proposal_id": "prp_e7f0d38c80cb",
+      "op": "normalize_date",
+      "column": "ship_date",
+      "cells_changed": 1,
+      "rows_removed": 0,
+      "decided_by": "auto",
+      "applied_at": "2026-11-19T21:46:45.410531Z"
+    }
+  ],
+  "skipped": [
+    {
+      "proposal_id": "prp_6a2629108ced",
+      "reason": "Pending approval."
+    },
+    {
+      "proposal_id": "prp_a50afe4d0ca4",
+      "reason": "Pending approval."
+    },
+    {
+      "proposal_id": "prp_95f619e8873f",
+      "reason": "Proposal was refused by a safety invariant."
+    },
+    {
+      "proposal_id": "prp_540b09bdc8b5",
+      "reason": "Pending approval."
+    },
+    {
+      "proposal_id": "prp_aeff6ff6ccfc",
+      "reason": "Pending approval."
+    },
+    {
+      "proposal_id": "prp_8138d1ef35ce",
+      "reason": "No changes remained applicable after earlier operations."
+    },
+    {
+      "proposal_id": "prp_e2175c3d04ba",
+      "reason": "Proposal was rejected."
+    }
+  ],
+  "blocking_invariants": []
+}

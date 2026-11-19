@@ -1,0 +1,290 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8010/api/v1/runs/648fdf5c-7bcc-4597-b44b-6146b6f8fa57/proposals/prp_b8e72a5780c4/edit",
+  "status_code": 200,
+  "response": {
+    "proposal": {
+      "id": "prp_b8e72a5780c4",
+      "issue_ids": [
+        "iss_96c72bbf9972"
+      ],
+      "op": "manual_edit",
+      "column": "city",
+      "risk_class": "value_substitution",
+      "source": "human",
+      "title": "Human-edited: Map equivalent category spellings",
+      "explanation": "User supplied a value for row_90; it was type/range checked and re-simulated. Reason: Audited deterministic correction",
+      "params": {
+        "op": "manual_edit",
+        "row_id": "row_90",
+        "expected_value": "BENGALURU ",
+        "value": "Bengaluru",
+        "reason": "Audited deterministic correction"
+      },
+      "evidence": [
+        {
+          "kind": "example",
+          "label": "Observed variants",
+          "detail": "Variants normalize to the same case-folded, whitespace-collapsed value.",
+          "metrics": {
+            "variant_count": 2,
+            "canonical_frequency": 249
+          },
+          "examples": [
+            "Bengaluru",
+            "BENGALURU "
+          ]
+        },
+        {
+          "kind": "example",
+          "label": "Affected row references",
+          "detail": "Stable row locators for up to eight affected rows; affected_rows contains the full measured count.",
+          "metrics": {
+            "affected_rows": 1
+          },
+          "examples": [
+            "row_90"
+          ]
+        }
+      ],
+      "confidence": {
+        "value": null,
+        "method": null,
+        "components": [],
+        "n_support": null,
+        "lower_bound": null,
+        "caveat": "No calibrated confidence method is implemented in this milestone."
+      },
+      "simulation": {
+        "cells_changed": 1,
+        "rows_affected": 1,
+        "rows_removed": 0,
+        "previously_valid_cells_changed": 0,
+        "aggregate_drift": {
+          "quantity.sum_relative": 0.0,
+          "quantity.mean_relative": 0.0,
+          "quantity.count_change": 0,
+          "total.sum_relative": 0.0,
+          "total.mean_relative": 0.0,
+          "total.count_change": 0,
+          "unit_price.sum_relative": 0.0,
+          "unit_price.mean_relative": 0.0,
+          "unit_price.count_change": 0,
+          "row_count_change": 0
+        },
+        "new_issues_introduced": 0,
+        "sample_diff": [
+          {
+            "row_id": "row_90",
+            "column": "city",
+            "before": "BENGALURU ",
+            "after": "Bengaluru",
+            "was_valid": false
+          }
+        ],
+        "invariants": [
+          {
+            "name": "schema_and_types_preserved",
+            "status": "pass",
+            "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+            "observed": "preserved",
+            "threshold": "preserved",
+            "unit": null
+          },
+          {
+            "name": "row_count_policy",
+            "status": "pass",
+            "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+            "observed": 1001,
+            "threshold": 1001,
+            "unit": "rows"
+          },
+          {
+            "name": "candidate_keys_unique_non_null",
+            "status": "pass",
+            "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "previously_valid_cells_preserved",
+            "status": "pass",
+            "detail": "Cells not flagged by the original detector set remain unchanged.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "cells"
+          },
+          {
+            "name": "business_rules_not_worsened",
+            "status": "pass",
+            "detail": "Explicit cross-column business-rule violations do not increase.",
+            "observed": 4,
+            "threshold": 4,
+            "unit": "violations"
+          },
+          {
+            "name": "functional_dependencies_not_worsened",
+            "status": "pass",
+            "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+            "observed": 0,
+            "threshold": 0,
+            "unit": "violations"
+          },
+          {
+            "name": "aggregate_drift_within_risk_limit",
+            "status": "pass",
+            "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+            "observed": 0.0,
+            "threshold": 0.05,
+            "unit": "relative fraction"
+          }
+        ],
+        "impact": {
+          "proposal_id": "prp_b8e72a5780c4",
+          "direct_row_ids": [
+            "row_90"
+          ],
+          "direct_cells": 1,
+          "direct_columns": [
+            "city"
+          ],
+          "direct_metrics": [
+            {
+              "metric": "missing_count",
+              "column": "city",
+              "before": 0,
+              "after": 0,
+              "change": 0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "null_pct",
+              "column": "city",
+              "before": 0.0,
+              "after": 0.0,
+              "change": 0.0,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            },
+            {
+              "metric": "distinct_count",
+              "column": "city",
+              "before": 6,
+              "after": 5,
+              "change": -1,
+              "relationship": "direct",
+              "support": [
+                "measured on original and temporary simulated data"
+              ]
+            }
+          ],
+          "indirect_metrics": [],
+          "affected_dependency_checks": [],
+          "potentially_resolved_issue_ids": [
+            "iss_96c72bbf9972",
+            "iss_2a473f44cd75"
+          ],
+          "introduced_issue_ids": [],
+          "invariants": [
+            {
+              "name": "schema_and_types_preserved",
+              "status": "pass",
+              "detail": "Column names, order, and inferred types are preserved except for an explicitly typed conversion.",
+              "observed": "preserved",
+              "threshold": "preserved",
+              "unit": null
+            },
+            {
+              "name": "row_count_policy",
+              "status": "pass",
+              "detail": "Row count is preserved except for explicitly simulated exact-duplicate removal.",
+              "observed": 1001,
+              "threshold": 1001,
+              "unit": "rows"
+            },
+            {
+              "name": "candidate_keys_unique_non_null",
+              "status": "pass",
+              "detail": "Previously unique, non-null candidate keys remain unique and non-null.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "previously_valid_cells_preserved",
+              "status": "pass",
+              "detail": "Cells not flagged by the original detector set remain unchanged.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "cells"
+            },
+            {
+              "name": "business_rules_not_worsened",
+              "status": "pass",
+              "detail": "Explicit cross-column business-rule violations do not increase.",
+              "observed": 4,
+              "threshold": 4,
+              "unit": "violations"
+            },
+            {
+              "name": "functional_dependencies_not_worsened",
+              "status": "pass",
+              "detail": "Supported postcode-to-city and customer-id-to-contact dependencies do not gain violations.",
+              "observed": 0,
+              "threshold": 0,
+              "unit": "violations"
+            },
+            {
+              "name": "aggregate_drift_within_risk_limit",
+              "status": "pass",
+              "detail": "Maximum relative numeric sum/mean drift is checked against the value_substitution limit.",
+              "observed": 0.0,
+              "threshold": 0.05,
+              "unit": "relative fraction"
+            }
+          ],
+          "risk_explanations": [
+            "Proposal risk class: value_substitution.",
+            "Safety Gate uses the existing deterministic invariant results."
+          ],
+          "limitations": [
+            "Only directly changed columns and explicit supported dependencies are included.",
+            "Statistical correlations are not treated as dependencies.",
+            "Numeric summaries do not establish semantic correctness."
+          ]
+        }
+      },
+      "gate": {
+        "decision": "needs_approval",
+        "reasons": [
+          "Value substitutions and row removal require explicit approval.",
+          "Manual edits always require explicit reapproval."
+        ],
+        "refusal_kind": null
+      },
+      "status": "edited_pending_reapproval",
+      "version": 2,
+      "decision_history": [
+        {
+          "previous_state": "pending",
+          "new_state": "edited_pending_reapproval",
+          "action": "edit",
+          "timestamp": "2026-11-19T13:14:54.827623Z",
+          "proposal_version": 2,
+          "reason": "Audited deterministic correction",
+          "original_value": "BENGALURU ",
+          "edited_value": "Bengaluru",
+          "suggested_value": "Bengaluru",
+          "operation_id": null
+        }
+      ]
+    },
+    "status": "edited_pending_reapproval"
+  }
+}
