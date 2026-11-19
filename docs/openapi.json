@@ -2250,6 +2250,11 @@
           "action": {
             "$ref": "#/components/schemas/DecisionAction"
           },
+          "decided_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Decided At"
+          },
           "state": {
             "type": "string",
             "enum": [
@@ -2259,11 +2264,6 @@
             ],
             "title": "State",
             "default": "approved"
-          },
-          "decided_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Decided At"
           }
         },
         "additionalProperties": false,

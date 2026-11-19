@@ -1,16 +1,14 @@
 /**
  * DataFix Contract Types
  *
- * Organised in three clear tiers:
- * Tier 1: Real Generated Backend Models (from /openapi.json via openapi-typescript)
- * Tier 2: Real Milestone 1 Profiling Models (active in FastAPI backend)
- * Tier 3: Proposed Future Contract Models (GAPs 1-10 for Teammate 3 integration)
+ * Generated OpenAPI types are the backend contract source of truth. The models
+ * below adapt those payloads into frontend view state and compatibility views.
  */
 
 // ============================================================================
 // TIER 1: GENERATED BACKEND MODELS
 // ============================================================================
-export type { paths, components, operations } from './generated-types';
+export type { paths, components, operations } from '../api/generated';
 
 // ============================================================================
 // TIER 2: ACTUAL IMPLEMENTED BACKEND MODELS (Milestone 1)
@@ -44,12 +42,11 @@ export interface ApiHealthResponse {
 }
 
 // ============================================================================
-// TIER 3: PROPOSED FUTURE CONTRACT MODELS (Milestone 2 / GAPs 1-10)
-// Documented in docs/FRONTEND_BACKEND_CONTRACT.md for Teammate 3
+// UI-specific state models mapped from the generated API contract.
 // ============================================================================
 
 export type GateDecisionType = "auto_apply" | "needs_approval" | "refused";
-import type { components } from './generated-types';
+import type { components } from '../api/generated';
 
 export type RefusalKind = "invariant_failed" | "insufficient_evidence" | "kept_as_valid";
 

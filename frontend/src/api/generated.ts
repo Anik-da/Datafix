@@ -605,16 +605,16 @@ export interface components {
             proposal_id: string;
             action: components["schemas"]["DecisionAction"];
             /**
+             * Decided At
+             * Format: date-time
+             */
+            decided_at: string;
+            /**
              * State
              * @default approved
              * @enum {string}
              */
             state: "approved" | "rejected" | "edited_pending_reapproval";
-            /**
-             * Decided At
-             * Format: date-time
-             */
-            decided_at: string;
         };
         /** DecisionsRequest */
         DecisionsRequest: {

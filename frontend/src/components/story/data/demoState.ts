@@ -350,15 +350,7 @@ export function deriveProof(isDuplicateApproved: boolean): DerivedProof {
 // DEV-only self-verification assertions
 // ---------------------------------------------------------------------------
 
-// Use a type-safe way to check dev mode without requiring vite/client types
-const __IS_DEV__ = (() => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (import.meta as any).env?.DEV === true;
-  } catch {
-    return false;
-  }
-})();
+const __IS_DEV__ = import.meta.env.DEV;
 
 if (__IS_DEV__) {
   // Source immutability — SAMPLE_ROWS must never be mutated

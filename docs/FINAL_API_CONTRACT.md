@@ -1,6 +1,6 @@
 # DataFix API contract snapshot
 
-The generated source of truth is `docs/openapi.json`; generated TypeScript is `frontend/src/api/generated.ts` (also mirrored at `frontend/src/lib/generated-types.ts`). The OpenAPI file was inspected and includes the routes listed below. The current working tree contains CSV and XLSX ingestion; JSON is not advertised as supported.
+The generated source of truth is `docs/openapi.json`; generated TypeScript is `frontend/src/api/generated.ts`. The OpenAPI file was inspected and includes the routes listed below. The current working tree contains CSV and XLSX ingestion; JSON is not advertised as supported.
 
 ## Routes in the generated OpenAPI document
 

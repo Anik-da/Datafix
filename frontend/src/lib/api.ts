@@ -1,4 +1,4 @@
-import type { components } from './generated-types';
+import type { components } from '../api/generated';
 import type { DatasetProfile, RunState, RepairProposal, DetectedIssue } from './contract-types';
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');

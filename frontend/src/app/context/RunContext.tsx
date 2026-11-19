@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { RunState, DatasetProfile } from '../../lib/contract-types';
-import type { components } from '../../lib/generated-types';
+import type { components } from '../../api/generated';
 import { DEMO_RUN_FIXTURE } from '../../lib/fixtures';
 import { applyRun, getOperations, recordDecision, undoOperation, verifyRun } from '../../lib/api';
 

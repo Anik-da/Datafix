@@ -1,22 +1,28 @@
 """Canonical validated API request and response models."""
+
 from datetime import datetime
 from enum import Enum
 from typing import Annotated, Any, Literal
+
 from pydantic import BaseModel, ConfigDict, Field
+
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
 
 class RunStatus(str, Enum):
     uploaded = "uploaded"
     analyzed = "analyzed"
     applied = "applied"
 
+
 class EvidenceKind(str, Enum):
-    count = "count"
+    record_count = "count"
     example = "example"
     rule = "rule"
     statistic = "statistic"
+
 
 class Evidence(StrictModel):
     kind: EvidenceKind
@@ -24,6 +30,7 @@ class Evidence(StrictModel):
     detail: str
     metrics: dict[str, int | float | None] = Field(default_factory=dict)
     examples: list[str] = Field(default_factory=list, max_length=8)
+
 
 class IssueCategory(str, Enum):
     missing = "missing"
@@ -34,20 +41,24 @@ class IssueCategory(str, Enum):
     relationship = "relationship"
     row_structure_mismatch = "row_structure_mismatch"
 
+
 class IssueDisposition(str, Enum):
     repair_proposed = "repair_proposed"
     flagged_only = "flagged_only"
     preserved_as_valid = "preserved_as_valid"
+
 
 class DiagnosisHypothesis(StrictModel):
     id: str
     statement: str
     evidence_labels: list[str] = Field(default_factory=list)
 
+
 class ConfidenceComponent(StrictModel):
     label: str
     value: float | None = Field(default=None, ge=0, le=1)
     note: str
+
 
 class Issue(StrictModel):
     id: str
@@ -62,6 +73,7 @@ class Issue(StrictModel):
     disposition: IssueDisposition
     diagnosis: list[DiagnosisHypothesis] = Field(default_factory=list)
     pattern: "PatternMatch | None" = None
+
 
 class PatternMatch(StrictModel):
     fingerprint_id: str
@@ -79,6 +91,7 @@ class PatternMatch(StrictModel):
     suggested_strategy: str | None = None
     limitations: list[str] = Field(default_factory=list)
 
+
 class Operation(str, Enum):
     normalize_date = "normalize_date"
     trim_text = "trim_text"
@@ -91,11 +104,13 @@ class Operation(str, Enum):
     derive_from_rule = "derive_from_rule"
     manual_edit = "manual_edit"
 
+
 class RiskClass(str, Enum):
     format_only = "format_only"
     value_substitution = "value_substitution"
     imputation = "imputation"
     destructive = "destructive"
+
 
 class ProposalSource(str, Enum):
     rule = "rule"
@@ -103,46 +118,56 @@ class ProposalSource(str, Enum):
     llm_assisted = "llm_assisted"
     human = "human"
 
+
 class NormalizeDateParams(StrictModel):
     op: Literal["normalize_date"]
     target_format: Literal["YYYY-MM-DD"]
     row_values: dict[str, str]
 
+
 class TrimTextParams(StrictModel):
     op: Literal["trim_text"]
     row_values: dict[str, str]
 
+
 class MapValuesParams(StrictModel):
     op: Literal["map_values"]
     mapping: dict[str, str]
+
 
 class SetNullParams(StrictModel):
     op: Literal["set_null"]
     placeholder_values: list[str]
     row_ids: list[str]
 
+
 class DropExactDupesParams(StrictModel):
     op: Literal["drop_exact_dupes"]
     duplicate_row_groups: list[list[str]]
 
+
 class MergeNearDupesParams(StrictModel):
     op: Literal["merge_near_dupes"]
     candidate_pairs: list[list[str]]
+
 
 class ImputeParams(StrictModel):
     op: Literal["impute"]
     strategy: Literal["constant", "mode", "median"]
     value: str | float | None = None
 
+
 class CastNumericParams(StrictModel):
     op: Literal["cast_numeric"]
     row_values: dict[str, str]
     target_type: Literal["number"]
 
+
 class DeriveFromRuleParams(StrictModel):
     op: Literal["derive_from_rule"]
     rule_id: str
     row_values: dict[str, int | float]
+
 
 class ManualEditParams(StrictModel):
     op: Literal["manual_edit"]
@@ -151,7 +176,21 @@ class ManualEditParams(StrictModel):
     value: str
     reason: str = Field(min_length=1, max_length=500)
 
-OperationParams = Annotated[NormalizeDateParams | TrimTextParams | MapValuesParams | SetNullParams | DropExactDupesParams | MergeNearDupesParams | ImputeParams | CastNumericParams | DeriveFromRuleParams | ManualEditParams, Field(discriminator="op")]
+
+OperationParams = Annotated[
+    NormalizeDateParams
+    | TrimTextParams
+    | MapValuesParams
+    | SetNullParams
+    | DropExactDupesParams
+    | MergeNearDupesParams
+    | ImputeParams
+    | CastNumericParams
+    | DeriveFromRuleParams
+    | ManualEditParams,
+    Field(discriminator="op"),
+]
+
 
 class Confidence(StrictModel):
     value: float | None = Field(default=None, ge=0, le=1)
@@ -161,6 +200,7 @@ class Confidence(StrictModel):
     lower_bound: float | None = None
     caveat: str | None = None
 
+
 class Invariant(StrictModel):
     name: str
     status: Literal["pass", "fail", "skipped"]
@@ -169,12 +209,14 @@ class Invariant(StrictModel):
     threshold: int | float | str | None = None
     unit: str | None = None
 
+
 class SampleDiff(StrictModel):
     row_id: str
     column: str
     before: str
     after: str
     was_valid: bool
+
 
 class Simulation(StrictModel):
     cells_changed: int
@@ -187,6 +229,7 @@ class Simulation(StrictModel):
     invariants: list[Invariant]
     impact: "RippleImpact | None" = None
 
+
 class ImpactMetric(StrictModel):
     metric: str
     column: str
@@ -195,6 +238,7 @@ class ImpactMetric(StrictModel):
     change: int | float | None = None
     relationship: Literal["direct", "measured_dependency"]
     support: list[str] = Field(default_factory=list)
+
 
 class RippleImpact(StrictModel):
     proposal_id: str
@@ -212,10 +256,12 @@ class RippleImpact(StrictModel):
     risk_explanations: list[str]
     limitations: list[str]
 
+
 class Gate(StrictModel):
     decision: Literal["auto_apply", "needs_approval", "refused"]
     reasons: list[str]
     refusal_kind: Literal["invariant_failed", "insufficient_evidence"] | None
+
 
 class Proposal(StrictModel):
     id: str
@@ -233,9 +279,18 @@ class Proposal(StrictModel):
     # service populates both with deterministic simulation and gate results.
     simulation: Simulation | None
     gate: Gate | None
-    status: Literal["pending", "approved", "rejected", "edited_pending_reapproval", "applied", "failed", "refused"] = "pending"
+    status: Literal[
+        "pending",
+        "approved",
+        "rejected",
+        "edited_pending_reapproval",
+        "applied",
+        "failed",
+        "refused",
+    ] = "pending"
     version: int = Field(default=1, ge=1)
     decision_history: list["DecisionAuditEntry"] = Field(default_factory=list)
+
 
 class DecisionAuditEntry(StrictModel):
     previous_state: str
@@ -250,6 +305,7 @@ class DecisionAuditEntry(StrictModel):
     operation_id: str | None = None
     prior_proposal: dict[str, Any] | None = None
 
+
 class RunMetadata(StrictModel):
     id: str
     filename: str
@@ -262,6 +318,7 @@ class RunMetadata(StrictModel):
     engine_version: str
     format_metadata: dict[str, Any] = Field(default_factory=lambda: {"format": "csv"})
 
+
 class AnalysisRunMetadata(StrictModel):
     id: str
     filename: str
@@ -272,17 +329,21 @@ class AnalysisRunMetadata(StrictModel):
     engine_version: str
     format_metadata: dict[str, Any] = Field(default_factory=lambda: {"format": "csv"})
 
+
 class UploadResponse(StrictModel):
     run: RunMetadata
     warnings: list[str] = Field(default_factory=list)
+
 
 class WorksheetListResponse(StrictModel):
     worksheets: list[str]
     active_worksheet: str
 
+
 class MostFrequent(StrictModel):
     value: str
     count: int
+
 
 class ColumnProfile(StrictModel):
     name: str
@@ -300,6 +361,7 @@ class ColumnProfile(StrictModel):
     category_distribution: list[MostFrequent] = Field(default_factory=list)
     format_consistency: float | None = None
 
+
 class DatasetProfile(StrictModel):
     row_count: int
     column_count: int
@@ -309,12 +371,14 @@ class DatasetProfile(StrictModel):
     total_distinct_values: int
     columns: list[ColumnProfile]
 
+
 class AnalysisSummary(StrictModel):
     issue_count: int
     proposal_count: int
     auto_apply_count: int | None = None
     needs_approval_count: int | None = None
     refused_count: int | None = None
+
 
 class AnalysisResponse(StrictModel):
     run: AnalysisRunMetadata
@@ -323,16 +387,19 @@ class AnalysisResponse(StrictModel):
     proposals: list[Proposal]
     summary: AnalysisSummary
 
+
 class ErrorEnvelope(StrictModel):
     code: str
     message: str
     details: dict[str, int | str | list[str] | None] = Field(default_factory=dict)
     request_id: str
 
+
 class LLMHealth(StrictModel):
     enabled: bool
     available: bool
     model: str | None = None
+
 
 class HealthResponse(StrictModel):
     status: Literal["ok", "degraded"]
@@ -340,26 +407,31 @@ class HealthResponse(StrictModel):
     llm: LLMHealth
     limits: dict[str, int]
 
+
 class CompatibilityProfileResponse(StrictModel):
     profile: DatasetProfile
+
 
 class DecisionAction(str, Enum):
     approve = "approve"
     reject = "reject"
 
+
 class ProposalDecisionInput(StrictModel):
     proposal_id: str
     action: DecisionAction
 
+
 class DecisionsRequest(StrictModel):
     decisions: list[ProposalDecisionInput] = Field(min_length=1)
+
 
 class DecisionState(StrictModel):
     proposal_id: str
     action: DecisionAction
-    state: Literal["approved", "rejected"]
     decided_at: datetime
     state: Literal["approved", "rejected", "edited_pending_reapproval"] = "approved"
+
 
 class ProposalEditRequest(StrictModel):
     row_id: str
@@ -368,21 +440,26 @@ class ProposalEditRequest(StrictModel):
     edited_value: str
     reason: str = Field(min_length=1, max_length=500)
 
+
 class ProposalEditResponse(StrictModel):
     proposal: Proposal
     status: Literal["edited_pending_reapproval", "refused"]
 
+
 class BulkDecisionRequest(StrictModel):
     proposal_ids: list[str] = Field(min_length=1, max_length=200)
     action: Literal["approve", "reject"]
+
 
 class BulkDecisionResult(StrictModel):
     proposal_id: str
     state: Literal["approved", "rejected", "refused"]
     reason: str | None = None
 
+
 class BulkDecisionsResponse(StrictModel):
     results: list[BulkDecisionResult]
+
 
 class ColumnUncertainty(StrictModel):
     column: str
@@ -401,14 +478,23 @@ class ColumnUncertainty(StrictModel):
     confidence_available: bool
     rule_coverage: list[str]
 
+
 class RecordUncertainty(StrictModel):
     row_id: str
-    state: Literal["verified_by_checks", "issue_detected", "pending_human_review", "refused_repair", "unresolved", "not_evaluated"]
+    state: Literal[
+        "verified_by_checks",
+        "issue_detected",
+        "pending_human_review",
+        "refused_repair",
+        "unresolved",
+        "not_evaluated",
+    ]
     issue_density: int
     columns: list[str]
     reasons: list[str]
     evidence_references: list[str]
     confidence: float | None = Field(default=None, ge=0, le=1)
+
 
 class UncertaintyResponse(StrictModel):
     run_id: str
@@ -419,6 +505,7 @@ class UncertaintyResponse(StrictModel):
     records: list[RecordUncertainty]
     calculation_notes: list[str]
 
+
 class PassportProposalDecision(StrictModel):
     proposal_id: str
     proposal_version: int
@@ -426,9 +513,11 @@ class PassportProposalDecision(StrictModel):
     gate_decision: str | None
     decision_history: list[DecisionAuditEntry]
 
+
 class PassportColumn(StrictModel):
     name: str
     inferred_type: str
+
 
 class PassportProposal(StrictModel):
     proposal_id: str
@@ -443,6 +532,7 @@ class PassportProposal(StrictModel):
     simulation: Simulation | None
     gate_decision: str | None
     status: str
+
 
 class TrustPassport(StrictModel):
     passport_version: str
@@ -461,11 +551,11 @@ class TrustPassport(StrictModel):
     engine_version: str
     generated_at: datetime
     initial_issue_count: int
-    initial_issue_categories: list[IssueCategoryCount]
+    initial_issue_categories: list["IssueCategoryCount"]
     final_unresolved_issues: list[Issue]
     previously_valid_cells_changed: int
-    quality_before: QualityDimensions
-    quality_after: QualityDimensions
+    quality_before: "QualityDimensions"
+    quality_after: "QualityDimensions"
     proposal_count: int
     proposals: list[PassportProposal]
     auto_apply_decisions: int
@@ -473,7 +563,7 @@ class TrustPassport(StrictModel):
     rejections: int
     edited_proposals: int
     refused_repairs: int
-    applied_operations: list[AppliedOperation]
+    applied_operations: list["AppliedOperation"]
     modification_log_reference: str
     simulation_summary: list[Simulation]
     gate_outcomes: dict[str, str]
@@ -488,8 +578,10 @@ class TrustPassport(StrictModel):
     abstained_repairs: int
     llm_enabled: bool
 
+
 class DecisionsResponse(StrictModel):
     decisions: list[DecisionState]
+
 
 class AppliedOperation(StrictModel):
     seq: int
@@ -504,6 +596,7 @@ class AppliedOperation(StrictModel):
     confidence_at_decision: float | None = None
     active: bool = True
 
+
 class CellModification(StrictModel):
     row_id: str
     column: str
@@ -517,6 +610,7 @@ class CellModification(StrictModel):
     decided_by: Literal["auto", "user"]
     applied_at: datetime
 
+
 class AppliedOperationResult(StrictModel):
     op_id: str
     proposal_id: str
@@ -527,9 +621,11 @@ class AppliedOperationResult(StrictModel):
     decided_by: Literal["auto", "user"]
     applied_at: datetime
 
+
 class SkippedProposal(StrictModel):
     proposal_id: str
     reason: str
+
 
 class ApplyResponse(StrictModel):
     status: Literal["applied", "aborted"]
@@ -537,12 +633,15 @@ class ApplyResponse(StrictModel):
     skipped: list[SkippedProposal]
     blocking_invariants: list[Invariant]
 
+
 class OperationHistoryResponse(StrictModel):
     operations: list[AppliedOperation]
+
 
 class IssueCategoryCount(StrictModel):
     category: IssueCategory
     count: int
+
 
 class QualityDimensions(StrictModel):
     completeness: float
@@ -551,6 +650,7 @@ class QualityDimensions(StrictModel):
     consistency: float
     formulas: dict[str, str]
 
+
 class VerificationIssues(StrictModel):
     before: int
     after: int
@@ -558,11 +658,13 @@ class VerificationIssues(StrictModel):
     introduced: int
     by_category: list[IssueCategoryCount]
 
+
 class ReplayResult(StrictModel):
     operations: int
     input_hash: str
     replay_hash: str
     match: bool
+
 
 class VerificationResponse(StrictModel):
     replay: ReplayResult
@@ -571,14 +673,18 @@ class VerificationResponse(StrictModel):
     quality_dimensions: dict[str, QualityDimensions]
     remaining: list[Issue]
 
+
 class UndoRequest(StrictModel):
     op_id: str
+
 
 class UndoResponse(StrictModel):
     status: Literal["undone", "refused"]
     op_id: str
     reason: str | None = None
 
+
 # Resolve additive feature references after all related schemas are declared.
 Issue.model_rebuild()
 Simulation.model_rebuild()
+TrustPassport.model_rebuild()

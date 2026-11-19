@@ -1,25 +1,33 @@
 """Optional constrained Groq explanations; deterministic analysis remains primary."""
+
 from __future__ import annotations
+
 import hashlib
 import json
 import re
 import time
 import urllib.error
 import urllib.request
+
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
 from .config import settings
 from .schemas import Issue
+
 
 class Explanation(BaseModel):
     model_config = ConfigDict(extra="forbid")
     hypothesis_id: str
     explanation: str = Field(min_length=1, max_length=500)
 
+
 _cache: dict[str, Explanation] = {}
 _run_counts: dict[str, int] = {}
 
+
 def _word_count(text: str) -> int:
     return len(re.findall(r"\b[\w'-]+\b", text))
+
 
 def _safe_payload(issue: Issue) -> dict:
     return {
@@ -28,10 +36,12 @@ def _safe_payload(issue: Issue) -> dict:
         "column": issue.column,
         "hypotheses": [{"id": x.id, "statement": x.statement} for x in issue.diagnosis],
         # Exclude observed cell values from the external prompt entirely.
-        "evidence": [{"label": x.label, "detail": x.detail, "metrics": x.metrics,
-                      "examples": []}
-                     for x in issue.evidence],
+        "evidence": [
+            {"label": x.label, "detail": x.detail, "metrics": x.metrics, "examples": []}
+            for x in issue.evidence
+        ],
     }
+
 
 def explain_issue(issue: Issue, run_id: str = "") -> str:
     """Return an allowed hypothesis explanation or a deterministic fallback.
@@ -43,25 +53,46 @@ def explain_issue(issue: Issue, run_id: str = "") -> str:
     if not settings.llm_available or not issue.diagnosis:
         return fallback
     payload = _safe_payload(issue)
-    cache_key = hashlib.sha256(json.dumps({"model": settings.llm_model, "payload": payload}, sort_keys=True).encode()).hexdigest()
+    cache_key = hashlib.sha256(
+        json.dumps({"model": settings.llm_model, "payload": payload}, sort_keys=True).encode()
+    ).hexdigest()
     if cache_key in _cache:
         return _cache[cache_key].explanation
-    if settings.llm_requests_per_run <= 0 or _run_counts.get(run_id, 0) >= settings.llm_requests_per_run:
+    if (
+        settings.llm_requests_per_run <= 0
+        or _run_counts.get(run_id, 0) >= settings.llm_requests_per_run
+    ):
         return fallback
     if len(_run_counts) >= 4096:
         _run_counts.pop(next(iter(_run_counts)))
     _run_counts[run_id] = _run_counts.get(run_id, 0) + 1
-    system = ("Choose exactly one supplied hypothesis id and write a concise evidence-based explanation. "
-              "Return JSON with hypothesis_id and explanation. Do not propose repairs, invent causes, "
-              "or include personal data. Explanation must be at most 40 words.")
-    body = json.dumps({"model": settings.llm_model, "temperature": 0,
-        "response_format": {"type": "json_object"}, "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]}).encode()
+    system = (
+        "Choose exactly one supplied hypothesis id and write a concise evidence-based explanation. "
+        "Return JSON with hypothesis_id and explanation. Do not propose repairs, invent causes, "
+        "or include personal data. Explanation must be at most 40 words."
+    )
+    body = json.dumps(
+        {
+            "model": settings.llm_model,
+            "temperature": 0,
+            "response_format": {"type": "json_object"},
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+            ],
+        }
+    ).encode()
     engine_version = getattr(settings, "engine_version", "0.1.0")
-    request = urllib.request.Request("https://api.groq.com/openai/v1/chat/completions", data=body,
-        headers={"Authorization": f"Bearer {settings.groq_api_key}", "Content-Type": "application/json",
-                 "User-Agent": f"DataFix-Backend/{engine_version}"}, method="POST")
+    request = urllib.request.Request(
+        "https://api.groq.com/openai/v1/chat/completions",
+        data=body,
+        headers={
+            "Authorization": f"Bearer {settings.groq_api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": f"DataFix-Backend/{engine_version}",
+        },
+        method="POST",
+    )
     attempts = max(1, min(settings.llm_max_retries + 1, 3))
     for attempt in range(attempts):
         try:
@@ -69,7 +100,10 @@ def explain_issue(issue: Issue, run_id: str = "") -> str:
                 result = json.loads(response.read())
             content = result["choices"][0]["message"]["content"]
             parsed = Explanation.model_validate_json(content)
-            if parsed.hypothesis_id not in {x.id for x in issue.diagnosis} or _word_count(parsed.explanation) > 40:
+            if (
+                parsed.hypothesis_id not in {x.id for x in issue.diagnosis}
+                or _word_count(parsed.explanation) > 40
+            ):
                 return fallback
             if len(_cache) >= 2048:
                 _cache.pop(next(iter(_cache)))
@@ -91,8 +125,15 @@ def explain_issue(issue: Issue, run_id: str = "") -> str:
             if 400 <= exc.code < 500 and exc.code != 429:
                 return fallback
             if attempt + 1 < attempts:
-                time.sleep(min(.2 * (attempt + 1), .5))
-        except (urllib.error.URLError, TimeoutError, KeyError, IndexError, ValueError, ValidationError):
+                time.sleep(min(0.2 * (attempt + 1), 0.5))
+        except (
+            urllib.error.URLError,
+            TimeoutError,
+            KeyError,
+            IndexError,
+            ValueError,
+            ValidationError,
+        ):
             if attempt + 1 < attempts:
-                time.sleep(min(.2 * (attempt + 1), .5))
+                time.sleep(min(0.2 * (attempt + 1), 0.5))
     return fallback

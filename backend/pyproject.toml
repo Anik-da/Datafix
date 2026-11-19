@@ -6,6 +6,19 @@ dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30", "pydantic>=2.8", "pandas>=
 
 [project.optional-dependencies]
 test = ["pytest>=8", "httpx>=0.27"]
+quality = ["ruff>=0.14,<1", "mypy>=1.15,<2"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+exclude = ["tests*"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

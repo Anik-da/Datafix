@@ -1,7 +1,9 @@
 """Central runtime limits and storage configuration."""
-from dataclasses import dataclass
+
 import os
+from dataclasses import dataclass
 from pathlib import Path
+
 
 def _load_backend_env_file() -> None:
     """Read backend/.env without overriding environment variables or logging values."""
@@ -17,7 +19,9 @@ def _load_backend_env_file() -> None:
         if name and name not in os.environ:
             os.environ[name] = value.strip("\"'")
 
+
 _load_backend_env_file()
+
 
 def _bool(name: str, default: bool = False) -> bool:
     value = os.getenv(name)
@@ -25,11 +29,13 @@ def _bool(name: str, default: bool = False) -> bool:
         return default
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
+
 def _csv(name: str, default: tuple[str, ...]) -> tuple[str, ...]:
     raw = os.getenv(name)
     if raw is None:
         return default
     return tuple(x.strip().rstrip("/") for x in raw.split(",") if x.strip())
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -42,7 +48,9 @@ class Settings:
     sample_diff_limit: int = int(os.getenv("DATAFIX_SAMPLE_DIFF_LIMIT", "20"))
     delimiter: str = ","
     engine_version: str = "0.1.0"
-    cors_origins: tuple[str, ...] = _csv("DATAFIX_CORS_ORIGINS", ("http://localhost:5173", "http://127.0.0.1:5173"))
+    cors_origins: tuple[str, ...] = _csv(
+        "DATAFIX_CORS_ORIGINS", ("http://localhost:5173", "http://127.0.0.1:5173")
+    )
     storage_backend: str = os.getenv("DATAFIX_STORAGE_BACKEND", "local").strip().lower()
     database_url: str = os.getenv("DATAFIX_DATABASE_URL", "")
     supabase_url: str = os.getenv("SUPABASE_URL", "").rstrip("/")
@@ -56,10 +64,18 @@ class Settings:
     llm_max_retries: int = int(os.getenv("LLM_MAX_RETRIES", "1"))
     llm_requests_per_run: int = int(os.getenv("LLM_REQUESTS_PER_RUN", "20"))
     minimum_backtest_samples: int = int(os.getenv("MINIMUM_BACKTEST_SAMPLES", "20"))
-    aggregate_drift_format_max_pct: float = float(os.getenv("DATAFIX_AGGREGATE_DRIFT_FORMAT_MAX_PCT", "5.0"))
-    aggregate_drift_substitution_max_pct: float = float(os.getenv("DATAFIX_AGGREGATE_DRIFT_SUBSTITUTION_MAX_PCT", "5.0"))
-    aggregate_drift_imputation_max_pct: float = float(os.getenv("DATAFIX_AGGREGATE_DRIFT_IMPUTATION_MAX_PCT", "1.0"))
-    aggregate_drift_destructive_max_pct: float = float(os.getenv("DATAFIX_AGGREGATE_DRIFT_DESTRUCTIVE_MAX_PCT", "10.0"))
+    aggregate_drift_format_max_pct: float = float(
+        os.getenv("DATAFIX_AGGREGATE_DRIFT_FORMAT_MAX_PCT", "5.0")
+    )
+    aggregate_drift_substitution_max_pct: float = float(
+        os.getenv("DATAFIX_AGGREGATE_DRIFT_SUBSTITUTION_MAX_PCT", "5.0")
+    )
+    aggregate_drift_imputation_max_pct: float = float(
+        os.getenv("DATAFIX_AGGREGATE_DRIFT_IMPUTATION_MAX_PCT", "1.0")
+    )
+    aggregate_drift_destructive_max_pct: float = float(
+        os.getenv("DATAFIX_AGGREGATE_DRIFT_DESTRUCTIVE_MAX_PCT", "10.0")
+    )
 
     @property
     def llm_available(self) -> bool:
@@ -67,10 +83,13 @@ class Settings:
 
     @property
     def supabase_configured(self) -> bool:
-        return bool(self.supabase_url and (self.supabase_secret_key or self.supabase_service_role_key))
+        return bool(
+            self.supabase_url and (self.supabase_secret_key or self.supabase_service_role_key)
+        )
 
     @property
     def supabase_backend_key(self) -> str:
         return self.supabase_secret_key or self.supabase_service_role_key
+
 
 settings = Settings()
