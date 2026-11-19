@@ -35,3 +35,5 @@ private_data/
 uploads/
 downloads/
 .agents/
+
+.vercel
