@@ -1,23 +1,17 @@
-<div align="center">
-
 # DataFix
 
 ### From messy data to trustworthy data—with every repair explained, reviewed, and replay-checked.
 
 DataFix is a data-quality workbench for inspecting CSV and Excel data, understanding detected issues, and applying **typed, evidence-backed repairs** through a controlled workflow. Traditional cleanup scripts can silently overwrite useful information; DataFix preserves the original upload, previews proposed changes, applies only eligible repairs, and records what happened.
 
-<p>
-  <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white">
-  <img alt="FastAPI" src="https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white">
-  <img alt="Pydantic 2" src="https://img.shields.io/badge/Schemas-Pydantic%202-E92063">
-  <img alt="React 19" src="https://img.shields.io/badge/UI-React%2019-149ECA?logo=react&logoColor=white">
-  <img alt="TypeScript" src="https://img.shields.io/badge/Client-TypeScript-3178C6?logo=typescript&logoColor=white">
-  <img alt="CSV and XLSX" src="https://img.shields.io/badge/Formats-CSV%20%7C%20XLSX-217346?logo=microsoftexcel&logoColor=white">
-</p>
+![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)
+![Pydantic 2](https://img.shields.io/badge/Schemas-Pydantic%202-E92063)
+![React 19](https://img.shields.io/badge/UI-React%2019-149ECA?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/Client-TypeScript-3178C6?logo=typescript&logoColor=white)
+![CSV and XLSX](https://img.shields.io/badge/Formats-CSV%20%7C%20XLSX-217346?logo=microsoftexcel&logoColor=white)
 
 [Quick start](#quick-start) · [Features](#feature-status) · [Architecture](#how-it-works) · [API](#api-at-a-glance) · [Testing](#testing-and-evidence) · [Limitations](#roadmap-and-limitations)
-
-</div>
 
 ---
 
