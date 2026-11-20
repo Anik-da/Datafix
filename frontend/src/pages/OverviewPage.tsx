@@ -8,6 +8,7 @@ import type { ColumnProfile } from '../lib/contract-types';
 import { getUncertainty, type UncertaintyResponse } from '../lib/api';
 import { FingerprintExplorer, RelationshipAndAnomalyPanels, SchemaExplorer, UncertaintyMap } from '../components/analysis/IntelligencePanels';
 import { IssueExplainer } from '../components/analysis/IssueExplainer';
+import { RecordResults } from '../components/analysis/RecordResults';
 
 export const OverviewPage: React.FC = () => {
   const { currentRun } = useRun();
@@ -122,6 +123,7 @@ export const OverviewPage: React.FC = () => {
 
       <SchemaExplorer run={currentRun} />
       <IssueExplainer run={currentRun} onOpenProposal={(proposalId) => navigate(`/runs/${runId}/studio?proposal=${encodeURIComponent(proposalId)}`)} />
+      <RecordResults run={currentRun} />
       <FingerprintExplorer run={currentRun} />
       {heatmap && <UncertaintyMap run={currentRun} data={heatmap} onPage={setHeatmapOffset} loading={heatmapLoading} />}
       {heatmapLoading && !heatmap && <Card className="p-5 text-xs text-slate-500">Loading measured row uncertainty…</Card>}
