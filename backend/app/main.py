@@ -313,7 +313,13 @@ def analyze_run(run_id: str) -> AnalysisResponse:
     # retry is idempotent and cannot re-run optional external explanations or
     # replace lifecycle state after review decisions and proposal revisions.
     if row["status"] in {"analyzed", "applied"} and row.get("analysis"):
-        return AnalysisResponse.model_validate(json.loads(row["analysis"]))
+        # SQLite stores this JSON column as text; PostgREST returns a jsonb
+        # column as an already-decoded object. Accept both representations so
+        # an idempotent retry works with either storage adapter.
+        stored_analysis = row["analysis"]
+        if isinstance(stored_analysis, (str, bytes, bytearray)):
+            stored_analysis = json.loads(stored_analysis)
+        return AnalysisResponse.model_validate(stored_analysis)
     working = storage.get_working(run_id)
     if working is None:
         raise InputProblem(
