@@ -157,6 +157,7 @@ export interface RunState {
   is_verified: boolean;
   backend_run?: components['schemas']['RunMetadata'];
   upload_warnings?: string[];
+  source_row_labels?: string[];
   operations?: components['schemas']['AppliedOperation'][];
   verification?: components['schemas']['VerificationResponse'];
 }

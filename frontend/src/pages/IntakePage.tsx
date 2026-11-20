@@ -7,6 +7,41 @@ import { Dropzone } from '../components/intake/Dropzone';
 import { SampleDatasetCard } from '../components/intake/SampleDatasetCard';
 import { WakingServerBanner } from '../components/intake/WakingServerBanner';
 
+function csvRows(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let cell = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const char = text[i];
+    if (char === '"') {
+      if (quoted && text[i + 1] === '"') { cell += '"'; i += 1; }
+      else quoted = !quoted;
+    } else if (char === ',' && !quoted) {
+      row.push(cell); cell = '';
+    } else if ((char === '\n' || char === '\r') && !quoted) {
+      if (char === '\r' && text[i + 1] === '\n') i += 1;
+      row.push(cell); cell = '';
+      if (row.some((value) => value.length > 0)) rows.push(row);
+      row = [];
+    } else cell += char;
+  }
+  if (cell.length || row.length) { row.push(cell); if (row.some((value) => value.length > 0)) rows.push(row); }
+  return rows;
+}
+
+async function sourceRowLabels(file: File): Promise<string[] | undefined> {
+  if (!file.name.toLowerCase().endsWith('.csv')) return undefined;
+  try {
+    const rows = csvRows((await file.text()).replace(/^\uFEFF/, ''));
+    const headers = rows[0]?.map((value) => value.trim().toLowerCase()) ?? [];
+    let idColumn = headers.findIndex((value) => ['test_case_id', 'record_id', 'id'].includes(value));
+    if (idColumn < 0) idColumn = headers.findIndex((value) => /(?:^|_)id$/.test(value));
+    if (idColumn < 0) return undefined;
+    return rows.slice(1).map((row) => row[idColumn]?.trim() ?? '');
+  } catch { return undefined; }
+}
+
 export const IntakePage: React.FC = () => {
   const { loadAnalysisAsRun, loadDemoFixture } = useRun();
   const { navigate } = useRouter();
@@ -20,7 +55,8 @@ export const IntakePage: React.FC = () => {
     setApiError(null);
     try {
       const run = await uploadAndAnalyze(file, worksheet);
-      const runId = loadAnalysisAsRun(run);
+      const labels = await sourceRowLabels(file);
+      const runId = loadAnalysisAsRun({ ...run, source_row_labels: labels });
       navigate(`/runs/${runId}/overview`);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'The dataset could not be profiled.';

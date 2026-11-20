@@ -6,6 +6,7 @@ import { Button } from '../common/Button';
 
 type RecordResult = {
   rowId: string;
+  category: string;
   issue: string;
   action: string;
   needsReview: boolean;
@@ -17,9 +18,9 @@ function csvCell(value: string) {
 
 export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
   const results = useMemo(() => {
-    const rows = new Map<number, { issues: Set<string>; actions: Set<string>; needsReview: boolean }>();
+    const rows = new Map<number, { categories: Set<string>; issues: Set<string>; actions: Set<string>; needsReview: boolean }>();
     for (let index = 1; index <= run.profile.row_count; index += 1) {
-      rows.set(index, { issues: new Set(), actions: new Set(), needsReview: false });
+      rows.set(index, { categories: new Set(), issues: new Set(), actions: new Set(), needsReview: false });
     }
 
     for (const issue of run.issues) {
@@ -29,6 +30,7 @@ export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
         if (!match) continue;
         const result = rows.get(Number(match[1]));
         if (!result) continue;
+        result.categories.add(issue.category.replaceAll('_', ' '));
         result.issues.add(issue.title || issue.category);
         if (related.length === 0) {
           result.actions.add('Review source; no safe repair proposed');
@@ -43,7 +45,8 @@ export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
     }
 
     return [...rows.entries()].map(([index, value]): RecordResult => ({
-      rowId: `row_${index}`,
+      rowId: run.source_row_labels?.[index - 1] || `row_${index}`,
+      category: value.categories.size ? [...value.categories].join('; ') : 'Data Quality Issue',
       issue: value.issues.size ? [...value.issues].join('; ') : 'No issue detected',
       action: value.actions.size ? [...value.actions].join('; ') : 'No repair expected',
       needsReview: value.needsReview,
@@ -55,8 +58,8 @@ export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
 
   const download = () => {
     const lines = [
-      ['row_id', 'detected_issue', 'recommended_action', 'needs_human_review'],
-      ...results.map((row) => [row.rowId, row.issue, row.action, row.needsReview ? 'Yes' : 'No']),
+      ['test_case_id', 'test_category', 'detected_issue', 'recommended_action', 'needs_human_review'],
+      ...results.map((row) => [row.rowId, row.category, row.issue, row.action, row.needsReview ? 'Yes' : 'No']),
     ];
     const blob = new Blob([`\uFEFF${lines.map((line) => line.map(csvCell).join(',')).join('\r\n')}`], {
       type: 'text/csv;charset=utf-8',
@@ -90,7 +93,8 @@ export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
         <table className="w-full min-w-[760px] border-collapse text-left text-xs">
           <thead className="sticky top-0 z-10 bg-slate-50 text-[10px] font-mono uppercase tracking-wide text-slate-500">
             <tr>
-              <th className="px-5 py-3">Source row</th>
+              <th className="px-5 py-3">Test / record ID</th>
+              <th className="px-5 py-3">Category</th>
               <th className="px-5 py-3">Detected issue</th>
               <th className="px-5 py-3">Recommended action</th>
               <th className="px-5 py-3">Needs human review</th>
@@ -100,6 +104,7 @@ export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
             {results.map((row) => (
               <tr key={row.rowId} className="align-top hover:bg-slate-50/70">
                 <td className="whitespace-nowrap px-5 py-3 font-mono text-slate-700">{row.rowId}</td>
+                <td className="px-5 py-3 text-slate-600">{row.category}</td>
                 <td className="max-w-[260px] px-5 py-3 text-slate-800">{row.issue}</td>
                 <td className="max-w-[360px] px-5 py-3 text-slate-700">{row.action}</td>
                 <td className="px-5 py-3">
