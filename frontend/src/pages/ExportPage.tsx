@@ -42,7 +42,7 @@ export const ExportPage: React.FC = () => {
 
   const handleDownload = async (key: string, filename: string, content: string, type: string) => {
     if (!isDemoFixture) {
-      const artifact = ({ cleaned_csv: 'cleaned', mod_log: 'log', recipe: 'recipe', quality_report: 'report', passport: 'passport' } as const)[key as 'cleaned_csv'|'mod_log'|'recipe'|'quality_report'|'passport'];
+      const artifact = ({ cleaned_csv: 'cleaned', cleaned_xlsx: 'cleaned_xlsx', mod_log: 'log', recipe: 'recipe', quality_report: 'report', passport: 'passport' } as const)[key as 'cleaned_csv'|'cleaned_xlsx'|'mod_log'|'recipe'|'quality_report'|'passport'];
       try { setDownloadErrors(prev=>({...prev,[key]:''})); await downloadArtifact(runId, artifact); setDownloadedItems(prev=>({...prev,[key]:true})); }
       catch (error) { setDownloadErrors(prev=>({...prev,[key]:error instanceof Error ? error.message : 'Download failed. Please try again.'})); }
       return;
@@ -80,6 +80,15 @@ export const ExportPage: React.FC = () => {
       content:
         'seq,row_id,column,before,after,decision,confidence\n1,5,customer_id,C003,∅ removed,auto_apply,1.00\n2,6,joined_on,not-a-date,∅ null,needs_approval,0.62\n',
       mime: 'application/json',
+    },
+    {
+      key: 'cleaned_xlsx',
+      title: 'Excel-friendly Cleaned Dataset',
+      format: 'XLSX',
+      description: 'Readable workbook export. Phone identifiers remain text and date columns have room to display.',
+      filename: `datafix_cleaned_${runId}.xlsx`,
+      content: '',
+      mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     },
     {
       key: 'recipe',
@@ -142,7 +151,7 @@ export const ExportPage: React.FC = () => {
       )}
 
       <div className="space-y-3">
-        {exportFiles.map((file) => {
+        {exportFiles.filter((file) => !isDemoFixture || file.key !== 'cleaned_xlsx').map((file) => {
           const isDownloaded = !!downloadedItems[file.key];
           return (
             <Card key={file.key} className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">

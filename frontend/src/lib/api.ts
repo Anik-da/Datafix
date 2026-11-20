@@ -125,7 +125,7 @@ export async function undoOperation(runId: string, opId: string) { return api<S[
 export async function editProposal(runId: string, proposalId: string, body: S['ProposalEditRequest']) {
   return api<S['ProposalEditResponse']>(`/api/v1/runs/${runId}/proposals/${proposalId}/edit`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
 }
-export async function downloadArtifact(runId: string, artifact: 'cleaned'|'report'|'log'|'recipe'|'passport') {
+export async function downloadArtifact(runId: string, artifact: 'cleaned'|'cleaned_xlsx'|'report'|'log'|'recipe'|'passport') {
   const url = `${API_BASE_URL}/api/v1/runs/${runId}/export/${artifact}`;
   const response = await fetch(url);
   if (!response.ok) { const body = await response.json().catch(()=>({})); throw new Error(body?.message || `Export failed (${response.status})`); }

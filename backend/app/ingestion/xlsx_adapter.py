@@ -5,7 +5,7 @@ from io import BytesIO
 from typing import Any
 
 import pandas as pd
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
 
 from ..config import settings
 from ..errors import InputProblem
@@ -172,6 +172,43 @@ class XlsxAdapter:
                             "A repair would change a formula cell; the workbook was not exported.",
                         )
                     cell.value = text or None
+        output = BytesIO()
+        book.save(output)
+        return output.getvalue()
+
+    def export_frame(self, frame: pd.DataFrame) -> bytes:
+        """Create a readable XLSX view of a canonical dataset, keeping identifiers as text."""
+        book = Workbook()
+        sheet = book.active
+        sheet.title = "Cleaned data"
+        sheet.freeze_panes = "A2"
+        headers = [str(column) for column in frame.columns if not str(column).startswith("__datafix_")]
+        sheet.append(headers)
+        for values in frame[headers].itertuples(index=False, name=None):
+            sheet.append(["" if pd.isna(value) else str(value) for value in values])
+        sheet.auto_filter.ref = sheet.dimensions
+        widths = {
+            "record_id": 14, "customer_name": 24, "email": 36, "phone": 22,
+            "age": 12, "city": 22, "signup_date": 17, "purchase_amount": 20,
+            "customer_status": 20,
+        }
+        from openpyxl.styles import Alignment, Font, PatternFill
+        from openpyxl.utils import get_column_letter
+
+        for cell in sheet[1]:
+            cell.font = Font(bold=True, color="FFFFFF")
+            cell.fill = PatternFill("solid", fgColor="116B50")
+            cell.alignment = Alignment(vertical="center")
+        sheet.row_dimensions[1].height = 24
+        for index, header in enumerate(headers, start=1):
+            sheet.column_dimensions[get_column_letter(index)].width = widths.get(header, min(36, max(16, len(header) + 2)))
+            for row_index in range(2, sheet.max_row + 1):
+                cell = sheet.cell(row_index, index)
+                # Keep every canonical cell as a literal string: Excel must not
+                # turn +91 phone identifiers into formulas or large numbers.
+                cell.data_type = "s"
+                cell.number_format = "@"
+                cell.alignment = Alignment(vertical="center")
         output = BytesIO()
         book.save(output)
         return output.getvalue()

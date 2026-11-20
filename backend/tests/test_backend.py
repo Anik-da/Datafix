@@ -1267,6 +1267,23 @@ def test_export_formula_prefix_is_sanitized():
     assert csv_safe("-4.0", "age") == "-4.0"
 
 
+def test_xlsx_friendly_export_keeps_phones_as_text_and_dates_visible():
+    from io import BytesIO
+
+    import pandas as pd
+    from openpyxl import load_workbook
+
+    from app.ingestion.xlsx_adapter import XlsxAdapter
+
+    raw = XlsxAdapter().export_frame(pd.DataFrame({
+        "record_id": ["DF001"], "phone": ["+91-9876543210"], "signup_date": ["2025-01-12"]
+    }))
+    sheet = load_workbook(BytesIO(raw), data_only=False).active
+    assert sheet["B2"].value == "+91-9876543210" and sheet["B2"].data_type == "s"
+    assert sheet["C2"].value == "2025-01-12" and sheet.column_dimensions["C"].width >= 17
+    assert not [cell for row in sheet.iter_rows() for cell in row if cell.data_type == "f"]
+
+
 def test_simulator_reports_all_seven_integrity_invariants():
     import pandas as pd
 

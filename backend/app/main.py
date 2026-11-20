@@ -22,6 +22,7 @@ from .errors import InputProblem
 from .fingerprints import fingerprint_issue
 from .ingestion import get_adapter, parse_dataset
 from .ingestion.registry import list_worksheets
+from .ingestion.xlsx_adapter import XlsxAdapter
 from .lifecycle import (
     AGGREGATE_DRIFT_LIMITS,
     execute,
@@ -1108,7 +1109,7 @@ def export_artifact(run_id: str, artifact: str) -> Response:
     body, mime = _artifact_content(run_id, artifact)
     storage.save_artifact(run_id, artifact, body, mime)
     format_name = (_require_run(run_id).get("format_metadata") or {}).get("format", "csv")
-    extension = ("xlsx" if format_name == "xlsx" else "csv") if artifact == "cleaned" else "json"
+    extension = "xlsx" if artifact == "cleaned_xlsx" or (artifact == "cleaned" and format_name == "xlsx") else ("csv" if artifact == "cleaned" else "json")
     return Response(
         content=body,
         media_type=mime,
@@ -1122,17 +1123,14 @@ def _artifact_content(run_id: str, artifact: str) -> tuple[bytes, str]:
     row = _require_run(run_id)
     frame = _working_frame(run_id)
     ops = storage.list_operations(run_id, active_only=True)
-    if artifact == "cleaned":
+    if artifact in {"cleaned", "cleaned_xlsx"}:
         frame = _clean_export_frame(frame)
-        adapter = get_adapter(row["filename"])
-        body = adapter.export_cleaned(
-            row["original"], frame, row.get("format_metadata") or {"format": "csv"}
-        )
-        mime = (
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            if (row.get("format_metadata") or {}).get("format") == "xlsx"
-            else "text/csv"
-        )
+        format_metadata = row.get("format_metadata") or {"format": "csv"}
+        if artifact == "cleaned_xlsx" and format_metadata.get("format") == "csv":
+            body = XlsxAdapter().export_frame(frame)
+        else:
+            body = get_adapter(row["filename"]).export_cleaned(row["original"], frame, format_metadata)
+        mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" if artifact == "cleaned_xlsx" or format_metadata.get("format") == "xlsx" else "text/csv"
     elif artifact in {"report", "log", "recipe"}:
         if artifact == "report":
             payload = {
@@ -1186,7 +1184,7 @@ def _artifact_content(run_id: str, artifact: str) -> tuple[bytes, str]:
         raise InputProblem(
             404,
             "unknown_artifact",
-            "Supported artifacts are cleaned, report, log, recipe and passport.",
+            "Supported artifacts are cleaned, cleaned_xlsx, report, log, recipe and passport.",
         )
     return body, mime
 
