@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import math
+import re
 from typing import Any
 
 import pandas as pd
@@ -722,6 +723,12 @@ def quality(frame: pd.DataFrame, issues: list[Issue]) -> QualityDimensions:
     )
 
 
-def csv_safe(value: Any) -> str:
+def csv_safe(value: Any, column_name: str = "") -> str:
     text = "" if value is None else str(value)
+    # Preserve ordinary telephone identifiers and signed numeric values. They
+    # are data, not formulas; prefixing them changes the exported value.
+    if "phone" in column_name.casefold() and re.fullmatch(r"\+?\d[\d\s().-]*", text):
+        return text
+    if re.fullmatch(r"-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?", text):
+        return text
     return "'" + text if text.startswith(("=", "+", "-", "@", "\t", "\r")) else text

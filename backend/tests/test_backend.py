@@ -1263,6 +1263,8 @@ def test_export_formula_prefix_is_sanitized():
 
     assert csv_safe("=1+1") == "'=1+1"
     assert csv_safe("ordinary") == "ordinary"
+    assert csv_safe("+91-9876543210", "phone") == "+91-9876543210"
+    assert csv_safe("-4.0", "age") == "-4.0"
 
 
 def test_simulator_reports_all_seven_integrity_invariants():

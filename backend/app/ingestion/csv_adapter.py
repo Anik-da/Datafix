@@ -27,13 +27,13 @@ class CsvAdapter:
         visible = frame[[c for c in frame.columns if not str(c).startswith("__datafix_")]]
         delimiter = metadata.get("delimiter", ",")
         return (
-            visible.apply(lambda col: col.map(_csv_safe))
+            visible.apply(lambda col: col.map(lambda value: _csv_safe(value, col.name)))
             .to_csv(index=False, sep=delimiter, lineterminator="\n")
             .encode("utf-8")
         )
 
 
-def _csv_safe(value: Any) -> str:
+def _csv_safe(value: Any, column_name: str = "") -> str:
     from ..lifecycle import csv_safe
 
-    return csv_safe(value)
+    return csv_safe(value, column_name)

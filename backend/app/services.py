@@ -24,6 +24,7 @@ from .errors import InputProblem
 from .ingestion import parse_dataset
 from .schemas import (
     ColumnProfile,
+    CastNumericParams,
     Confidence,
     DatasetProfile,
     DiagnosisHypothesis,
@@ -50,6 +51,7 @@ from .schemas import (
 
 log = logging.getLogger("datafix.analysis")
 PLACEHOLDERS = {"n/a", "na", "null", "none", "-", "unknown"}
+CITY_ALIASES = {"bangalore": "Bengaluru", "new delhi": "Delhi", "calcutta": "Kolkata", "mumbai": "Mumbai"}
 EMAIL = re.compile(
     r"^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z]{2,})+$", re.I
 )
@@ -296,7 +298,8 @@ def profile(frame: pd.DataFrame, original_size: int) -> DatasetProfile:
     total_distinct = 0
     for name in frame.columns:
         s = frame[name].fillna("").astype(str)
-        missing_mask = s.map(lambda x: not x.strip() or x.strip().casefold() in PLACEHOLDERS)
+        placeholders = PLACEHOLDERS - {"unknown"} if "status" in str(name).casefold() else PLACEHOLDERS
+        missing_mask = s.map(lambda x: not x.strip() or x.strip().casefold() in placeholders)
         nonmissing = s[~missing_mask]
         null_count = int(missing_mask.sum())
         distinct = int(nonmissing.nunique())
@@ -550,7 +553,7 @@ def analyze_frame(
             key = stripped.casefold()
             if not stripped:
                 missing.append(i)
-            elif key in PLACEHOLDERS:
+            elif key in PLACEHOLDERS and not ("status" in col.casefold() and key == "unknown"):
                 missing.append(i)
                 placeholders[key].append(i)
         if missing:
@@ -593,7 +596,7 @@ def analyze_frame(
             )
             issues.append(issue)
             if placeholders:
-                ids = [row_id(i) for i in missing if s.iloc[i].strip().casefold() in PLACEHOLDERS]
+                ids = [row_id(i) for i in missing if s.iloc[i].strip().casefold() in placeholders]
                 proposals.append(
                     _proposal(
                         run_id,
@@ -608,6 +611,28 @@ def analyze_frame(
                         ),
                     )
                 )
+    # An unknown status is invalid, not missing; retain it for human review.
+    for col in frame.columns:
+        if "status" not in str(col).casefold():
+            continue
+        s = frame[col].fillna("").astype(str)
+        bad = [i for i, value in enumerate(s) if value.strip() and value.strip().casefold() not in {"active", "inactive"}]
+        if bad:
+            issues.append(_issue(run_id, IssueCategory.invalid_format, "Value outside observed status domain", col,
+                "Unrecognized nonblank status values are preserved for review; no mapping is inferred.", bad, len(bad),
+                [Evidence(kind="rule", label="Status domain", detail="Only Active and Inactive are observed as recognized values in this dataset.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
+                ["Confirm allowed status values with the source system."], IssueDisposition.flagged_only))
+    # Phone shape is only a conservative diagnostic; never infer missing digits.
+    for col in frame.columns:
+        if "phone" not in str(col).casefold():
+            continue
+        s = frame[col].fillna("").astype(str)
+        bad = [i for i, value in enumerate(s) if value.strip() and not 7 <= len(re.sub(r"\D", "", value)) <= 15]
+        if bad:
+            issues.append(_issue(run_id, IssueCategory.invalid_format, "Phone number has an invalid length", col,
+                "Phone values outside 7–15 digits are flagged and left unchanged.", bad, len(bad),
+                [Evidence(kind="rule", label="Phone digit count", detail="No missing digits are guessed.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
+                ["Confirm the phone number with the source."], IssueDisposition.flagged_only))
     # Exact duplicate rows.
     groups: dict[tuple[str, ...], list[int]] = defaultdict(list)
     for i, row in enumerate(frame.itertuples(index=False, name=None)):
@@ -686,7 +711,7 @@ def analyze_frame(
             if indices or ambiguous or len(parsed_formats) > 1:
                 changed_format_rows = []
                 normalization_values = date_values
-                if len(parsed_formats) > 1 and not indices and not ambiguous:
+                if len(parsed_formats) > 1 and not ambiguous:
                     format_counts = Counter(date_formats_by_row.values())
                     canonical_format = sorted(
                         format_counts, key=lambda fmt: (-format_counts[fmt], fmt)
@@ -743,11 +768,11 @@ def analyze_frame(
                         "Possible manual formatting inconsistency.",
                     ],
                     IssueDisposition.repair_proposed
-                    if len(parsed_formats) > 1 and not indices and not ambiguous
+                    if len(parsed_formats) > 1 and not ambiguous
                     else IssueDisposition.flagged_only,
                 )
                 issues.append(issue)
-                if len(parsed_formats) > 1 and not indices and not ambiguous:
+                if len(parsed_formats) > 1 and not ambiguous:
                     proposals.append(
                         _proposal(
                             run_id,
@@ -887,7 +912,7 @@ def analyze_frame(
         inferred, _, _ = infer_column(s, str(col))
         # Similarity is only meaningful for low-cardinality categorical fields;
         # running it on emails, identifiers, dates or free text creates noise.
-        if inferred != "category":
+        if inferred != "category" and "city" not in str(col).casefold():
             continue
         if len(values) < 2:
             continue
@@ -933,6 +958,37 @@ def analyze_frame(
                     MapValuesParams(op="map_values", mapping=mapping),
                 )
             )
+        if "city" in col.casefold():
+            alias_map = {
+                value: CITY_ALIASES[value.strip().casefold()]
+                for value in values
+                if value.strip().casefold() in CITY_ALIASES
+            }
+            if alias_map:
+                indices = [i for i, value in enumerate(s) if value in alias_map]
+                issue = _issue(
+                    run_id, IssueCategory.inconsistent, "Recognized city aliases", col,
+                    "An explicit alias table maps recognized city names to canonical values already present in this dataset.",
+                    indices, len(indices), [Evidence(kind="rule", label="City alias mapping", detail="Only configured aliases are normalized; unknown names remain unchanged.", metrics={"mapped_values": len(alias_map)}, examples=[f"{old} → {new}" for old, new in alias_map.items()])],
+                    ["Confirm the canonical city names used by your organization."], IssueDisposition.repair_proposed,
+                )
+                issues.append(issue)
+                proposals.append(_proposal(run_id, issue, Operation.map_values, col, RiskClass.format_only,
+                    "Normalize recognized city aliases", "The mapping is explicit and each canonical destination is observed in the dataset.",
+                    MapValuesParams(op="map_values", mapping=alias_map)))
+        if "status" in col.casefold():
+            status_map = {value: value.strip().capitalize() for value in values
+                if value.strip().casefold() in {"active", "inactive"} and value != value.strip().capitalize()}
+            if status_map:
+                indices = [i for i, value in enumerate(s) if value in status_map]
+                issue = _issue(run_id, IssueCategory.inconsistent, "Recognized status casing", col,
+                    "Case-only variants of the observed Active/Inactive labels are normalized; unrecognized status values remain for review.",
+                    indices, len(indices), [Evidence(kind="rule", label="Status casing", detail="No unknown code or category is mapped.", metrics={"normalized_values": len(status_map)}, examples=[f"{old} → {new}" for old, new in status_map.items()])],
+                    ["Only casing changes are automatic."], IssueDisposition.repair_proposed)
+                issues.append(issue)
+                proposals.append(_proposal(run_id, issue, Operation.map_values, col, RiskClass.format_only,
+                    "Normalize recognized status casing", "The value changes only in case and matches an observed status label.",
+                    MapValuesParams(op="map_values", mapping=status_map)))
         # Similar but not equivalent values are reported as candidates only.
         distinct = sorted(set(values))
         pairs = []
@@ -982,6 +1038,43 @@ def analyze_frame(
                 IssueDisposition.flagged_only,
             )
             issues.append(issue)
+    # Explicit status domains are diagnostic only; never map a status code or
+    # typo without the user's schema/business rules.
+    for col in frame.columns:
+        if "status" not in str(col).casefold():
+            continue
+        s = frame[col].fillna("").astype(str)
+        bad = [i for i, value in enumerate(s) if value.strip() and value.strip().casefold() not in {"active", "inactive"}]
+        if bad:
+            issues.append(_issue(run_id, IssueCategory.invalid_format, "Value outside observed status domain", col,
+                "Unrecognized nonblank status values are retained for review; no mapping is inferred.", bad, len(bad),
+                [Evidence(kind="rule", label="Status domain", detail="Only Active and Inactive are observed as recognized values in this dataset.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
+                ["Confirm allowed statuses with the source system."], IssueDisposition.flagged_only))
+    for col in frame.columns:
+        if "phone" not in str(col).casefold():
+            continue
+        s = frame[col].fillna("").astype(str)
+        bad = [i for i, value in enumerate(s) if value.strip() and not 7 <= len(re.sub(r"\D", "", value)) <= 15]
+        if bad:
+            issues.append(_issue(run_id, IssueCategory.invalid_format, "Phone number has an invalid length", col,
+                "Phone values outside 7–15 digits are flagged and left unchanged.", bad, len(bad),
+                [Evidence(kind="rule", label="Phone digit count", detail="No missing digits are guessed.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
+                ["Confirm the phone number with the source."], IssueDisposition.flagged_only))
+    # Canonicalize only unambiguous thousands grouping in numeric text.
+    for col in frame.columns:
+        if str(col).startswith("__datafix_"):
+            continue
+        s = frame[col].fillna("").astype(str)
+        values = {row_id(i): v.replace(",", "") for i, v in enumerate(s) if re.fullmatch(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?", v.strip())}
+        if values:
+            rows = [int(rid.rsplit("_", 1)[1]) - 1 for rid in values]
+            issue = _issue(run_id, IssueCategory.inconsistent, "Thousands separators in numeric values", col,
+                "Validated thousands separators are removed while decimal precision is preserved.", rows, len(rows),
+                [Evidence(kind="rule", label="Numeric grouping", detail="Only groups of three digits are normalized.", metrics={"affected_count": len(rows)}, examples=[s.iloc[i] for i in rows[:5]])],
+                ["Possible spreadsheet number formatting stored as text."], IssueDisposition.repair_proposed)
+            issues.append(issue)
+            proposals.append(_proposal(run_id, issue, Operation.cast_numeric, col, RiskClass.format_only,
+                "Normalize numeric grouping", "Removing validated separators preserves the numeric value.", CastNumericParams(op="cast_numeric", row_values=values, target_type="number")))
     # IQR outliers; retained without replacement proposals.
     for col in frame.columns:
         dtype, nums, _ = infer_column(frame[col].fillna("").astype(str), col)
