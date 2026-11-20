@@ -94,10 +94,12 @@ function mapAnalysis(a: AnalysisResponse, createdAt: string, warnings: string[])
   } as RunState;
 }
 
-export async function uploadAndAnalyze(file: File, worksheet?: string): Promise<RunState> {
+export async function uploadAndAnalyze(file: File, worksheet?: string, onProgress?: (stage: 'uploading' | 'analyzing') => void): Promise<RunState> {
+  onProgress?.('uploading');
   const form = new FormData(); form.append('file', file);
   if (worksheet) form.append('worksheet', worksheet);
   const uploaded = await api<S['UploadResponse']>('/api/v1/runs', { method: 'POST', body: form });
+  onProgress?.('analyzing');
   const analyzed = await api<AnalysisResponse>(`/api/v1/runs/${uploaded.run.id}/analyze`, { method: 'POST' });
   return mapAnalysis(analyzed, uploaded.run.created_at, uploaded.warnings || []);
 }

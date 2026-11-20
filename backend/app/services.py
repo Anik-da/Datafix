@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+from functools import lru_cache
 import hashlib
 import io
 import json
@@ -273,6 +274,7 @@ def infer_column(series: pd.Series, name: str) -> tuple[str, list[float], float 
     return ("category" if uniques <= min(50, max(10, int(len(vals) * 0.2))) else "string"), [], 1.0
 
 
+@lru_cache(maxsize=65536)
 def parse_date(value: str) -> tuple[datetime | None, bool]:
     matches = []
     for fmt in DATE_FORMATS:
@@ -450,13 +452,24 @@ def analyze_frame(
         else [str(i + 2) for i in range(len(frame))]
     )
     structure_rows = []
-    for i in range(len(frame)):
+    extra_columns = {column: frame[column].tolist() for column in structural_cols}
+    actual_fields = (
+        frame["__datafix_actual_fields"].tolist()
+        if "__datafix_actual_fields" in frame.columns
+        else [len(prof.columns)] * len(frame)
+    )
+    raw_rows = (
+        frame["__datafix_raw_row"].tolist()
+        if "__datafix_raw_row" in frame.columns
+        else ["[]"] * len(frame)
+    )
+    for i, actual_value in enumerate(actual_fields):
         extra_values = [
-            str(frame.iloc[i][c])
+            str(extra_columns[c][i])
             for c in structural_cols
-            if not _is_missing(frame.iloc[i][c]) and str(frame.iloc[i][c]) != ""
+            if not _is_missing(extra_columns[c][i]) and str(extra_columns[c][i]) != ""
         ]
-        actual = int(frame.iloc[i].get("__datafix_actual_fields", len(prof.columns)))
+        actual = int(actual_value)
         if actual != len(prof.columns):
             structure_rows.append((i, extra_values, actual))
     if structure_rows:
@@ -464,7 +477,7 @@ def analyze_frame(
         examples = []
         expected = len(prof.columns)
         for i, values, actual in structure_rows[:5]:
-            raw_row = str(frame.iloc[i].get("__datafix_raw_row", "[]"))
+            raw_row = str(raw_rows[i])
             missing = max(0, expected - actual)
             extra = max(0, actual - expected)
             missing_cols = [c.name for c in prof.columns[-missing:]] if missing else []
@@ -496,7 +509,7 @@ def analyze_frame(
         # overflow silently and never map it to a guessed business column.
         for i, values, actual in structure_rows:
             for col in structural_cols:
-                value = str(frame.iloc[i][col])
+                value = str(extra_columns[col][i])
                 if value and value != "<NA>":
                     params = ManualEditParams(
                         op="manual_edit",

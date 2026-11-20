@@ -1049,6 +1049,21 @@
 
 }
 
+.df-walkthrough .df-live-demo-status {
+
+  max-width: 680px;
+  margin: 14px auto 0;
+  color: var(--df-text-secondary);
+  font: 500 13px/1.55 var(--df-font-ui);
+
+}
+
+.df-walkthrough .df-live-demo-status[role="alert"] {
+
+  color: #b42318;
+
+}
+
 .df-walkthrough .df-hero-cta-primary {
 
   display: inline-flex;
@@ -6491,6 +6506,12 @@
   background: #1e293b;
   border-color: #10b981;
   color: #ffffff;
+
+}
+
+.df-walkthrough [data-theme="dark"] .df-live-demo-status[role="alert"] {
+
+  color: #fda29b;
 
 }
 

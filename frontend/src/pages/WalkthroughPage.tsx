@@ -20,6 +20,7 @@ export const WalkthroughPage: React.FC = () => {
   const { navigate } = useRouter();
   const { currentRun, loadAnalysisAsRun } = useRun();
   const [isStartingLiveDemo, setIsStartingLiveDemo] = useState(false);
+  const [liveDemoStage, setLiveDemoStage] = useState<'loading' | 'uploading' | 'analyzing' | null>(null);
   const [liveDemoError, setLiveDemoError] = useState<string | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
@@ -43,18 +44,20 @@ export const WalkthroughPage: React.FC = () => {
   const handleStartLiveDemo = useCallback(async () => {
     if (isStartingLiveDemo) return;
     setIsStartingLiveDemo(true);
+    setLiveDemoStage('loading');
     setLiveDemoError(null);
     try {
       const response = await fetch('/demo/walkthrough_dirty.csv');
       if (!response.ok) throw new Error('The synthetic walkthrough CSV could not be loaded.');
       const file = new File([await response.blob()], 'walkthrough_dirty.csv', { type: 'text/csv' });
-      const run = await uploadAndAnalyze(file);
+      const run = await uploadAndAnalyze(file, undefined, (stage) => setLiveDemoStage(stage));
       const runId = loadAnalysisAsRun(run);
       navigate(`/runs/${runId}/overview`);
     } catch (error) {
       setLiveDemoError(error instanceof Error ? error.message : 'The live sample could not be analyzed. Check that the backend is running.');
     } finally {
       setIsStartingLiveDemo(false);
+      setLiveDemoStage(null);
     }
   }, [isStartingLiveDemo, loadAnalysisAsRun, navigate]);
 
@@ -198,7 +201,9 @@ export const WalkthroughPage: React.FC = () => {
               aria-label="Upload the synthetic sample to the live backend and analyze it"
               data-testid="live-sample-analysis-cta"
             >
-              {isStartingLiveDemo ? 'Uploading and analyzing…' : 'Run Live Sample Analysis'}
+              {isStartingLiveDemo
+                ? liveDemoStage === 'loading' ? 'Loading sample…' : liveDemoStage === 'uploading' ? 'Uploading sample…' : 'Analyzing dataset…'
+                : 'Run Live Sample Analysis'}
             </button>
             <button
               type="button"
@@ -210,6 +215,12 @@ export const WalkthroughPage: React.FC = () => {
               Launch App →
             </button>
           </div>
+          {(liveDemoError || liveDemoStage) && <p className="df-live-demo-status" role={liveDemoError ? 'alert' : 'status'} aria-live="polite" data-testid="live-demo-status">
+            {liveDemoError || (liveDemoStage === 'loading' ? 'Preparing the real sample dataset…'
+              : liveDemoStage === 'uploading' ? 'Sample loaded. Uploading it to the DataFix backend…'
+                : liveDemoStage === 'analyzing' ? 'Upload complete. The backend is profiling the data and checking repair safety. This can take a little while on a sleeping service…'
+                  : '')}
+          </p>}
         </div>
 
         {/* Hero App Mockup Preview */}
@@ -321,7 +332,6 @@ export const WalkthroughPage: React.FC = () => {
           ------------------------------------------------------------------ */}
       <main>
         <div className="df-section-label-text" role="note">The animated story below is illustrative; it does not represent a completed run. Run the synthetic sample above to see real API results.</div>
-        {liveDemoError && <p role="alert" data-testid="live-demo-error">{liveDemoError}</p>}
         <VisualStoryExperience
           adapter={sampleStoryAdapter}
           onStartLiveDemo={handleStartLiveDemo}
