@@ -22,21 +22,11 @@ export const WalkthroughPage: React.FC = () => {
   const [isStartingLiveDemo, setIsStartingLiveDemo] = useState(false);
   const [liveDemoStage, setLiveDemoStage] = useState<'loading' | 'uploading' | 'analyzing' | null>(null);
   const [liveDemoError, setLiveDemoError] = useState<string | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('datafix_theme') as 'light' | 'dark' | null;
-      if (stored) return stored;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const handleToggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === 'light' ? 'dark' : 'light';
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('datafix_theme', next);
-      }
       return next;
     });
   }, []);
@@ -68,6 +58,10 @@ export const WalkthroughPage: React.FC = () => {
       navigate('/app');
     }
   }, [currentRun, navigate]);
+
+  const handleLaunchIntake = useCallback(() => {
+    navigate('/intake');
+  }, [navigate]);
 
   const handleScrollToDemo = useCallback(() => {
     const demoEl = document.querySelector('.v3-cinematic-section');
@@ -104,7 +98,7 @@ export const WalkthroughPage: React.FC = () => {
             <button
               type="button"
               className="df-theme-toggle"
-              onClick={handleExit}
+              onClick={currentRun?.run_id ? handleExit : handleLaunchIntake}
               title={currentRun?.run_id ? "Return to operational run" : "Launch DataFix application"}
               data-testid="hero-exit-button"
               style={{
@@ -208,7 +202,7 @@ export const WalkthroughPage: React.FC = () => {
             <button
               type="button"
               className="df-hero-cta-secondary"
-              onClick={handleExit}
+              onClick={handleLaunchIntake}
               aria-label="Launch DataFix workspace"
               data-testid="hero-launch-app-cta"
             >
@@ -338,7 +332,7 @@ export const WalkthroughPage: React.FC = () => {
           isStartingLiveDemo={isStartingLiveDemo}
           theme={theme}
           onToggleTheme={handleToggleTheme}
-          onExit={handleExit}
+          onExit={handleLaunchIntake}
         />
       </main>
 
@@ -399,7 +393,7 @@ export const WalkthroughPage: React.FC = () => {
             <button
               type="button"
               className="df-btn"
-              onClick={handleExit}
+              onClick={handleLaunchIntake}
               aria-label="Launch DataFix workspace"
               data-testid="outro-return-app-btn"
               style={{
