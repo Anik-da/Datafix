@@ -966,6 +966,19 @@ def analyze_frame(
             groups[re.sub(r"\s+", " ", v.strip()).casefold()].append(v)
         variant_groups = [list(dict.fromkeys(g)) for g in groups.values() if len(set(g)) > 1]
         for vg in variant_groups:
+            # Status casing has its own constrained detector, and trimming
+            # or configured city aliases have dedicated deterministic rules.
+            # Avoid creating a second, review-only mapping for the same cells.
+            if "status" in str(col).casefold():
+                continue
+            if "city" in str(col).casefold():
+                stripped = {value.strip() for value in vg}
+                alias_targets = {
+                    CITY_ALIASES.get(value.strip().casefold(), value.strip())
+                    for value in vg
+                }
+                if len(stripped) == 1 or len(alias_targets) == 1:
+                    continue
             freq = Counter(values)
             canonical = sorted(set(vg), key=lambda v: (-freq[v], v.casefold(), v))[0]
             mapping = {v: canonical for v in vg if v != canonical}

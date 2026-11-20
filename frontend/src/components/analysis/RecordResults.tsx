@@ -38,7 +38,10 @@ export const RecordResults: React.FC<{ run: RunState }> = ({ run }) => {
         } else {
           for (const proposal of related) {
             result.actions.add(proposal.title);
-            if (proposal.decision !== 'auto_apply') result.needsReview = true;
+            const changedRows = proposal.simulation?.impact?.direct_row_ids ?? [];
+            const sampleRows = proposal.simulation?.sample_diff.map((diff) => String(diff.row_id)) ?? [];
+            const proposalCoversRow = changedRows.includes(sourceId) || sampleRows.includes(sourceId);
+            if (proposal.decision !== 'auto_apply' || !proposalCoversRow) result.needsReview = true;
           }
         }
       }
