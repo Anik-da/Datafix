@@ -857,7 +857,13 @@ def apply_repairs(run_id: str) -> ApplyResponse:
     if operation_rows:
         selected_ids = {x["proposal_id"] for x in operation_rows}
         selected_risks = [p.risk_class for p in analysis.proposals if p.id in selected_ids]
-        batch_risk = min(
+        # Each operation was already simulated against its own risk budget.
+        # For the combined invariant pass, use the most permissive explicitly
+        # selected class: a user-approved destructive duplicate removal can
+        # legitimately change numeric aggregates beyond the format-only limit.
+        # Without this, safe format-only companions incorrectly veto an
+        # approved row-removal proposal in the same atomic batch.
+        batch_risk = max(
             selected_risks, key=lambda risk: AGGREGATE_DRIFT_LIMITS[risk], default=None
         )
         combined_invariants, _, _ = invariant_results(

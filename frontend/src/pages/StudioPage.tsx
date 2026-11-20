@@ -423,6 +423,20 @@ export const StudioPage: React.FC = () => {
                         </div>
                       ))}
                     </div>
+                  ) : selectedProposal.op === 'drop_exact_dupes' && (selectedProposal.simulation?.rows_removed ?? 0) > 0 ? (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4 space-y-2">
+                      <p className="text-sm font-semibold text-amber-950">
+                        This repair removes {selectedProposal.simulation?.rows_removed} duplicate rows; it does not edit cell values.
+                      </p>
+                      <p className="text-xs text-amber-900">
+                        The original upload stays unchanged. The rows will be removed from the working copy only after you apply the approved plan.
+                      </p>
+                      {(selectedProposal.simulation?.impact?.direct_row_ids ?? []).length > 0 && (
+                        <p className="text-xs font-mono text-amber-900">
+                          Rows to remove: {(selectedProposal.simulation?.impact?.direct_row_ids ?? []).join(', ')}
+                        </p>
+                      )}
+                    </div>
                   ) : (
                     <div className="text-xs text-slate-500 italic">No cell diffs generated.</div>
                   )}
