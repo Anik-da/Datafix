@@ -351,7 +351,15 @@ def profile(frame: pd.DataFrame, original_size: int) -> DatasetProfile:
             )
         )
     # Duplicate count is number of rows after each first exact occurrence.
-    dup_count = int(frame.duplicated(keep="first").sum()) if n else 0
+    # Record identifiers distinguish rows, but should not hide duplicate
+    # business records from the profile.
+    identity_cols = [
+        c for c in frame.columns
+        if str(c).casefold() in {"id", "record_id", "row_id"}
+        or str(c).casefold().endswith(("_id", "_key"))
+    ]
+    duplicate_frame = frame.drop(columns=identity_cols, errors="ignore")
+    dup_count = int(duplicate_frame.duplicated(keep="first").sum()) if n else 0
     return DatasetProfile(
         row_count=n,
         column_count=m,
@@ -633,9 +641,15 @@ def analyze_frame(
                 "Phone values outside 7–15 digits are flagged and left unchanged.", bad, len(bad),
                 [Evidence(kind="rule", label="Phone digit count", detail="No missing digits are guessed.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
                 ["Confirm the phone number with the source."], IssueDisposition.flagged_only))
-    # Exact duplicate rows.
+    # Ignore recognizable row identifiers when comparing business records.
+    identity_cols = [
+        c for c in frame.columns
+        if str(c).casefold() in {"id", "record_id", "row_id"}
+        or str(c).casefold().endswith(("_id", "_key"))
+    ]
+    duplicate_frame = frame.drop(columns=identity_cols, errors="ignore")
     groups: dict[tuple[str, ...], list[int]] = defaultdict(list)
-    for i, row in enumerate(frame.itertuples(index=False, name=None)):
+    for i, row in enumerate(duplicate_frame.itertuples(index=False, name=None)):
         groups[tuple(str(x) for x in row)].append(i)
     dgroups = [ids for ids in groups.values() if len(ids) > 1]
     if dgroups:
@@ -645,14 +659,14 @@ def analyze_frame(
             IssueCategory.duplicate,
             "Exact duplicate records",
             None,
-            f"Found {len(indices)} rows matching an earlier complete record. Possible causes include repeated imports or duplicate entry; records are preserved.",
+            f"Found {len(indices)} rows matching an earlier record across business columns, excluding recognized row identifiers. Possible causes include repeated imports or duplicate entry; records are preserved.",
             indices,
             len(indices) * frame.shape[1],
             [
                 Evidence(
                     kind=EvidenceKind.record_count,
                     label="Duplicate rows",
-                    detail="Exact row equality across all columns.",
+                    detail="Exact equality across business columns after excluding recognized row identifier columns.",
                     metrics={"duplicate_rows": len(indices), "groups": len(dgroups)},
                     examples=[row_id(i) for i in indices[:5]],
                 )
@@ -866,6 +880,37 @@ def analyze_frame(
                         IssueDisposition.flagged_only,
                     )
                     issues.append(issue)
+    # Negative purchase/amount values are structurally numeric but need a
+    # business rule before they can be corrected safely.
+    for col in frame.columns:
+        name = str(col).casefold()
+        if not any(token in name for token in ("amount", "purchase")):
+            continue
+        values = frame[col].fillna("").astype(str)
+        bad = [i for i, value in enumerate(values) if (_float(value) or 0) < 0]
+        if bad:
+            issues.append(
+                _issue(
+                    run_id,
+                    IssueCategory.invalid_format,
+                    "Negative purchase amount",
+                    col,
+                    "Negative monetary values are retained for review because refunds, credits, and source errors cannot be distinguished safely.",
+                    bad,
+                    len(bad),
+                    [
+                        Evidence(
+                            kind="rule",
+                            label="Negative amount check",
+                            detail="A business rule is required to decide whether a negative amount is valid.",
+                            metrics={"negative_count": len(bad)},
+                            examples=[_safe_example(col, values.iloc[i]) for i in bad[:5]],
+                        )
+                    ],
+                    ["Possible refund/credit or data-entry error; confirm with the source."],
+                    IssueDisposition.flagged_only,
+                )
+            )
     # Trim-only whitespace normalization.
     for col in frame.columns:
         s = frame[col].fillna("").astype(str)
@@ -963,6 +1008,7 @@ def analyze_frame(
                 value: CITY_ALIASES[value.strip().casefold()]
                 for value in values
                 if value.strip().casefold() in CITY_ALIASES
+                and CITY_ALIASES[value.strip().casefold()] != value
             }
             if alias_map:
                 indices = [i for i, value in enumerate(s) if value in alias_map]
@@ -990,6 +1036,9 @@ def analyze_frame(
                     "Normalize recognized status casing", "The value changes only in case and matches an observed status label.",
                     MapValuesParams(op="map_values", mapping=status_map)))
         # Similar but not equivalent values are reported as candidates only.
+        # Compare normalized spellings so trailing-space variants do not
+        # become fuzzy typo candidates alongside the dedicated trim detector.
+        values = [v.strip() for v in values]
         distinct = sorted(set(values))
         pairs = []
         for i, a in enumerate(distinct):
@@ -1038,28 +1087,6 @@ def analyze_frame(
                 IssueDisposition.flagged_only,
             )
             issues.append(issue)
-    # Explicit status domains are diagnostic only; never map a status code or
-    # typo without the user's schema/business rules.
-    for col in frame.columns:
-        if "status" not in str(col).casefold():
-            continue
-        s = frame[col].fillna("").astype(str)
-        bad = [i for i, value in enumerate(s) if value.strip() and value.strip().casefold() not in {"active", "inactive"}]
-        if bad:
-            issues.append(_issue(run_id, IssueCategory.invalid_format, "Value outside observed status domain", col,
-                "Unrecognized nonblank status values are retained for review; no mapping is inferred.", bad, len(bad),
-                [Evidence(kind="rule", label="Status domain", detail="Only Active and Inactive are observed as recognized values in this dataset.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
-                ["Confirm allowed statuses with the source system."], IssueDisposition.flagged_only))
-    for col in frame.columns:
-        if "phone" not in str(col).casefold():
-            continue
-        s = frame[col].fillna("").astype(str)
-        bad = [i for i, value in enumerate(s) if value.strip() and not 7 <= len(re.sub(r"\D", "", value)) <= 15]
-        if bad:
-            issues.append(_issue(run_id, IssueCategory.invalid_format, "Phone number has an invalid length", col,
-                "Phone values outside 7–15 digits are flagged and left unchanged.", bad, len(bad),
-                [Evidence(kind="rule", label="Phone digit count", detail="No missing digits are guessed.", metrics={"invalid_count": len(bad)}, examples=[_safe_example(col, s.iloc[i]) for i in bad[:5]])],
-                ["Confirm the phone number with the source."], IssueDisposition.flagged_only))
     # Canonicalize only unambiguous thousands grouping in numeric text.
     for col in frame.columns:
         if str(col).startswith("__datafix_"):
@@ -1084,7 +1111,9 @@ def analyze_frame(
         iqr = q3 - q1
         if iqr <= 0:
             continue
-        lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+        # Use a conservative extreme-outlier fence; mild Tukey outliers are
+        # common legitimate values and should not be promoted as data errors.
+        lo, hi = q1 - 3.5 * iqr, q3 + 3.5 * iqr
         vals = frame[col].fillna("").astype(str)
         bad = [
             i
@@ -1104,7 +1133,7 @@ def analyze_frame(
                     Evidence(
                         kind="statistic",
                         label="IQR outlier detection",
-                        detail="Bounds are Q1 − 1.5×IQR and Q3 + 1.5×IQR.",
+                        detail="Bounds are Q1 − 3.5×IQR and Q3 + 3.5×IQR to report only extreme candidates.",
                         metrics={
                             "q1": float(q1),
                             "q3": float(q3),
